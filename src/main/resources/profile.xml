@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmz>
+  <!-- 配置数据源 -->
+  <dataSource>
+    <driver>com.mysql.cj.jdbc.Driver</driver>
+    <url>jdbc:mysql://localhost:3306/fool_code?characterEncoding=UTF-8&amp;serverTimezone=GMT%2B8</url>
+    <username>root</username>
+    <password>root</password>
+  </dataSource>
+  
+  <!-- 配置数据库表名和实体名映射 -->
+  <tables>
+      <!--
+     <table>
+      <tableName>article</tableName>
+      <entityName>Article</entityName>
+    </table>
+    
+    <table>
+      <tableName>collection</tableName>
+      <entityName>Collection</entityName>
+    </table>  
+    
+    <table>
+      <tableName>user_detail</tableName>
+      <entityName>UserDetail</entityName>
+    </table>  
+    
+    <table>
+      <tableName>category</tableName>
+      <entityName>Category</entityName>
+    </table>  
+    
+    <table>
+      <tableName>article_comment</tableName>
+      <entityName>ArticleComment</entityName>
+    </table>  
+    
+    <table>
+      <tableName>comment_reply</tableName>
+      <entityName>CommentReply</entityName>
+    </table> 
+    
+    <table>
+      <tableName>user_star</tableName>
+      <entityName>UserStar</entityName>
+    </table>-->
+      
+    <table>
+      <tableName>fool_data_source</tableName>
+      <entityName>FoolDataSource</entityName>
+    </table>
+
+      <table>
+          <tableName>fool_database</tableName>
+          <entityName>FoolDatabase</entityName>
+      </table>
+
+      <table>
+          <tableName>fool_table</tableName>
+          <entityName>FoolTable</entityName>
+      </table>
+      <table>
+          <tableName>fool_field</tableName>
+          <entityName>FoolField</entityName>
+      </table>
+
+
+ </tables>
+
+  
+
+<project>
+     <!-- 生成的项目所在目录 -->
+     <projectPath>D:\data\test</projectPath>
+     <maven>
+        <groupId>aaa.bbb.cccc</groupId> <!-- maven工程的groupId -->
+        <artifactId>fool</artifactId> <!-- artifactId -->
+     </maven>
+     <!-- 配置要创建的包名 -->
+     <package>
+       <entityPackage>entity</entityPackage>
+       <daoPackage>dao</daoPackage>
+       <servicePackage>service</servicePackage>
+       <controllerPackage>controller</controllerPackage>
+       <utilPackage>util</utilPackage>
+       <dtoPackage>dto</dtoPackage>
+       <voPackage>vo</voPackage>
+     </package>
+     
+</project>
+  
+  
+</xmz>
