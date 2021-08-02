@@ -1,4 +1,4 @@
-package zhangyu.fool.generate.writer.factory;
+package zhangyu.fool.generate.writer.builder;
 
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -35,6 +35,12 @@ public class WriterBuilderFactory {
     public static final WriterBuilder toGetBuilder(Class<?> clazz){
         return new WriterBuilder(clazz);
     }
+
+    public static final WriterBuilder toGetBuilder(WriterEnum writerEnum){
+        Class<?> aClass = WRITER_CLASS_MAP.get(writerEnum);
+        return new WriterBuilder(aClass);
+    }
+
 
 
     public static void main(String[] args) {

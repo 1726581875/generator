@@ -1,6 +1,6 @@
 package zhangyu.fool.generate;
 
-import zhangyu.fool.generate.writer.factory.WriterBuilderFactory;
+import zhangyu.fool.generate.writer.builder.WriterBuilderFactory;
 import zhangyu.fool.generate.writer.java.MavenProjectWriter;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
 import zhangyu.fool.generate.writer.vue.VueProjectWriter;

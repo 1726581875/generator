@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 所有工厂公共父接口
+ * writer接口
  * @author xmz
  * @date 2020/9/18
  */

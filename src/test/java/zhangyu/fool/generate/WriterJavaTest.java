@@ -1,8 +1,8 @@
 package zhangyu.fool.generate;
 
 import org.junit.Test;
-import zhangyu.fool.generate.writer.factory.WriterBuilder;
-import zhangyu.fool.generate.writer.factory.WriterBuilderFactory;
+import zhangyu.fool.generate.writer.builder.WriterBuilder;
+import zhangyu.fool.generate.writer.builder.WriterBuilderFactory;
 import zhangyu.fool.generate.writer.java.*;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
 

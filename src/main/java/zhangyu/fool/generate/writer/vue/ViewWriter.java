@@ -5,7 +5,7 @@ import zhangyu.fool.generate.util.DataBaseUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.enums.TypeSuffixEnum;
-import zhangyu.fool.generate.writer.factory.WriterBuilderFactory;
+import zhangyu.fool.generate.writer.builder.WriterBuilderFactory;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
 import zhangyu.fool.generate.writer.model.param.CommonParam;
 import zhangyu.fool.generate.writer.model.param.EntityParam;

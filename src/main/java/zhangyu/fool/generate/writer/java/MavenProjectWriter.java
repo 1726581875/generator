@@ -11,7 +11,8 @@ import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.util.XmlUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.CodeWriter;
-import zhangyu.fool.generate.writer.factory.WriterBuilderFactory;
+import zhangyu.fool.generate.writer.builder.WriterBuilderFactory;
+import zhangyu.fool.generate.writer.enums.WriterEnum;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
 import zhangyu.fool.generate.writer.model.TableSql;
 import zhangyu.fool.generate.writer.model.param.CommonParam;
@@ -115,44 +116,22 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	}
 
 	private void generatorCode() {
-		// 创建实体类	
-		String entityDirPath = BuildPath.buildDir(BASE_PACKAGE, XmlUtil.getText(ProjectEnum.ENTITY_PACKAGE));
-		CodeWriter entityWriter = WriterBuilderFactory.toGetBuilder(EntityWriter.class).build(projectConfig);
-		WriterExecutorUtil.submit(new WriterTask(entityWriter,entityDirPath));
-		//entityWriter.write(entityDirPath);
+		// 初始化需要生成的模块数组
+		WriterEnum[] writerEnums = {WriterEnum.ENTITY,WriterEnum.DTO, WriterEnum.DAO, WriterEnum.UTIL,
+				WriterEnum.VO,WriterEnum.SERVICE,WriterEnum.CONTROLLER,WriterEnum.CONFIG};
 
-		// 创建dto类
-		String dtoDirPath = BuildPath.buildDir(BASE_PACKAGE, XmlUtil.getText(ProjectEnum.DTO_PACKAGE_NAME));
-		//new DtoWriter(projectConfig).write(dtoDirPath);
-		DtoWriter dtoWriter = new DtoWriter(projectConfig);
-		WriterExecutorUtil.submit(new WriterTask(dtoWriter,dtoDirPath));
-
-		// 创建dao
-		String daoDirPath = BuildPath.buildDir(BASE_PACKAGE, XmlUtil.getText(ProjectEnum.DAO_PACKAGE_NAME));
-		DaoWriter daoWriter = new DaoWriter(projectConfig);
-		daoWriter.setXmlPath(BuildPath.buildDir(RESOURCES_PATH, "mapper"));
-		daoWriter.write(daoDirPath);
-
-		// 创建util		
-		String utilDirPath = BuildPath.buildDir(BASE_PACKAGE, XmlUtil.getText(ProjectEnum.UTIL_PACKAGE_NAME));
-		CodeWriter.build(UtilWriter.class).write(utilDirPath);
-
-		// 创建vo
-		String voDirPath = BuildPath.buildDir(BASE_PACKAGE, XmlUtil.getText(ProjectEnum.VO_PACKAGE_NAME));
-		new VoWriter(projectConfig).write(voDirPath);
-
-		// 生成Service层代码
-		String serviceDirPath = BuildPath.buildDir(BASE_PACKAGE + XmlUtil.getText(ProjectEnum.SERVICE_PACKAGE_NAME));
-		new ServiceWriter(projectConfig).write(serviceDirPath);
-
-		// 生成Controller层代码
-		String controllerDirPath = BuildPath.buildDir(BASE_PACKAGE, XmlUtil.getText(ProjectEnum.CONTROLLER_PACKAGE_NAME));
-		new ControllerWriter(projectConfig).write(controllerDirPath);
-
-		// 创建config类
-		String configDirPath = BuildPath.buildDir(BASE_PACKAGE, "config");
-		CodeWriter.build(ConfigWriter.class).write(configDirPath);
-
+		for (WriterEnum writerEnum : writerEnums) {
+			String destPath = BuildPath.buildDir(BASE_PACKAGE, writerEnum.getValue());
+			// 生成dao需要特殊处理，设置mapper文件路径
+			if(WriterEnum.DAO.equals(writerEnum) && !projectConfig.isUseJpa()){
+				DaoWriter daoWriter = new DaoWriter(projectConfig);
+				daoWriter.setXmlPath(BuildPath.buildDir(RESOURCES_PATH, "mapper"));
+				WriterExecutorUtil.submit(new WriterTask(daoWriter, destPath));
+			}else {
+				CodeWriter writer = WriterBuilderFactory.toGetBuilder(writerEnum).build(projectConfig);
+				WriterExecutorUtil.submit(new WriterTask(writer, destPath));
+			}
+		}
 	}
 
 	/**
