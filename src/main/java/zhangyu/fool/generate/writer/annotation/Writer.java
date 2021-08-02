@@ -1,5 +1,7 @@
 package zhangyu.fool.generate.writer.annotation;
 
+import zhangyu.fool.generate.writer.enums.WriterEnum;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -14,4 +16,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Writer {
     String value() default "";
+
+    WriterEnum type();
 }

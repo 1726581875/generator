@@ -7,7 +7,9 @@ import zhangyu.fool.generate.util.DataBaseUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.CodeWriter;
+import zhangyu.fool.generate.writer.annotation.Writer;
 import zhangyu.fool.generate.writer.enums.TypeSuffixEnum;
+import zhangyu.fool.generate.writer.enums.WriterEnum;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
 import zhangyu.fool.generate.writer.model.param.CommonParam;
 import zhangyu.fool.generate.writer.model.param.EntityParam;
@@ -20,6 +22,7 @@ import java.util.Set;
  * @author xmz
  * 2020/9/18
  */
+@Writer(type = WriterEnum.ENTITY)
 public class EntityWriter extends AbstractCodeWriter {
     /**
      * 模板路径

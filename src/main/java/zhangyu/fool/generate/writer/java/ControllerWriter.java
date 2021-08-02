@@ -7,6 +7,7 @@ import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.annotation.Writer;
 import zhangyu.fool.generate.writer.enums.TypeSuffixEnum;
+import zhangyu.fool.generate.writer.enums.WriterEnum;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
 import zhangyu.fool.generate.writer.model.param.CommonParam;
 import zhangyu.fool.generate.writer.model.param.ControllerParam;
@@ -15,7 +16,7 @@ import zhangyu.fool.generate.writer.model.param.ControllerParam;
  * @author xiaomingzhang
  * @date 2021/6/8
  */
-@Writer
+@Writer(type = WriterEnum.CONTROLLER)
 public class ControllerWriter extends AbstractCodeWriter {
 	/**
 	 * 模板路径

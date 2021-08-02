@@ -3,6 +3,8 @@ package zhangyu.fool.generate.writer.java;
 import org.dom4j.Element;
 import zhangyu.fool.generate.dao.DataBaseDAO;
 import zhangyu.fool.generate.enums.ProjectEnum;
+import zhangyu.fool.generate.thread.WriterExecutorUtil;
+import zhangyu.fool.generate.thread.WriterTask;
 import zhangyu.fool.generate.util.BuildPath;
 import zhangyu.fool.generate.util.FileUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
@@ -116,16 +118,19 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 		// 创建实体类	
 		String entityDirPath = BuildPath.buildDir(BASE_PACKAGE, XmlUtil.getText(ProjectEnum.ENTITY_PACKAGE));
 		CodeWriter entityWriter = WriterBuilderFactory.toGetBuilder(EntityWriter.class).build(projectConfig);
-		entityWriter.write(entityDirPath);
+		WriterExecutorUtil.submit(new WriterTask(entityWriter,entityDirPath));
+		//entityWriter.write(entityDirPath);
 
 		// 创建dto类
 		String dtoDirPath = BuildPath.buildDir(BASE_PACKAGE, XmlUtil.getText(ProjectEnum.DTO_PACKAGE_NAME));
-		new DtoWriter(projectConfig).write(dtoDirPath);
+		//new DtoWriter(projectConfig).write(dtoDirPath);
+		DtoWriter dtoWriter = new DtoWriter(projectConfig);
+		WriterExecutorUtil.submit(new WriterTask(dtoWriter,dtoDirPath));
 
 		// 创建dao
 		String daoDirPath = BuildPath.buildDir(BASE_PACKAGE, XmlUtil.getText(ProjectEnum.DAO_PACKAGE_NAME));
 		DaoWriter daoWriter = new DaoWriter(projectConfig);
-		daoWriter.setXmlPath(BuildPath.buildDir(RESOURCES_PATH,"mapper"));
+		daoWriter.setXmlPath(BuildPath.buildDir(RESOURCES_PATH, "mapper"));
 		daoWriter.write(daoDirPath);
 
 		// 创建util		

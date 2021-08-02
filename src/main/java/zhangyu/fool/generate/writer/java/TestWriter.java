@@ -5,7 +5,9 @@ import zhangyu.fool.generate.model.Author;
 import zhangyu.fool.generate.util.BuildPath;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
+import zhangyu.fool.generate.writer.annotation.Writer;
 import zhangyu.fool.generate.writer.enums.TypeSuffixEnum;
+import zhangyu.fool.generate.writer.enums.WriterEnum;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
 import zhangyu.fool.generate.writer.model.param.CommonParam;
 import zhangyu.fool.generate.writer.model.param.TestParam;
@@ -16,6 +18,7 @@ import java.io.File;
  * @author xiaomingzhang
  * @date 2021/6/8
  */
+@Writer(type = WriterEnum.TEST)
 public class TestWriter extends AbstractCodeWriter {
 
 	private final String TEST_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "test");

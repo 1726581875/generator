@@ -6,7 +6,9 @@ import zhangyu.fool.generate.model.Field;
 import zhangyu.fool.generate.util.DataBaseUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
+import zhangyu.fool.generate.writer.annotation.Writer;
 import zhangyu.fool.generate.writer.enums.TypeSuffixEnum;
+import zhangyu.fool.generate.writer.enums.WriterEnum;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
 import zhangyu.fool.generate.writer.model.param.CommonParam;
 import zhangyu.fool.generate.writer.model.param.EntityParam;
@@ -18,6 +20,7 @@ import java.util.Set;
  * @author xiaomingzhang
  * @date 2021/6/8
  */
+@Writer(type = WriterEnum.DTO)
 public class DtoWriter extends AbstractCodeWriter {
 
 	public static final String ENTITY_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "model\\";
