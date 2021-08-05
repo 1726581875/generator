@@ -3,6 +3,7 @@ package zhangyu.fool.generate.writer.java;
 import org.dom4j.Element;
 import zhangyu.fool.generate.dao.DataBaseDAO;
 import zhangyu.fool.generate.enums.ProjectEnum;
+import zhangyu.fool.generate.model.Author;
 import zhangyu.fool.generate.thread.WriterExecutorUtil;
 import zhangyu.fool.generate.thread.WriterTask;
 import zhangyu.fool.generate.util.BuildPath;
@@ -274,13 +275,14 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 		String appTemplatePath = TEMPLATE_BASE_PATH;
 		String appTemplateName = "application";
         
-		Map<String, Object> appParamMap = new HashMap<>();
+		Map<String, Object> appParamMap = new HashMap<>(3);
 		// TODO
 		String packageName = XmlUtil.getText(ProjectEnum.GROUP_ID) + "." + XmlUtil.getText(ProjectEnum.ARTIFACT_ID);
 		String className = NameConvertUtil.lineToBigHump(XmlUtil.getText(ProjectEnum.ARTIFACT_ID));
 		String destFullPath = BASE_PACKAGE + File.separator + className + "Application.java";
 		appParamMap.put("packageName", packageName);
 		appParamMap.put("className", className);
+		appParamMap.put("author", Author.build());
 		writeByTemplate(appTemplatePath, appTemplateName, destFullPath, appParamMap);
 
 		log.info("生成启动类 {}Application.java", className);

@@ -23,7 +23,7 @@ public class WriterBuilderFactory {
 
     static {
         //反射获取对应包标有注解的类
-        Reflections reflections = new Reflections("zhangyu.fool.writer");
+        Reflections reflections = new Reflections("zhangyu.fool.generate");
         Set<Class<?>> classSet = reflections.getTypesAnnotatedWith(Writer.class);
         classSet.stream().forEach(clazz -> {
             Writer annotation = clazz.getDeclaredAnnotation(Writer.class);

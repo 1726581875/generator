@@ -13,7 +13,7 @@ import zhangyu.fool.generate.writer.vue.VueProjectWriter;
 public class MainRunner {
 
     public static void main(String[] args) {
-        String path = "D:\\data\\test2\\";
+        String path = "C:\\Users\\admin\\Desktop\\查询语句";
         //生成springboot工程代码,可以通过配置ProjectConfig选择使用Jpa/MyBatis/MyBatis-plus
         long startTime = System.currentTimeMillis();
         WriterBuilderFactory.toGetBuilder(MavenProjectWriter.class)

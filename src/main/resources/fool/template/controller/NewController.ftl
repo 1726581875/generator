@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author xiaomingzhang
- * @date 2021/7/30
+ * @author ${author.author}
+ * @date ${author.date}
  */
 @RestController
 @RequestMapping("/${entityNameLow}")
