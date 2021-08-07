@@ -150,7 +150,7 @@ public class XmlUtil {
 	 */
 	public static String getText(ProjectEnum projectEnum) {
 		getElementMap();
-		String nodeName = projectEnum.getElementName();
+		String nodeName = projectEnum.getName();
 		return getText(nodeName);
 	}
 	

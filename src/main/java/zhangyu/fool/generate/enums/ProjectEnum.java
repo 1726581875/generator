@@ -30,14 +30,14 @@ public enum ProjectEnum {
 	VO_PACKAGE_NAME("voPackage"),
 	;
 
-	private String elementName;
+	private String name;
 	
-	private ProjectEnum(String elementName){
-		this.elementName = elementName;
+	private ProjectEnum(String name){
+		this.name = name;
 	}
 
-	public String getElementName() {
-		return elementName;
+	public String getName() {
+		return name;
 	}
 		
 	

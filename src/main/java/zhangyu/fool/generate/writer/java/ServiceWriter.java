@@ -24,13 +24,9 @@ public class ServiceWriter extends AbstractCodeWriter {
 
 	public static final String SERVICE_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "service");
 
-	public static final String SERVICE_TEMPLATE_NAME = "Service";
+	public static final String SERVICE = "Service";
 
-	public static final String DEFAULT_TEMPLATE_NAME = "ServiceImpl";
-	/**
-	 * mybatis版本service模板名
-	 */
-	public static final String MYBATIS_TEMPLATE_NAME = "MybatisServiceImpl";
+	public static final String SERVICE_IMPL = "ServiceImpl";
 
 	public ServiceWriter(ProjectConfig projectConfig) {
 		super(projectConfig);
@@ -66,14 +62,7 @@ public class ServiceWriter extends AbstractCodeWriter {
 
 	@Override
 	public void write(String destPath) {
-		write(destPath, DEFAULT_TEMPLATE_NAME);
-/*		if(projectConfig.isUseJpa()) {
-			write(destPath, DEFAULT_TEMPLATE_NAME);
-		}else if(projectConfig.isUseMyBatisPlus()){
-			write(destPath, DEFAULT_TEMPLATE_NAME);
-		}else {
-			write(destPath, MYBATIS_TEMPLATE_NAME);
-		}*/
+		write(destPath, null);
 	}
 
 	@Override
@@ -82,13 +71,13 @@ public class ServiceWriter extends AbstractCodeWriter {
 		writeConfig.setDestPath(destPath);
 		writeConfig.setTemplatePath(SERVICE_TEMPLATE_PATH);
 		//生成service接口类
-		writeConfig.setTemplateName(SERVICE_TEMPLATE_NAME);
+		writeConfig.setTemplateName(SERVICE);
 		writeConfig.setTypeSuffixEnum(TypeSuffixEnum.SERVICE);
 		this.forEachWrite(writeConfig);
 		//生成service实现类
 		writeConfig.setTypeSuffixEnum(TypeSuffixEnum.SERVICE_IMPL);
 		writeConfig.setDestPath(destPath + File.separator + "impl");
-		writeConfig.setTemplateName(templateName);
+		writeConfig.setTemplateName(SERVICE_IMPL);
 		this.forEachWrite(writeConfig);
 
 	}

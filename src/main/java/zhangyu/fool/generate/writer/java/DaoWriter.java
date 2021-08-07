@@ -2,6 +2,7 @@ package zhangyu.fool.generate.writer.java;
 
 import zhangyu.fool.generate.enums.ProjectEnum;
 import zhangyu.fool.generate.model.Author;
+import zhangyu.fool.generate.service.DatabaseService;
 import zhangyu.fool.generate.util.BuildPath;
 import zhangyu.fool.generate.util.DataBaseUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
@@ -38,7 +39,7 @@ public class DaoWriter extends AbstractCodeWriter {
 	public static final String MYBATIS_XML_TEMPLATE_NAME = "mapper-xml";
 
 	/**
-	 * 主动设置的xml路径
+	 * 目标xml路径，如果不设置使用默认路径defaultXmlPath
 	 */
 	private String xmlPath = null;
 	/**
@@ -110,14 +111,14 @@ public class DaoWriter extends AbstractCodeWriter {
 	public CommonParam buildParam(String tableName, String entityName) {
 		DaoParam daoParam = new DaoParam();
 		daoParam.setAuthor(Author.build());
-		daoParam.setDaoPackageName(NameConvertUtil.getPackageName(ProjectEnum.DAO_PACKAGE_NAME.getElementName()));
-		daoParam.setEntityPackageName(NameConvertUtil.getPackageName(ProjectEnum.ENTITY_PACKAGE.getElementName()));
+		daoParam.setDaoPackageName(NameConvertUtil.getPackageName(ProjectEnum.DAO_PACKAGE_NAME.getName()));
+		daoParam.setEntityPackageName(NameConvertUtil.getPackageName(ProjectEnum.ENTITY_PACKAGE.getName()));
 		daoParam.setEntityName(entityName);
 		daoParam.setKeyType(DataBaseUtil.getPrimaryType(tableName));
 		if(projectConfig.isUseMyBatis() || projectConfig.isUseMyBatisPlus()){
 			daoParam.setTableName(tableName);
 			daoParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
-			daoParam.setFieldList(DataBaseUtil.getColumnByTableName(tableName));
+			daoParam.setFieldList(DatabaseService.getFieldList(tableName));
 			daoParam.setIsMyBatis(projectConfig.isUseMyBatis());
 			daoParam.setIsMyBatisPlus(projectConfig.isUseMyBatisPlus());
 		}

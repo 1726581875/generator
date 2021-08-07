@@ -42,59 +42,6 @@ public class DataBaseUtil {
 
     }
 
-
-    public static List<TableField> getColumnByTableName(String tableName) {
-
-		List<TableField> fieldList = new ArrayList<>();
-        try (Connection conn = DataBaseUtil.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet result = stmt.executeQuery("show full columns from `" + tableName + "`")) {
-            if (result != null) {
-                while (result.next()) {
-                    fieldList.add(buildField(result));
-                }
-            }
-            return fieldList;
-        } catch (Exception e) {
-            log.error("获取表{}的列信息名发生错误{}", tableName, e);
-        }
-        return fieldList;
-    }
-
-
-	private static TableField buildField(ResultSet result) throws SQLException {
-		String columnName = result.getString("Field");
-		//fixme 类型获取不准确
-		String type = result.getString("Type");
-		String comment = result.getString("Comment");
-		// YES NO
-		String nullAble = result.getString("Null");
-		String keyType = result.getString("Key");
-		TableField field = new TableField();
-		field.setName(columnName);
-		field.setNameHump(NameConvertUtil.lineToHump(columnName));
-		field.setNameBigHump(NameConvertUtil.lineToBigHump(columnName));
-		field.setType(type);
-		field.setJavaType(TypeMappingEnum.getJavaType(type));
-		field.setComment(comment);
-		field.setKeyType(keyType);
-		if (comment.contains("|")) {
-			field.setNameCn(comment.substring(0, comment.indexOf("|")));
-		} else {
-			field.setNameCn(comment);
-		}
-		field.setNullAble("YES".equals(nullAble));
-		if (type.toUpperCase().contains("varchar".toUpperCase())) {
-			String lengthStr = type.substring(type.indexOf("(") + 1, type.length() - 1);
-			field.setLength(Integer.valueOf(lengthStr));
-		} else {
-			field.setLength(0);
-		}
-		return field;
-	}
-
-
-
     /**
      * 获取<strong>表主键</strong>的Java类型
      *
@@ -163,8 +110,7 @@ public class DataBaseUtil {
 
 
     public static void main(String[] args) {
-        List<TableField> chapter = getColumnByTableName("chapter");
-        chapter.forEach(System.out::println);
+
     }
 
 

@@ -1,5 +1,6 @@
 package zhangyu.fool.generate.writer.vue;
 
+import zhangyu.fool.generate.service.DatabaseService;
 import zhangyu.fool.generate.util.BuildPath;
 import zhangyu.fool.generate.util.DataBaseUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
@@ -41,7 +42,7 @@ public class ViewWriter extends AbstractCodeWriter {
     @Override
     public CommonParam buildParam(String tableName, String entityName) {
         EntityParam entityParam = new EntityParam();
-        entityParam.setFieldList(DataBaseUtil.getColumnByTableName(tableName));
+        entityParam.setFieldList(DatabaseService.getFieldList(tableName));
         entityParam.setEntityName(entityName);
         entityParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
         return entityParam;

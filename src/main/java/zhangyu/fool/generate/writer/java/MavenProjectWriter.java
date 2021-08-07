@@ -1,7 +1,7 @@
 package zhangyu.fool.generate.writer.java;
 
 import org.dom4j.Element;
-import zhangyu.fool.generate.dao.DataBaseDAO;
+import zhangyu.fool.generate.dao.DatabaseDAO;
 import zhangyu.fool.generate.enums.ProjectEnum;
 import zhangyu.fool.generate.model.Author;
 import zhangyu.fool.generate.thread.WriterExecutorUtil;
@@ -17,12 +17,13 @@ import zhangyu.fool.generate.writer.enums.WriterEnum;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
 import zhangyu.fool.generate.writer.model.TableSql;
 import zhangyu.fool.generate.writer.model.param.CommonParam;
+import zhangyu.fool.generate.writer.model.param.MavenProjectParam;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author xiaomingzhang
@@ -97,23 +98,42 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	@Override
 	public void write(String destPath) {
 		if(destPath != null) {
-			this.ROOT_PATH = BuildPath.buildDir(destPath, XmlUtil.getText(ProjectEnum.ARTIFACT_ID));
-			this.SOURCE_CODE_PATH = BuildPath.buildDir(ROOT_PATH, "src", "main", "java");
-			this.TEST_CODE_PATH = BuildPath.buildDir(ROOT_PATH, "src", "test", "java");
-			this.RESOURCES_PATH = BuildPath.buildDir(ROOT_PATH, "src", "main", "resources");
-			this.BASE_PACKAGE = BuildPath.buildDir(SOURCE_CODE_PATH,
-					BuildPath.converToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
-					BuildPath.converToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
-			this.TEST_BASE_PACKAGE = BuildPath.buildDir(TEST_CODE_PATH,
-					BuildPath.converToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
-					BuildPath.converToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
+			this.buildBasePath(destPath);
 		}
 		write();
 	}
 
+	private void buildBasePath(String destPath){
+		this.ROOT_PATH = BuildPath.buildDir(destPath, XmlUtil.getText(ProjectEnum.ARTIFACT_ID));
+		this.SOURCE_CODE_PATH = BuildPath.buildDir(ROOT_PATH, "src", "main", "java");
+		this.TEST_CODE_PATH = BuildPath.buildDir(ROOT_PATH, "src", "test", "java");
+		this.RESOURCES_PATH = BuildPath.buildDir(ROOT_PATH, "src", "main", "resources");
+		this.BASE_PACKAGE = BuildPath.buildDir(SOURCE_CODE_PATH,
+				BuildPath.converToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
+				BuildPath.converToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
+		this.TEST_BASE_PACKAGE = BuildPath.buildDir(TEST_CODE_PATH,
+				BuildPath.converToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
+				BuildPath.converToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
+	}
+
+
 	@Override
 	public CommonParam buildParam(String tableName, String entityName) {
-		return null;
+		MavenProjectParam projectParam = new MavenProjectParam();
+		//pom.xml
+		projectParam.setIsJpa(projectConfig.isUseJpa());
+		projectParam.setIsMyBatis(projectConfig.isUseMyBatis());
+		projectParam.setIsMyBatisPlus(projectConfig.isUseMyBatisPlus());
+		projectParam.setIsLombok(projectParam.getIsLombok());
+		projectParam.setGroupId(XmlUtil.getText(ProjectEnum.GROUP_ID.getName()));
+		projectParam.setArtifactId(XmlUtil.getText(ProjectEnum.ARTIFACT_ID.getName()));
+		//application.yml
+		projectParam.setDriver(XmlUtil.getText(ProjectEnum.DRIVER));
+		projectParam.setUrl(XmlUtil.getText(ProjectEnum.URL));
+		projectParam.setUsername(XmlUtil.getText(ProjectEnum.USERNAME));
+		projectParam.setPassword(XmlUtil.getText(ProjectEnum.PASSWORD));
+
+		return projectParam;
 	}
 
 	private void generatorCode() {
@@ -143,31 +163,20 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 		String ymlTemplateName = "application";
 
 		String destFullPath =  RESOURCES_PATH + File.separator + "application.yml";
-		String driver = XmlUtil.getText("driver");
-		String url = XmlUtil.getText("url");
-		String username = XmlUtil.getText("username");
-		String password = XmlUtil.getText("password");
-		Map<String, Object> ymlParamMap = new HashMap<>();
-		ymlParamMap.put("driver", driver);
-		ymlParamMap.put("url", url);
-		ymlParamMap.put("username", username);
-		ymlParamMap.put("password", password);
-		this.writeByTemplate(ymlTemplatePath, ymlTemplateName, destFullPath, ymlParamMap);
+		this.writeByParam(ymlTemplatePath, ymlTemplateName, destFullPath, this.buildParam(null,null));
 		log.info("生成application.yml配置文件");
 
 	}
 
 	/**
-	 * 生成数据库脚本文件
+	 * 生成数据库sql脚本文件
 	 */
 	private void createSqlFile(){
 		String sqlTemplatePath = BuildPath.buildDir(TEMPLATE_BASE_PATH , "resources","sql");
 		String sqlTemplateName = "sql";
 		String destFullPath =  RESOURCES_PATH + File.separator + "sql" + File.separator + "db.sql";
-
-		List<String> tableNameList = DataBaseDAO.getTableNameList();
-		List<TableSql> tableSqlList = new ArrayList<>(tableNameList.size());
-		tableNameList.forEach(name -> tableSqlList.add(DataBaseDAO.getCreateTableSQL(name)));
+		List<String> tableNameList = DatabaseDAO.getTableNameList();
+		List<TableSql> tableSqlList = tableNameList.stream().map(DatabaseDAO::getCreateTableSQL).collect(Collectors.toList());
 		Map<String, Object> paramMap = new HashMap<>(1);
 		paramMap.put("tableSqlList", tableSqlList);
 		this.writeByTemplate(sqlTemplatePath, sqlTemplateName, destFullPath, paramMap);
@@ -251,20 +260,8 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	private void createPomXML() {
 		String pomTemplatePath = BuildPath.buildDir(TEMPLATE_BASE_PATH, "config");
 		String pomTemplateName = "pom";
-        
 		String destFullPath = ROOT_PATH + File.separator + "pom.xml";
-		Map<String, Object> pomParamMap = new HashMap<>(8);
-		String groupId = XmlUtil.getText("groupId");
-		String artifactId = XmlUtil.getText("artifactId");
-		pomParamMap.put("groupId", groupId);
-		pomParamMap.put("artifactId", artifactId);
-		pomParamMap.put("isJpa", projectConfig.isUseJpa());
-		pomParamMap.put("isMyBatis",projectConfig.isUseMyBatis());
-		pomParamMap.put("isMyBatisPlus",projectConfig.isUseMyBatisPlus());
-		pomParamMap.put("isLombok", projectConfig.isUseLombok());
-		//pomParamMap.put("isMyBatisPlus", projectConfig.isUseMyBatisPlus());
-		writeByTemplate(pomTemplatePath, pomTemplateName, destFullPath, pomParamMap);
-
+		this.writeByParam(pomTemplatePath, pomTemplateName, destFullPath, this.buildParam(null,null));
 		log.info("pom.xml文件生成成功");
 	}
 
@@ -274,17 +271,14 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	private void createApplication() {
 		String appTemplatePath = TEMPLATE_BASE_PATH;
 		String appTemplateName = "application";
-        
 		Map<String, Object> appParamMap = new HashMap<>(3);
-		// TODO
-		String packageName = XmlUtil.getText(ProjectEnum.GROUP_ID) + "." + XmlUtil.getText(ProjectEnum.ARTIFACT_ID);
+		String packageName = NameConvertUtil.getPackageName(null);
 		String className = NameConvertUtil.lineToBigHump(XmlUtil.getText(ProjectEnum.ARTIFACT_ID));
 		String destFullPath = BASE_PACKAGE + File.separator + className + "Application.java";
 		appParamMap.put("packageName", packageName);
 		appParamMap.put("className", className);
 		appParamMap.put("author", Author.build());
 		writeByTemplate(appTemplatePath, appTemplateName, destFullPath, appParamMap);
-
 		log.info("生成启动类 {}Application.java", className);
 	}
 

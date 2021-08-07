@@ -22,9 +22,6 @@ import java.io.File;
 public class TestWriter extends AbstractCodeWriter {
 
 	private final String TEST_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "test");
-
-	private final String CONTROLLER_TEST_TEMPLATE_PATH = BuildPath.buildDir(TEST_TEMPLATE_PATH, "controller");
-
 	/**
 	 * 测试包名，和项目源码包名一样 groupId + artifactId
 	 */
@@ -51,7 +48,7 @@ public class TestWriter extends AbstractCodeWriter {
 		testParam.setAuthor(Author.build());
 		testParam.setEntityName(entityName);
 		testParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
-		testParam.setBasePackageName(NameConvertUtil.getPackageName(ProjectEnum.CONTROLLER_PACKAGE_NAME.getElementName()));
+		testParam.setBasePackageName(NameConvertUtil.getPackageName(ProjectEnum.CONTROLLER_PACKAGE_NAME.getName()));
 		testParam.setTestPkName(TEST_PACKAGE_NAME);
 		return testParam;
 	}

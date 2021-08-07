@@ -1,10 +1,19 @@
 package zhangyu.fool.generate.model;
 
+import lombok.Data;
+import zhangyu.fool.generate.enums.TypeMappingEnum;
+import zhangyu.fool.generate.model.mysql.TableColumn;
+import zhangyu.fool.generate.util.NameConvertUtil;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * @author xiaomingzhang
  * @date 2021/5/27
  * 数据库表元数据
  */
+@Data
 public class TableField {
     /**
      * 字段名，如course_id
@@ -47,99 +56,32 @@ public class TableField {
      */
     private String keyType;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getNameHump() {
-        return nameHump;
-    }
-
-    public void setNameHump(String nameHump) {
-        this.nameHump = nameHump;
-    }
-
-    public String getNameBigHump() {
-        return nameBigHump;
-    }
-
-    public void setNameBigHump(String nameBigHump) {
-        this.nameBigHump = nameBigHump;
-    }
-
-    public String getNameCn() {
-        return nameCn;
-    }
-
-    public void setNameCn(String nameCn) {
-        this.nameCn = nameCn;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getJavaType() {
-        return javaType;
-    }
-
-    public void setJavaType(String javaType) {
-        this.javaType = javaType;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Boolean getNullAble() {
-        return nullAble;
-    }
-
-    public void setNullAble(Boolean nullAble) {
-        this.nullAble = nullAble;
-    }
-
-    public Integer getLength() {
-        return length;
-    }
-
-    public void setLength(Integer length) {
-        this.length = length;
-    }
-
-    public String getKeyType() {
-        return keyType;
-    }
-
-    public void setKeyType(String keyType) {
-        this.keyType = keyType;
-    }
-
-    @Override
-    public String toString() {
-        return "Field{" +
-                "name='" + name + '\'' +
-                ", nameHump='" + nameHump + '\'' +
-                ", nameBigHump='" + nameBigHump + '\'' +
-                ", nameCn='" + nameCn + '\'' +
-                ", type='" + type + '\'' +
-                ", javaType='" + javaType + '\'' +
-                ", comment='" + comment + '\'' +
-                ", nullAble=" + nullAble +
-                ", length=" + length +
-                ", keyType='" + keyType + '\'' +
-                '}';
+    public static TableField getField(TableColumn tableColumn){
+        String columnName = tableColumn.getField();
+        String type = tableColumn.getType();
+        String comment = tableColumn.getComment();
+        String nullAble = tableColumn.getNullAble();
+        String keyType = tableColumn.getKey();
+        TableField field = new TableField();
+        field.setName(columnName);
+        field.setNameHump(NameConvertUtil.lineToHump(columnName));
+        field.setNameBigHump(NameConvertUtil.lineToBigHump(columnName));
+        field.setType(type);
+        field.setJavaType(TypeMappingEnum.getJavaType(type));
+        field.setComment(comment);
+        field.setKeyType(keyType);
+        if (comment.contains("|")) {
+            field.setNameCn(comment.substring(0, comment.indexOf("|")));
+        } else {
+            field.setNameCn(comment);
+        }
+        field.setNullAble("YES".equals(nullAble));
+        if (type.toUpperCase().contains("varchar".toUpperCase())) {
+            String lengthStr = type.substring(type.indexOf("(") + 1, type.length() - 1);
+            field.setLength(Integer.valueOf(lengthStr));
+        } else {
+            field.setLength(0);
+        }
+        return field;
     }
 }
