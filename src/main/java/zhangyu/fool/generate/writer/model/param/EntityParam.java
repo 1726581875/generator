@@ -1,7 +1,7 @@
 package zhangyu.fool.generate.writer.model.param;
 
 import lombok.Data;
-import zhangyu.fool.generate.model.Field;
+import zhangyu.fool.generate.model.TableField;
 
 import java.util.List;
 import java.util.Set;
@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 public class EntityParam extends CommonParam {
 
-    private List<Field> fieldList;
+    private List<TableField> fieldList;
 
     private Set<String> javaTypeSet;
 

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhangyu.fool.generate.enums.ProjectEnum;
 import zhangyu.fool.generate.enums.TypeMappingEnum;
-import zhangyu.fool.generate.model.Field;
+import zhangyu.fool.generate.model.TableField;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -43,9 +43,9 @@ public class DataBaseUtil {
     }
 
 
-    public static List<Field> getColumnByTableName(String tableName) {
+    public static List<TableField> getColumnByTableName(String tableName) {
 
-		List<Field> fieldList = new ArrayList<>();
+		List<TableField> fieldList = new ArrayList<>();
         try (Connection conn = DataBaseUtil.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet result = stmt.executeQuery("show full columns from `" + tableName + "`")) {
@@ -62,7 +62,7 @@ public class DataBaseUtil {
     }
 
 
-	private static Field buildField(ResultSet result) throws SQLException {
+	private static TableField buildField(ResultSet result) throws SQLException {
 		String columnName = result.getString("Field");
 		//fixme 类型获取不准确
 		String type = result.getString("Type");
@@ -70,7 +70,7 @@ public class DataBaseUtil {
 		// YES NO
 		String nullAble = result.getString("Null");
 		String keyType = result.getString("Key");
-		Field field = new Field();
+		TableField field = new TableField();
 		field.setName(columnName);
 		field.setNameHump(NameConvertUtil.lineToHump(columnName));
 		field.setNameBigHump(NameConvertUtil.lineToBigHump(columnName));
@@ -152,10 +152,10 @@ public class DataBaseUtil {
     /**
      * 获取所有的Java类型，使用Set去重
      */
-    public static Set<String> getJavaTypes(List<Field> fieldList) {
+    public static Set<String> getJavaTypes(List<TableField> fieldList) {
         Set<String> set = new HashSet<>();
         for (int i = 0; i < fieldList.size(); i++) {
-            Field field = fieldList.get(i);
+            TableField field = fieldList.get(i);
             set.add(field.getJavaType());
         }
         return set;
@@ -163,7 +163,7 @@ public class DataBaseUtil {
 
 
     public static void main(String[] args) {
-        List<Field> chapter = getColumnByTableName("chapter");
+        List<TableField> chapter = getColumnByTableName("chapter");
         chapter.forEach(System.out::println);
     }
 

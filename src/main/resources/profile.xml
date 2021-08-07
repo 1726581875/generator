@@ -9,64 +9,6 @@
   </dataSource>
   
   <!-- 配置数据库表名和实体名映射 -->
-  <tables>
-      <!--
-     <table>
-      <tableName>article</tableName>
-      <entityName>Article</entityName>
-    </table>
-    
-    <table>
-      <tableName>collection</tableName>
-      <entityName>Collection</entityName>
-    </table>  
-    
-    <table>
-      <tableName>user_detail</tableName>
-      <entityName>UserDetail</entityName>
-    </table>  
-    
-    <table>
-      <tableName>category</tableName>
-      <entityName>Category</entityName>
-    </table>  
-    
-    <table>
-      <tableName>article_comment</tableName>
-      <entityName>ArticleComment</entityName>
-    </table>  
-    
-    <table>
-      <tableName>comment_reply</tableName>
-      <entityName>CommentReply</entityName>
-    </table> 
-    
-    <table>
-      <tableName>user_star</tableName>
-      <entityName>UserStar</entityName>
-    </table>-->
-      
-    <table>
-      <tableName>fool_data_source</tableName>
-      <entityName>FoolDataSource</entityName>
-    </table>
-
-      <table>
-          <tableName>fool_database</tableName>
-          <entityName>FoolDatabase</entityName>
-      </table>
-
-      <table>
-          <tableName>fool_table</tableName>
-          <entityName>FoolTable</entityName>
-      </table>
-      <table>
-          <tableName>fool_field</tableName>
-          <entityName>FoolField</entityName>
-      </table>
-
-
- </tables>
 
   
 

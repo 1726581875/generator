@@ -30,13 +30,14 @@ public class DatabaseService {
      */
     public static Map<String, String> getTableNameMap() {
         Element rootElement = XmlUtil.getRootElement();
-        List<Element> tableElements = rootElement.element(ProjectEnum.TABLES.getElementName()).elements();
-        if (tableElements != null && tableElements.size() > 0) {
-            tableElements.forEach(e -> TABLE_NAME_MAP.put(e.element(ProjectEnum.TABLE_NAME.getElementName()).getTextTrim()
-                    ,e.element(ProjectEnum.ENTITY_NAME.getElementName()).getTextTrim()));
-        } else {
+        Element tablesElement = rootElement.element(ProjectEnum.TABLES.getElementName());
+        if(tablesElement == null || tablesElement.elements() == null || tablesElement.elements().size() == 0){
             List<String> tableNameList = DataBaseDAO.getTableNameList();
             tableNameList.forEach(name -> TABLE_NAME_MAP.put(name, NameConvertUtil.lineToBigHump(name)));
+        }else {
+            List<Element> tableElements = tablesElement.elements();
+            tableElements.forEach(e -> TABLE_NAME_MAP.put(e.element(ProjectEnum.TABLE_NAME.getElementName()).getTextTrim()
+                    ,e.element(ProjectEnum.ENTITY_NAME.getElementName()).getTextTrim()));
         }
         return TABLE_NAME_MAP;
     }

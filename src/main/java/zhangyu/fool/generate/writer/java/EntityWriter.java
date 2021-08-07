@@ -1,7 +1,7 @@
 package zhangyu.fool.generate.writer.java;
 
 import zhangyu.fool.generate.enums.ProjectEnum;
-import zhangyu.fool.generate.model.Field;
+import zhangyu.fool.generate.model.TableField;
 import zhangyu.fool.generate.util.BuildPath;
 import zhangyu.fool.generate.util.DataBaseUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
@@ -56,7 +56,7 @@ public class EntityWriter extends AbstractCodeWriter {
     @Override
     public CommonParam buildParam(String tableName, String entityName) {
         EntityParam entityParam = new EntityParam();
-        List<Field> fieldList = DataBaseUtil.getColumnByTableName(tableName);
+        List<TableField> fieldList = DataBaseUtil.getColumnByTableName(tableName);
         Set<String> javaTypeSet = DataBaseUtil.getJavaTypes(fieldList);
         String packageName = NameConvertUtil.getPackageName(ProjectEnum.ENTITY_PACKAGE.getElementName());
         entityParam.setFieldList(fieldList);

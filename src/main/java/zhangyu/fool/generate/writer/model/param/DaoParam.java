@@ -1,7 +1,7 @@
 package zhangyu.fool.generate.writer.model.param;
 
 import lombok.Data;
-import zhangyu.fool.generate.model.Field;
+import zhangyu.fool.generate.model.TableField;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class DaoParam extends CommonParam {
     /**
      * 列信息
      */
-    List<Field> fieldList;
+    List<TableField> fieldList;
 
     private String tableName;
 

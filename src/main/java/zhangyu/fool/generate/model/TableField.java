@@ -5,7 +5,7 @@ package zhangyu.fool.generate.model;
  * @date 2021/5/27
  * 数据库表元数据
  */
-public class Field {
+public class TableField {
     /**
      * 字段名，如course_id
      */
