@@ -3,7 +3,7 @@ package zhangyu.fool.generate.dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhangyu.fool.generate.model.mysql.TableColumn;
-import zhangyu.fool.generate.util.DataBaseUtil;
+import zhangyu.fool.generate.util.DatabaseUtil;
 import zhangyu.fool.generate.writer.model.TableSql;
 
 import java.sql.*;
@@ -20,7 +20,7 @@ public class DatabaseDAO {
 
     public static List<String> getTableNameList() {
         List<String> tableNameList = new ArrayList<>();
-        try(Connection connection = DataBaseUtil.getConnection();
+        try(Connection connection = DatabaseUtil.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement("show tables");
             ResultSet resultSet = prepareStatement.executeQuery()){
             while (resultSet.next()) {
@@ -34,7 +34,7 @@ public class DatabaseDAO {
 
     public static TableSql getCreateTableSQL(String tableName) {
         TableSql tableSql = new TableSql();
-        try(Connection connection = DataBaseUtil.getConnection();
+        try(Connection connection = DatabaseUtil.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement("show create table `"+ tableName +"`");
             ResultSet resultSet = prepareStatement.executeQuery()){
             if(resultSet.next()) {
@@ -51,7 +51,7 @@ public class DatabaseDAO {
 
     public static List<TableColumn> getColumnByTableName(String tableName) {
         List<TableColumn> tableColumnList = new ArrayList<>();
-        try (Connection conn = DataBaseUtil.getConnection();
+        try (Connection conn = DatabaseUtil.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet result = stmt.executeQuery("show full columns from `" + tableName + "`")) {
             if (result != null) {
@@ -63,11 +63,6 @@ public class DatabaseDAO {
             log.error("获取表{}的列信息名发生错误", tableName, e);
         }
         return tableColumnList;
-    }
-
-
-    public static void main(String[] args) {
-
     }
 
 

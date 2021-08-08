@@ -1,8 +1,8 @@
 package zhangyu.fool.generate.writer.java;
 
 import zhangyu.fool.generate.model.Author;
+import zhangyu.fool.generate.service.DatabaseService;
 import zhangyu.fool.generate.util.BuildPath;
-import zhangyu.fool.generate.util.DataBaseUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.annotation.Writer;
@@ -51,7 +51,7 @@ public class ControllerWriter extends AbstractCodeWriter {
 		controllerParam.setVoPkName(voPkName);
 		controllerParam.setEntityName(entityName);
 		controllerParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
-		controllerParam.setKeyType(DataBaseUtil.getPrimaryType(tableName));
+		controllerParam.setKeyType(DatabaseService.getPrimaryType(tableName));
 		return controllerParam;
 	}
 

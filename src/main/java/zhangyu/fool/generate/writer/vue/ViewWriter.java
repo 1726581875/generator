@@ -2,7 +2,6 @@ package zhangyu.fool.generate.writer.vue;
 
 import zhangyu.fool.generate.service.DatabaseService;
 import zhangyu.fool.generate.util.BuildPath;
-import zhangyu.fool.generate.util.DataBaseUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.enums.TypeSuffixEnum;

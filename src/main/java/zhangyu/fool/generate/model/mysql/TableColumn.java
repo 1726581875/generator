@@ -15,18 +15,18 @@ public class TableColumn {
 
     public static final String FIELD = "Field";
 
-    private static final String TYPE = "Type";
+    public static final String TYPE = "Type";
 
-    private static final String COMMENT = "Comment";
+    public static final String COMMENT = "Comment";
 
-    private static final String NULL = "Null";
+    public static final String NULL = "Null";
 
-    private static final String KEY = "Key";
+    public static final String KEY = "Key";
 
     /** Key的值，主键 */
-    private static final String PRI = "PRI";
+    public static final String PRI = "PRI";
     /** Key的值，唯一键 */
-    private static final String UNI = "UNI";
+    public static final String UNI = "UNI";
 
 
     private String field;

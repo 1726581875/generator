@@ -27,5 +27,22 @@ public class FileUtil {
 			/*log.info("创建目录  [{}]",dirPath);*/
 		}	
 	}
+
+	/**
+	 * 如果目录不存在则创建目录
+	 * @param destPath
+	 */
+	public static void checkAndCreateDir(String destPath) {
+		File destDir = new File(destPath);
+		if (!destDir.exists()) {
+			try {
+				log.debug("目录{} 不存在", destPath);
+				destDir.mkdirs();
+				log.debug("已创建目录{} ", destPath);
+			}catch (Exception e){
+				log.debug("创建目录{} 出现异常",destPath,e);
+			}
+		}
+	}
 	
 }

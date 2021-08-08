@@ -4,7 +4,6 @@ import zhangyu.fool.generate.enums.ProjectEnum;
 import zhangyu.fool.generate.model.TableField;
 import zhangyu.fool.generate.service.DatabaseService;
 import zhangyu.fool.generate.util.BuildPath;
-import zhangyu.fool.generate.util.DataBaseUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.CodeWriter;
@@ -17,6 +16,7 @@ import zhangyu.fool.generate.writer.model.param.EntityParam;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 生成实体类的工厂
@@ -58,7 +58,7 @@ public class EntityWriter extends AbstractCodeWriter {
     public CommonParam buildParam(String tableName, String entityName) {
         EntityParam entityParam = new EntityParam();
         List<TableField> fieldList = DatabaseService.getFieldList(tableName);
-        Set<String> javaTypeSet = DataBaseUtil.getJavaTypes(fieldList);
+        Set<String> javaTypeSet = fieldList.stream().map(TableField::getJavaType).collect(Collectors.toSet());
         String packageName = NameConvertUtil.getPackageName(ProjectEnum.ENTITY_PACKAGE.getName());
         entityParam.setFieldList(fieldList);
         entityParam.setJavaTypeSet(javaTypeSet);

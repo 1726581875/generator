@@ -90,6 +90,31 @@ public class DatabaseService {
         return TABLE_FIELD_CACHE.get(tableName);
     }
 
+    public static TableField getPrimaryField(String tableName){
+        List<TableField> fieldList = getFieldList(tableName);
+        return fieldList.stream().filter(TableColumn.PRI::equals).findFirst().get();
+    }
+
+    /**
+     * 获取<strong>表主键</strong>的Java类型
+     *
+     * @param tableName
+     * @return 例如 Integer、String、Long..
+     */
+    public static String getPrimaryType(String tableName) {
+        return getPrimaryField(tableName).getJavaType();
+    }
+    /**
+     * 获取表主键id名（转换为大驼峰后的）
+     *
+     * @param tableName
+     * @return 例如 ： ArticleId、UserId
+     */
+    public static String getPrimaryName(String tableName) {
+        String tableColumnName = getPrimaryField(tableName).getName();
+        return NameConvertUtil.lineToBigHump(tableColumnName);
+    }
+
 
     public static void main(String[] args) {
         Map<String, String> tableNameMap = getTableNameMap();

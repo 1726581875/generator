@@ -77,7 +77,7 @@ git@github.com:1726581875/xmz.git
 
 ## 3.运行
 
-找到com.smallchili.xmz包下了Application.java类，运行它即可
+找到zhangyu.fool.generate包下了MainRunner.java类，配置代码生成目标·路径，点击运行即可
 
 
 

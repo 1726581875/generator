@@ -9,6 +9,11 @@ import java.util.*;
  */
 public class ObjectToMapUtil {
 
+    /**
+     * 对象属性转map
+     * @param objs
+     * @return
+     */
     public static Map<String,Object> toMap(Object... objs){
         final Map<String,Object> map = new HashMap<>(16);
         for (Object o: objs) {
@@ -23,7 +28,7 @@ public class ObjectToMapUtil {
             List<Field> fieldList = new ArrayList<>();
             //父类的属性也需要添加
             while (aClass != null){
-                fieldList.addAll(new ArrayList<>(Arrays.asList(aClass.getDeclaredFields())));
+                fieldList.addAll(Arrays.asList(aClass.getDeclaredFields()));
                 aClass = aClass.getSuperclass();
             }
 

@@ -4,7 +4,6 @@ import zhangyu.fool.generate.enums.ProjectEnum;
 import zhangyu.fool.generate.model.Author;
 import zhangyu.fool.generate.service.DatabaseService;
 import zhangyu.fool.generate.util.BuildPath;
-import zhangyu.fool.generate.util.DataBaseUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.annotation.Writer;
@@ -114,7 +113,7 @@ public class DaoWriter extends AbstractCodeWriter {
 		daoParam.setDaoPackageName(NameConvertUtil.getPackageName(ProjectEnum.DAO_PACKAGE_NAME.getName()));
 		daoParam.setEntityPackageName(NameConvertUtil.getPackageName(ProjectEnum.ENTITY_PACKAGE.getName()));
 		daoParam.setEntityName(entityName);
-		daoParam.setKeyType(DataBaseUtil.getPrimaryType(tableName));
+		daoParam.setKeyType(DatabaseService.getPrimaryType(tableName));
 		if(projectConfig.isUseMyBatis() || projectConfig.isUseMyBatisPlus()){
 			daoParam.setTableName(tableName);
 			daoParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
