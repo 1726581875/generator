@@ -2,6 +2,7 @@ package zhangyu.fool.generate.writer.java;
 
 import zhangyu.fool.generate.model.Author;
 import zhangyu.fool.generate.util.BuildPath;
+import zhangyu.fool.generate.util.FileUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.annotation.Writer;
@@ -57,7 +58,7 @@ public class UtilWriter extends AbstractCodeWriter {
 	 * @param destPath
 	 */
 	private void createCopyUtil(String destPath) {
-		checkAndCreateDir(destPath);
+		FileUtil.checkAndCreateDir(destPath);
 		CommonParam commonParam = this.buildParam(null, null);
 		String fullPath = destPath + File.separator +"CopyUtil.java";
 		this.writeByParam(UTIL_TEMPLATE_PATH, COPY_UTIL_TEMPLATE_NAME, fullPath, commonParam);

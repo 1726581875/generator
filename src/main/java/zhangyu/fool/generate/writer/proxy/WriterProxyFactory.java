@@ -1,9 +1,6 @@
 package zhangyu.fool.generate.writer.proxy;
 
-import zhangyu.fool.generate.writer.CodeWriter;
-import zhangyu.fool.generate.writer.builder.WriterBuilderFactory;
-import zhangyu.fool.generate.writer.java.EntityWriter;
-import zhangyu.fool.generate.writer.model.ProjectConfig;
+import zhangyu.fool.generate.writer.Writer;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -15,9 +12,9 @@ import java.lang.reflect.Proxy;
  */
 public class WriterProxyFactory {
 
-    public static CodeWriter getWriterProxy(CodeWriter codeWriter){
+    public static Writer getWriterProxy(Writer codeWriter){
         WriterProxyHandler handler = new WriterProxyHandler(codeWriter);
-        return (CodeWriter) Proxy.newProxyInstance(codeWriter.getClass().getClassLoader(),
+        return (Writer) Proxy.newProxyInstance(codeWriter.getClass().getClassLoader(),
                 codeWriter.getClass().getSuperclass().getInterfaces(), handler);
     }
 
@@ -30,13 +27,13 @@ public class WriterProxyFactory {
      * @throws InvocationTargetException
      * @throws InstantiationException
      */
-    public static CodeWriter getWriterProxy2(CodeWriter codeWriter) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public static Writer getWriterProxy2(Writer codeWriter) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         WriterProxyHandler handler = new WriterProxyHandler(codeWriter);
         //生成代理类型
-        Class<?> proxyClass = Proxy.getProxyClass(codeWriter.getClass().getClassLoader(), new Class<?>[]{CodeWriter.class});
+        Class<?> proxyClass = Proxy.getProxyClass(codeWriter.getClass().getClassLoader(), new Class<?>[]{Writer.class});
         //生成代理对象
         Object object = proxyClass.getConstructor(new Class[]{InvocationHandler.class}).newInstance(new Object[]{handler});
-       return (CodeWriter) object;
+       return (Writer) object;
     }
 
 }

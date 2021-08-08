@@ -2,6 +2,7 @@ package zhangyu.fool.generate.writer.java;
 
 import zhangyu.fool.generate.model.Author;
 import zhangyu.fool.generate.util.BuildPath;
+import zhangyu.fool.generate.util.FileUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.annotation.Writer;
@@ -40,7 +41,7 @@ public class ConfigWriter extends AbstractCodeWriter {
 
     @Override
     public void write(String destPath, String templateName) {
-        checkAndCreateDir(destPath);
+        FileUtil.checkAndCreateDir(destPath);
         //生成跨域配置
         String fullPath = destPath + File.separator +"CorsConfig.java";
         this.writeByParam(CONFIG_TEMPLATE_PATH, CORS_CONFIG_TEMPLATE_NAME, fullPath, this.buildParam(null,null));

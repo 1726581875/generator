@@ -4,6 +4,7 @@ import zhangyu.fool.generate.enums.ProjectEnum;
 import zhangyu.fool.generate.model.Author;
 import zhangyu.fool.generate.service.DatabaseService;
 import zhangyu.fool.generate.util.BuildPath;
+import zhangyu.fool.generate.util.FileUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.annotation.Writer;
@@ -70,7 +71,7 @@ public class DaoWriter extends AbstractCodeWriter {
 
 	@Override
 	public void write(String destPath, String templateName) {
-		checkAndCreateDir(destPath);
+		FileUtil.checkAndCreateDir(destPath);
 	}
 
 	public void writeTemplate(String destPath, String type) {

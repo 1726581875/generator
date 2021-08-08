@@ -2,7 +2,7 @@ package zhangyu.fool.generate.thread;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import zhangyu.fool.generate.writer.CodeWriter;
+import zhangyu.fool.generate.writer.Writer;
 
 /**
  * @author xiaomingzhang
@@ -12,11 +12,11 @@ public class WriterTask implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(WriterTask.class);
 
-    private final CodeWriter writer;
+    private final Writer writer;
 
     private final String destPath;
 
-    public WriterTask(CodeWriter writer,String destPath){
+    public WriterTask(Writer writer, String destPath){
         this.writer = writer;
         this.destPath = destPath;
     }

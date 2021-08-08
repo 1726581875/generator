@@ -11,7 +11,7 @@ import zhangyu.fool.generate.util.FileUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.util.XmlUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
-import zhangyu.fool.generate.writer.CodeWriter;
+import zhangyu.fool.generate.writer.Writer;
 import zhangyu.fool.generate.writer.builder.WriterBuilderFactory;
 import zhangyu.fool.generate.writer.enums.WriterEnum;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
@@ -82,17 +82,12 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 		generatorCode();
         // 生成测试代码
 		generatorTestCode();
-		
+
 	}
 
 	private void generatorTestCode() {
 		String testDirPath = BuildPath.buildDir(TEST_BASE_PACKAGE);
-		CodeWriter.build(TestWriter.class).write(testDirPath);
-	}
-
-	@Override
-	public void write(String destPath, String templateName) {
-
+		WriterBuilderFactory.toGetBuilder(TestWriter.class).build(projectConfig).write(testDirPath);
 	}
 
 	@Override
@@ -149,7 +144,7 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 				daoWriter.setXmlPath(BuildPath.buildDir(RESOURCES_PATH, "mapper"));
 				WriterExecutorUtil.submit(new WriterTask(daoWriter, destPath));
 			}else {
-				CodeWriter writer = WriterBuilderFactory.toGetBuilder(writerEnum).build(projectConfig);
+				Writer writer = WriterBuilderFactory.toGetBuilder(writerEnum).build(projectConfig);
 				WriterExecutorUtil.submit(new WriterTask(writer, destPath));
 			}
 		}

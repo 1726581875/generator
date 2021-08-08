@@ -7,7 +7,7 @@ import zhangyu.fool.generate.util.BuildPath;
 import zhangyu.fool.generate.util.FileUtil;
 import zhangyu.fool.generate.util.XmlUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
-import zhangyu.fool.generate.writer.CodeWriter;
+import zhangyu.fool.generate.writer.Writer;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
 import zhangyu.fool.generate.writer.model.param.CommonParam;
 
@@ -71,7 +71,7 @@ public class VueProjectWriter extends AbstractCodeWriter {
 
 
     private void createComponent() {
-        CodeWriter.build(ViewWriter.class).write(VUE_VIEWS_PATH);
+        new ViewWriter().write(VUE_VIEWS_PATH);
     }
 
 

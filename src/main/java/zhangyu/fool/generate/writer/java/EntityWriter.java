@@ -6,8 +6,7 @@ import zhangyu.fool.generate.service.DatabaseService;
 import zhangyu.fool.generate.util.BuildPath;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
-import zhangyu.fool.generate.writer.CodeWriter;
-import zhangyu.fool.generate.writer.annotation.Writer;
+import zhangyu.fool.generate.writer.Writer;
 import zhangyu.fool.generate.writer.enums.TypeSuffixEnum;
 import zhangyu.fool.generate.writer.enums.WriterEnum;
 import zhangyu.fool.generate.writer.model.ProjectConfig;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
  * @author xmz
  * 2020/9/18
  */
-@Writer(type = WriterEnum.ENTITY)
+@zhangyu.fool.generate.writer.annotation.Writer(type = WriterEnum.ENTITY)
 public class EntityWriter extends AbstractCodeWriter {
     /**
      * 模板路径
@@ -71,7 +70,7 @@ public class EntityWriter extends AbstractCodeWriter {
     }
 
     public static void main(String[] args) {
-        CodeWriter factory = new EntityWriter(ProjectConfig.buildJpa());
+        Writer factory = new EntityWriter(ProjectConfig.buildJpa());
         factory.write("C:\\Users\\admin\\Desktop\\查询语句\\");
     }
 

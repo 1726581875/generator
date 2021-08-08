@@ -48,14 +48,14 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.2.3</version>
 		</dependency>
-		<!-- lombok -->
+		<!-- lombok 简便开发不用写get set-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.16</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- 反射框架 -->
+		<!-- 反射工具 -->
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
@@ -68,5 +68,24 @@
 			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
+
+
+		<!-- 引入apache poi -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>3.17</version>
+		</dependency>
+
 	</dependencies>
 </project>

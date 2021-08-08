@@ -3,6 +3,7 @@ package zhangyu.fool.generate.writer.java;
 import zhangyu.fool.generate.enums.ProjectEnum;
 import zhangyu.fool.generate.model.Author;
 import zhangyu.fool.generate.util.BuildPath;
+import zhangyu.fool.generate.util.FileUtil;
 import zhangyu.fool.generate.util.NameConvertUtil;
 import zhangyu.fool.generate.writer.AbstractCodeWriter;
 import zhangyu.fool.generate.writer.annotation.Writer;
@@ -67,7 +68,7 @@ public class TestWriter extends AbstractCodeWriter {
 	 * @param templateName
 	 */
 	private void createBaseMvcTest(String destPath, String templateName) {
-		this.checkAndCreateDir(destPath);
+		FileUtil.checkAndCreateDir(destPath);
 		// 目标文件全路径
 		String fullPath = destPath + File.separator + "BaseMvcTest.java";
 		CommonParam commonParam = new CommonParam();
