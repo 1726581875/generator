@@ -11,7 +11,9 @@ import java.sql.SQLException;
  * 查询表详情 SELECT * FROM information_schema.TABLES WHERE table_schema= 'databaseName';
  */
 @Data
-public class TableInfo {
+public class TableInfo implements MySqlMetadata {
+
+    public static final String SQL = "SELECT * FROM information_schema.TABLES WHERE table_schema= '%s'";
 
     public static final String TABLE_NAME = "TABLE_NAME";
     public static final String TABLE_COMMENT = "TABLE_COMMENT";
@@ -27,4 +29,16 @@ public class TableInfo {
         return tableInfo;
     }
 
+    public static String getSQL(Object... params) {
+        return String.format(SQL, params);
+    }
+
+
+    @Override
+    public MySqlMetadata getAnalyzedData(ResultSet result) throws SQLException {
+        TableInfo tableInfo = new TableInfo();
+        tableInfo.setTableName(result.getString(TABLE_NAME));
+        tableInfo.setTableComment(result.getString(TABLE_COMMENT));
+        return tableInfo;
+    }
 }

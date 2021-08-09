@@ -12,7 +12,7 @@ import java.io.File;
  * @author xmz
  * @date: 2021/07/28
  */
-public class WriterJavaTest {
+public class JavaWriterTest {
 
     private static final String baseTestPath = "D:\\data\\test";
 

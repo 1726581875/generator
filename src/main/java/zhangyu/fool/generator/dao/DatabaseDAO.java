@@ -2,10 +2,10 @@ package zhangyu.fool.generator.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import zhangyu.fool.generator.model.mysql.MySqlMetadata;
 import zhangyu.fool.generator.model.mysql.TableColumn;
 import zhangyu.fool.generator.model.mysql.TableInfo;
 import zhangyu.fool.generator.util.DatabaseUtil;
-import zhangyu.fool.generator.main.model.TableSql;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,69 +19,48 @@ public class DatabaseDAO {
 
     private static Logger log = LoggerFactory.getLogger(DatabaseDAO.class);
 
-    public static List<String> getTableNameList() {
-        List<String> tableNameList = new ArrayList<>();
+
+    public static <T extends MySqlMetadata> List<T> getList(String sql, Class<T> resultType) {
+        List<T> list = new ArrayList<>();
         try(Connection connection = DatabaseUtil.getConnection();
-            PreparedStatement prepareStatement = connection.prepareStatement("show tables");
+            PreparedStatement prepareStatement = connection.prepareStatement(sql);
             ResultSet resultSet = prepareStatement.executeQuery()){
+            MySqlMetadata metadata = resultType.newInstance();
             while (resultSet.next()) {
-                tableNameList.add(resultSet.getString(1));
+                list.add((T) metadata.getAnalyzedData(resultSet));
             }
         } catch (Exception e) {
             log.error("show tables发生错误",e);
         }
-        return tableNameList;
+        return list;
     }
 
-    public static TableSql getCreateTableSQL(String tableName) {
-        TableSql tableSql = new TableSql();
-        try(Connection connection = DatabaseUtil.getConnection();
-            PreparedStatement prepareStatement = connection.prepareStatement("show create table `"+ tableName +"`");
-            ResultSet resultSet = prepareStatement.executeQuery()){
-            if(resultSet.next()) {
-                tableSql.setTableName(resultSet.getString(1));
-                tableSql.setTableSql(resultSet.getString(2));
-            }
-        }catch (Exception e) {
-            log.error("获取表{}的建表语句发生错误", tableName, e);
-        }
-        return tableSql;
+    public static <T extends MySqlMetadata> T getOne(String sql, Class<T> resultType) {
+        return getList(sql, resultType).get(0);
     }
 
 
-
-    public static List<TableColumn> getColumnByTableName(String tableName) {
-        List<TableColumn> tableColumnList = new ArrayList<>();
+    public static String getDatabaseName(){
+        String name = "";
         try (Connection conn = DatabaseUtil.getConnection();
              Statement stmt = conn.createStatement();
-             ResultSet result = stmt.executeQuery("show full columns from `" + tableName + "`")) {
+             ResultSet result = stmt.executeQuery("SELECT database()")) {
             if (result != null) {
                 while (result.next()) {
-                    tableColumnList.add(TableColumn.getTableColumn(result));
+                    name = result.getString(1);
                 }
             }
         } catch (Exception e) {
-            log.error("获取表{}的列信息名发生错误", tableName, e);
+            log.error("获取当前数据库名发生错误", e);
         }
-        return tableColumnList;
+        return name;
     }
 
-    public static List<TableInfo> getTableInfList(String databaseName) {
-        List<TableInfo> tableInfoList = new ArrayList<>();
-        try (Connection conn = DatabaseUtil.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet result = stmt.executeQuery("SELECT * FROM information_schema.TABLES WHERE table_schema= '" + databaseName + "'")) {
-            if (result != null) {
-                while (result.next()) {
-                    tableInfoList.add(TableInfo.getTableInfo(result));
-                }
-            }
-        } catch (Exception e) {
-            log.error("获取数据库{}的表信息名发生错误", databaseName, e);
-        }
-        return tableInfoList;
-    }
 
+    public static void main(String[] args) {
+        List<TableInfo> list = getList("SELECT * FROM information_schema.TABLES WHERE table_schema= 'mooc'", TableInfo.class);
+        list.forEach(System.out::println);
+    }
 
 
 }

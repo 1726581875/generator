@@ -7,6 +7,7 @@ import zhangyu.fool.generator.dao.DatabaseDAO;
 import zhangyu.fool.generator.enums.ProjectEnum;
 import zhangyu.fool.generator.model.TableField;
 import zhangyu.fool.generator.model.mysql.TableColumn;
+import zhangyu.fool.generator.model.mysql.TableInfo;
 import zhangyu.fool.generator.util.NameConvertUtil;
 import zhangyu.fool.generator.util.XmlUtil;
 
@@ -46,23 +47,25 @@ public class DatabaseService {
         Element tablesElement = rootElement.element(ProjectEnum.TABLES.getName());
         if (TABLE_NAME_MAP == null) {
             lock.lock();
-            if (TABLE_NAME_MAP == null) {
-                try {
+            try {
+                if (TABLE_NAME_MAP == null) {
                     TABLE_NAME_MAP = new HashMap<>(16);
                     if (tablesElement == null || tablesElement.elements() == null || tablesElement.elements().size() == 0) {
-                        List<String> tableNameList = DatabaseDAO.getTableNameList();
+                        String sql = TableInfo.getSQL(DatabaseDAO.getDatabaseName());
+                        List<String> tableNameList = DatabaseDAO.getList(sql, TableInfo.class).stream().map(TableInfo::getTableName).collect(Collectors.toList());
                         tableNameList.forEach(name -> TABLE_NAME_MAP.put(name, NameConvertUtil.lineToBigHump(name)));
                     } else {
                         List<Element> tableElements = tablesElement.elements();
                         tableElements.forEach(e -> TABLE_NAME_MAP.put(e.element(ProjectEnum.TABLE_NAME.getName()).getTextTrim()
                                 , e.element(ProjectEnum.ENTITY_NAME.getName()).getTextTrim()));
                     }
-                } catch (Exception e) {
-                    log.error("获取表名发生异常", e);
-                } finally {
-                    lock.unlock();
                 }
+            } catch (Exception e) {
+                log.error("获取表名发生异常", e);
+            } finally {
+                lock.unlock();
             }
+
         }
         return TABLE_NAME_MAP;
     }
@@ -81,7 +84,8 @@ public class DatabaseService {
              */
             synchronized (tableName) {
                 if (TABLE_FIELD_CACHE.get(tableName) == null) {
-                    List<TableColumn> columnList = DatabaseDAO.getColumnByTableName(tableName);
+                    String sql = TableColumn.getSQL(tableName);
+                    List<TableColumn> columnList = DatabaseDAO.getList(sql,TableColumn.class);
                     List<TableField> tableFields = columnList.stream().map(TableField::getField).collect(Collectors.toList());
                     TABLE_FIELD_CACHE.put(tableName, tableFields);
                 }
@@ -90,9 +94,9 @@ public class DatabaseService {
         return TABLE_FIELD_CACHE.get(tableName);
     }
 
-    public static TableField getPrimaryField(String tableName){
+    public static TableField getPrimaryField(String tableName) {
         List<TableField> fieldList = getFieldList(tableName);
-        return fieldList.stream().filter(TableColumn.PRI::equals).findFirst().get();
+        return fieldList.stream().filter(e -> TableColumn.PRI.equals(e.getKeyType())).findFirst().get();
     }
 
     /**
@@ -104,6 +108,7 @@ public class DatabaseService {
     public static String getPrimaryType(String tableName) {
         return getPrimaryField(tableName).getJavaType();
     }
+
     /**
      * 获取表主键id名（转换为大驼峰后的）
      *

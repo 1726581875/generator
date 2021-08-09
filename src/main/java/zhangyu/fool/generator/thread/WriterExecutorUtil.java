@@ -68,7 +68,7 @@ public class WriterExecutorUtil {
          * 1、默认当线程数大于核心数时，这是多余空闲线程在终止前等待新任务的最长时间
          * 2、如果设置allowCoreThreadTimeOut = true，核心线程也会空闲消亡
          */
-        long keepAliveTime = 10;
+        long keepAliveTime = 5;
         /**
          * 工作任务队列，大小默认值为 Integer.MAX_VALUE
          */

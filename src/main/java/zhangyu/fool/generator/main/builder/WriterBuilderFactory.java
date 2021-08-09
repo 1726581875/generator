@@ -3,6 +3,7 @@ package zhangyu.fool.generator.main.builder;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import zhangyu.fool.generator.MainRunner;
 import zhangyu.fool.generator.main.annotation.Writer;
 import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.main.writer.java.ConfigWriter;
@@ -23,7 +24,7 @@ public class WriterBuilderFactory {
 
     static {
         //反射获取对应包标有注解的类
-        Reflections reflections = new Reflections("zhangyu.fool.generate");
+        Reflections reflections = new Reflections(MainRunner.class.getPackage().getName());
         Set<Class<?>> classSet = reflections.getTypesAnnotatedWith(Writer.class);
         classSet.stream().forEach(clazz -> {
             Writer annotation = clazz.getDeclaredAnnotation(Writer.class);

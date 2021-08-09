@@ -8,10 +8,12 @@ import java.sql.SQLException;
 /**
  * @author xmz
  * @date: 2021/08/07
- * sql查询结果映射类: show full columns from `tableName`
+ * 查询数据库表的列信息 : show full columns from `tableName`
  */
 @Data
-public class TableColumn {
+public class TableColumn implements MySqlMetadata{
+
+    public static final String SQL = "show full columns from `%s`";
 
     public static final String FIELD = "Field";
 
@@ -39,6 +41,10 @@ public class TableColumn {
 
     private String key;
 
+    public static String getSQL(Object... params) {
+        return String.format(SQL, params);
+    }
+
     public static TableColumn getTableColumn(ResultSet resultSet) throws SQLException {
         TableColumn tableColumn = new TableColumn();
         tableColumn.setField(resultSet.getString(FIELD));
@@ -50,4 +56,14 @@ public class TableColumn {
     }
 
 
+    @Override
+    public MySqlMetadata getAnalyzedData(ResultSet result) throws SQLException {
+        TableColumn tableColumn = new TableColumn();
+        tableColumn.setField(result.getString(FIELD));
+        tableColumn.setType(result.getString(TYPE));
+        tableColumn.setComment(result.getString(COMMENT));
+        tableColumn.setNullAble(result.getString(NULL));
+        tableColumn.setKey(result.getString(KEY));
+        return tableColumn;
+    }
 }

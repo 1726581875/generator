@@ -2,10 +2,12 @@ package zhangyu.fool.generator.main.writer.doc;
 
 import org.apache.poi.xwpf.usermodel.*;
 import zhangyu.fool.generator.dao.DatabaseDAO;
-import zhangyu.fool.generator.main.writer.Writer;
+import zhangyu.fool.generator.main.annotation.Writer;
+import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.model.mysql.TableColumn;
 import zhangyu.fool.generator.model.mysql.TableInfo;
 import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.util.FileUtil;
 import zhangyu.fool.generator.util.ObjectToMapUtil;
 
 import java.io.File;
@@ -22,8 +24,10 @@ import java.util.stream.Collectors;
 /**
  * @author xmz
  * @date: 2021/08/08
+ * 生成mysql数据库说明文档docx
  */
-public class SqlDocxWriter implements Writer {
+@Writer(type = WriterEnum.SQL_DOCX)
+public class SqlDocxWriter extends AbstractDocWriter {
 
     public static final String DOC_PATH = TEMPLATE_BASE_PATH + "/resources/doc/database.docx";
 
@@ -34,12 +38,19 @@ public class SqlDocxWriter implements Writer {
 
     @Override
     public void write(String destPath) {
+        FileUtil.mkdirs(destPath);
+        //读，模板位置
+        String templatePath = DOC_PATH;
+        //写，生成文件路径
+        String destFullPath = destPath.contains(".docx") ? destPath : destPath + File.separator + "数据库说明文档.docx";
 
         Map<String, String> tableNameMap = DatabaseService.getTableNameMap();
-        List<TableInfo> tableInfList = DatabaseDAO.getTableInfList("fool_code");
+        String databaseName = DatabaseDAO.getDatabaseName();
+        String sql = TableInfo.getSQL(databaseName);
+        List<TableInfo> tableInfList = DatabaseDAO.getList(sql,TableInfo.class);
         Map<String, String> tableCommentMap = tableInfList.stream().collect(Collectors.toMap(TableInfo::getTableName, TableInfo::getTableComment, (a1, a2) -> a1));
         // 读取word模板
-        File file = new File(DOC_PATH);
+        File file = new File(templatePath);
         try(FileInputStream fileInputStream = new FileInputStream(file);
             XWPFDocument document = new XWPFDocument(fileInputStream)) {
             tableNameMap.keySet().forEach(tableName -> foreachCreateTable(document, tableName, tableCommentMap));
@@ -47,7 +58,7 @@ public class SqlDocxWriter implements Writer {
             document.removeBodyElement(2);
             document.removeBodyElement(2);
             //生成文件
-            File outputFile = new File(destPath);
+            File outputFile = new File(destFullPath);
             FileOutputStream fos = new FileOutputStream(outputFile);
             document.write(fos);
         }catch (Exception e) {
@@ -121,8 +132,9 @@ public class SqlDocxWriter implements Writer {
         document.createParagraph();// 添加回车换行
     }
 
-    List<Map<String, Object>> getRowList(String tableName){
-        List<TableColumn> columnList = DatabaseDAO.getColumnByTableName(tableName);
+    List<Map<String, Object>> getRowList(String tableName) {
+        String sql = TableColumn.getSQL(tableName);
+        List<TableColumn> columnList = DatabaseDAO.getList(sql,TableColumn.class);
         return columnList.stream().map(ObjectToMapUtil::toMap).collect(Collectors.toList());
     }
 

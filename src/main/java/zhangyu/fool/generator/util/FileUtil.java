@@ -24,7 +24,7 @@ public class FileUtil {
 		File dir = new File(dirPath);
 		if(!dir.exists()){
 			dir.mkdirs();
-			/*log.info("创建目录  [{}]",dirPath);*/
+			log.debug("创建目录  [{}]",dirPath);
 		}	
 	}
 

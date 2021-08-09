@@ -3,7 +3,11 @@ package zhangyu.fool.generator.main.writer.java;
 import org.dom4j.Element;
 import zhangyu.fool.generator.dao.DatabaseDAO;
 import zhangyu.fool.generator.enums.ProjectEnum;
+import zhangyu.fool.generator.main.proxy.WriterProxyFactory;
+import zhangyu.fool.generator.main.writer.doc.SqlDocxWriter;
+import zhangyu.fool.generator.main.writer.doc.SqlScriptWriter;
 import zhangyu.fool.generator.model.Author;
+import zhangyu.fool.generator.model.mysql.TableInfo;
 import zhangyu.fool.generator.thread.WriterExecutorUtil;
 import zhangyu.fool.generator.thread.WriterTask;
 import zhangyu.fool.generator.util.BuildPath;
@@ -15,7 +19,7 @@ import zhangyu.fool.generator.main.writer.Writer;
 import zhangyu.fool.generator.main.builder.WriterBuilderFactory;
 import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.main.model.ProjectConfig;
-import zhangyu.fool.generator.main.model.TableSql;
+import zhangyu.fool.generator.model.mysql.TableSql;
 import zhangyu.fool.generator.main.model.param.CommonParam;
 import zhangyu.fool.generator.main.model.param.MavenProjectParam;
 
@@ -76,7 +80,7 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 		createApplication();
 		// 创建application.yml文件
 		createYmlFile();
-		//生成sql文件
+		//生成sql脚本文件、数据库说明文档
 		createSqlFile();
         // 生成代码
 		generatorCode();
@@ -166,15 +170,11 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	/**
 	 * 生成数据库sql脚本文件
 	 */
-	private void createSqlFile(){
-		String sqlTemplatePath = BuildPath.buildDir(TEMPLATE_BASE_PATH , "resources","sql");
-		String sqlTemplateName = "sql";
-		String destFullPath =  RESOURCES_PATH + File.separator + "sql" + File.separator + "db.sql";
-		List<String> tableNameList = DatabaseDAO.getTableNameList();
-		List<TableSql> tableSqlList = tableNameList.stream().map(DatabaseDAO::getCreateTableSQL).collect(Collectors.toList());
-		Map<String, Object> paramMap = new HashMap<>(1);
-		paramMap.put("tableSqlList", tableSqlList);
-		this.writeByTemplate(sqlTemplatePath, sqlTemplateName, destFullPath, paramMap);
+	private void createSqlFile() {
+		//脚本文件
+		new SqlScriptWriter().write(RESOURCES_PATH + File.separator + "sql");
+		//数据库说明文档
+		new SqlDocxWriter().write(RESOURCES_PATH + File.separator + "doc");
 	}
 
 	/**
