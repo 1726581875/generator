@@ -45,16 +45,6 @@ public class TableColumn implements MySqlMetadata{
         return String.format(SQL, params);
     }
 
-    public static TableColumn getTableColumn(ResultSet resultSet) throws SQLException {
-        TableColumn tableColumn = new TableColumn();
-        tableColumn.setField(resultSet.getString(FIELD));
-        tableColumn.setType(resultSet.getString(TYPE));
-        tableColumn.setComment(resultSet.getString(COMMENT));
-        tableColumn.setNullAble(resultSet.getString(NULL));
-        tableColumn.setKey(resultSet.getString(KEY));
-        return tableColumn;
-    }
-
 
     @Override
     public MySqlMetadata getAnalyzedData(ResultSet result) throws SQLException {

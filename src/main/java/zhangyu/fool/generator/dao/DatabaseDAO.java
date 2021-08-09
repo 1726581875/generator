@@ -3,7 +3,6 @@ package zhangyu.fool.generator.dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhangyu.fool.generator.model.mysql.MySqlMetadata;
-import zhangyu.fool.generator.model.mysql.TableColumn;
 import zhangyu.fool.generator.model.mysql.TableInfo;
 import zhangyu.fool.generator.util.DatabaseUtil;
 
