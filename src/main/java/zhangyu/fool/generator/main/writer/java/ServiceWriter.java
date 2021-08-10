@@ -1,6 +1,5 @@
 package zhangyu.fool.generator.main.writer.java;
 
-
 import zhangyu.fool.generator.model.Author;
 import zhangyu.fool.generator.service.DatabaseService;
 import zhangyu.fool.generator.util.BuildPath;

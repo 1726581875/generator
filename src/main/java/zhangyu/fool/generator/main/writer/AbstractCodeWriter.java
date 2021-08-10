@@ -5,7 +5,6 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import lombok.Data;
 import zhangyu.fool.generator.constant.SuffixConstant;
-import zhangyu.fool.generator.main.writer.Writer;
 import zhangyu.fool.generator.model.Author;
 import zhangyu.fool.generator.service.DatabaseService;
 import zhangyu.fool.generator.util.AssertUtil;
@@ -31,16 +30,14 @@ public abstract class AbstractCodeWriter implements Writer {
      */
     protected ProjectConfig projectConfig;
 
-    public AbstractCodeWriter(ProjectConfig projectConfig){
+    protected AbstractCodeWriter(ProjectConfig projectConfig){
         this.projectConfig = projectConfig;
     }
 
+    @Override
     public void write(String destPath, String templateName) {
         this.write(destPath,null);
     }
-
-    @Override
-    public abstract void write(String destPath);
 
     /**
      * 构造参数
@@ -51,7 +48,7 @@ public abstract class AbstractCodeWriter implements Writer {
     abstract public CommonParam buildParam(String tableName, String entityName);
 
 
-    public void buildBaseParam(CommonParam commonParam, ProjectConfig projectConfig){
+    public void buildBaseParam(CommonParam commonParam, ProjectConfig projectConfig) {
         commonParam.setAuthor(Author.build());
         commonParam.setIsJpa(projectConfig.isUseJpa());
         commonParam.setIsLombok(projectConfig.isUseLombok());

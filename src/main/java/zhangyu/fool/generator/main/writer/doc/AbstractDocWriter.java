@@ -10,7 +10,7 @@ import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
  */
 public abstract class AbstractDocWriter extends AbstractCodeWriter {
 
-    public AbstractDocWriter() {
+    protected AbstractDocWriter() {
         super(null);
     }
 

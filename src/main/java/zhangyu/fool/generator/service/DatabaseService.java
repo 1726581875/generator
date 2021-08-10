@@ -34,9 +34,6 @@ public class DatabaseService {
 
     private static final Lock lock = new ReentrantLock();
 
-
-    private DatabaseDAO dataBaseDAO;
-
     /**
      * 获取配置文件里配置的所有 <表名,对象名>
      *
@@ -96,7 +93,12 @@ public class DatabaseService {
 
     public static TableField getPrimaryField(String tableName) {
         List<TableField> fieldList = getFieldList(tableName);
-        return fieldList.stream().filter(e -> TableColumn.PRI.equals(e.getKeyType())).findFirst().get();
+        for (TableField field : fieldList) {
+            if(TableColumn.PRI.equals(field.getKeyType())){
+                return field;
+            }
+        }
+        throw new RuntimeException("table " + tableName + " no primary key");
     }
 
     /**
@@ -118,16 +120,6 @@ public class DatabaseService {
     public static String getPrimaryName(String tableName) {
         String tableColumnName = getPrimaryField(tableName).getName();
         return NameConvertUtil.lineToBigHump(tableColumnName);
-    }
-
-
-    public static void main(String[] args) {
-        Map<String, String> tableNameMap = getTableNameMap();
-        List<String> tableNameList = tableNameMap.keySet().stream().collect(Collectors.toList());
-        tableNameList.addAll(tableNameMap.keySet());
-        tableNameList.addAll(tableNameMap.keySet());
-        System.out.println(tableNameList.size());
-        tableNameList.forEach(e -> new Thread(() -> DatabaseService.getFieldList(e)).start());
     }
 
 

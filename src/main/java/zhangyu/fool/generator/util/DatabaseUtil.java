@@ -30,7 +30,7 @@ public class DatabaseUtil {
             Class.forName(XmlUtil.getText(ProjectEnum.DRIVER));
             return conn;
         } catch (Exception e) {
-            log.error("=====获取数据库连接失败{}====", e);
+            log.error("=====获取数据库连接失败====", e);
             throw new RuntimeException("获取数据库连接失败");
         }
 

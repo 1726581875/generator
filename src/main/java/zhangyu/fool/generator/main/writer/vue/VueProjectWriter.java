@@ -160,8 +160,5 @@ public class VueProjectWriter extends AbstractCodeWriter {
         return null;
     }
 
-    @Override
-    public void write(String destPath, String templateName) {
-    }
 
 }

@@ -49,8 +49,4 @@ public enum TypeSuffixEnum {
         return ENTITY.getSuffix();
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(getSuffix("ENTITY"));
-    }
 }

@@ -24,7 +24,7 @@ public class DatabaseDAO {
         try(Connection connection = DatabaseUtil.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement(sql);
             ResultSet resultSet = prepareStatement.executeQuery()){
-            MySqlMetadata metadata = resultType.newInstance();
+            MySqlMetadata metadata = resultType.getDeclaredConstructor().newInstance();
             while (resultSet.next()) {
                 list.add((T) metadata.getAnalyzedData(resultSet));
             }
@@ -54,12 +54,5 @@ public class DatabaseDAO {
         }
         return name;
     }
-
-
-    public static void main(String[] args) {
-        List<TableInfo> list = getList("SELECT * FROM information_schema.TABLES WHERE table_schema= 'mooc'", TableInfo.class);
-        list.forEach(System.out::println);
-    }
-
 
 }

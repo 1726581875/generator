@@ -21,14 +21,15 @@ public class JavaWriterTest {
 
     /**
      * 递归删除文件
+     *
      * @param baseTestPath
      */
-    private void clean(String baseTestPath){
+    private void clean(String baseTestPath) {
         File file = new File(baseTestPath);
-        if (file.exists() && file.isDirectory()){
+        if (file.exists() && file.isDirectory()) {
             File[] files = file.listFiles();
             for (File sonFile : files) {
-                if(sonFile.isDirectory()){
+                if (sonFile.isDirectory()) {
                     clean(sonFile.getAbsolutePath());
                 }
                 sonFile.deleteOnExit();
@@ -48,50 +49,49 @@ public class JavaWriterTest {
     }
 
     @Test
-    public void entityWriterTest(){
+    public void entityWriterTest() {
         this.writerFileTestByClass(EntityWriter.class);
     }
 
     @Test
-    public void dtoWriterTest(){
+    public void dtoWriterTest() {
         this.writerFileTestByClass(DtoWriter.class);
     }
 
     @Test
-    public void daoWriterTest(){
+    public void daoWriterTest() {
         this.writerFileTestByClass(DaoWriter.class);
     }
 
     @Test
-    public void serviceWriterTest(){
+    public void serviceWriterTest() {
         this.writerFileTestByClass(ServiceWriter.class);
     }
 
     @Test
-    public void controllerWriterTest(){
+    public void controllerWriterTest() {
         this.writerFileTestByClass(ControllerWriter.class);
     }
 
     @Test
-    public void testWriterTest(){
+    public void testWriterTest() {
         this.writerFileTestByClass(TestWriter.class);
     }
 
     @Test
-    public void voWriterTest(){
+    public void voWriterTest() {
         this.writerFileTestByClass(VoWriter.class);
     }
 
     @Test
-    public void configWriterTest(){
+    public void configWriterTest() {
         this.writerFileTestByClass(ConfigWriter.class);
     }
 
     @Test
-    public void mavenProjectWriterTest(){
+    public void mavenProjectWriterTest() {
         this.writerFileTestByClass(MavenProjectWriter.class);
     }
-
 
 
 }

@@ -1,13 +1,10 @@
 package zhangyu.fool.generator.main.writer.java;
 
 import org.dom4j.Element;
-import zhangyu.fool.generator.dao.DatabaseDAO;
 import zhangyu.fool.generator.enums.ProjectEnum;
-import zhangyu.fool.generator.main.proxy.WriterProxyFactory;
 import zhangyu.fool.generator.main.writer.doc.SqlDocxWriter;
 import zhangyu.fool.generator.main.writer.doc.SqlScriptWriter;
 import zhangyu.fool.generator.model.Author;
-import zhangyu.fool.generator.model.mysql.TableInfo;
 import zhangyu.fool.generator.thread.WriterExecutorUtil;
 import zhangyu.fool.generator.thread.WriterTask;
 import zhangyu.fool.generator.util.BuildPath;
@@ -19,7 +16,6 @@ import zhangyu.fool.generator.main.writer.Writer;
 import zhangyu.fool.generator.main.builder.WriterBuilderFactory;
 import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.main.model.ProjectConfig;
-import zhangyu.fool.generator.model.mysql.TableSql;
 import zhangyu.fool.generator.main.model.param.CommonParam;
 import zhangyu.fool.generator.main.model.param.MavenProjectParam;
 
@@ -27,7 +23,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author xiaomingzhang
@@ -120,9 +115,7 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	public CommonParam buildParam(String tableName, String entityName) {
 		MavenProjectParam projectParam = new MavenProjectParam();
 		//pom.xml
-		projectParam.setIsJpa(projectConfig.isUseJpa());
-		projectParam.setIsMyBatis(projectConfig.isUseMyBatis());
-		projectParam.setIsMyBatisPlus(projectConfig.isUseMyBatisPlus());
+		buildBaseParam(projectParam,projectConfig);
 		projectParam.setIsLombok(projectParam.getIsLombok());
 		projectParam.setGroupId(XmlUtil.getText(ProjectEnum.GROUP_ID.getName()));
 		projectParam.setArtifactId(XmlUtil.getText(ProjectEnum.ARTIFACT_ID.getName()));
@@ -215,17 +208,15 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	 */
 	private void initPackage() {
 		log.debug("===开始初始化目录结构   begin===");
-		log.debug("创建基础目录[{}]", String.format(XmlUtil.getText("groupId"), ".", XmlUtil.getText("artifactId")));
+		log.debug("创建基础目录");
 		// 1、创建基础包
 		FileUtil.mkdirs(BASE_PACKAGE);
 
 		// 2、创建测试包
-		log.info("创建测试基础包[{}]", String.format(XmlUtil.getText("groupId"), ".", XmlUtil.getText("artifactId")));
+		log.info("创建测试基础包");
 		FileUtil.mkdirs(TEST_BASE_PACKAGE);
 
 		// 3、创建xml里配置的包
-
-		// 获取xml里的<package></package>标签节点
 		Element packageNode = XmlUtil.getNode("package");
 		if (packageNode == null) {
 			log.warn("xml里没有配置<package><package/>标签");

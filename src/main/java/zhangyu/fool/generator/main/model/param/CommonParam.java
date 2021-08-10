@@ -45,16 +45,4 @@ public class CommonParam {
      */
     private String entityNameLow;
 
-    /**
-     * 初始化部分参数
-     * @param tableName
-     * @param entityName
-     * @return
-     */
-    public CommonParam build(String tableName, String entityName) {
-        this.setEntityName(entityName);
-        this.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
-        return this;
-    }
-
 }
