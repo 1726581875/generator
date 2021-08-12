@@ -22,12 +22,6 @@ public class TableInfo implements MySqlMetadata {
 
     private String tableComment;
 
-    public static TableInfo getTableInfo(ResultSet resultSet) throws SQLException {
-        TableInfo tableInfo = new TableInfo();
-        tableInfo.setTableName(resultSet.getString(TABLE_NAME));
-        tableInfo.setTableComment(resultSet.getString(TABLE_COMMENT));
-        return tableInfo;
-    }
 
     public static String getSQL(Object... params) {
         return String.format(SQL, params);

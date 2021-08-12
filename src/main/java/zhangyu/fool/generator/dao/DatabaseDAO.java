@@ -24,12 +24,13 @@ public class DatabaseDAO {
         try(Connection connection = DatabaseUtil.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement(sql);
             ResultSet resultSet = prepareStatement.executeQuery()){
+
             MySqlMetadata metadata = resultType.getDeclaredConstructor().newInstance();
             while (resultSet.next()) {
                 list.add((T) metadata.getAnalyzedData(resultSet));
             }
         } catch (Exception e) {
-            log.error("show tables发生错误",e);
+            log.error("获取数据发生错误",e);
         }
         return list;
     }

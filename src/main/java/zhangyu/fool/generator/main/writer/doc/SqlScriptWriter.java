@@ -35,6 +35,7 @@ public class SqlScriptWriter extends AbstractDocWriter {
         Map<String, Object> paramMap = new HashMap<>(1);
         paramMap.put("tableSqlList", tableSqlList);
         this.writeByTemplate(PATH, NAME, destFullPath, paramMap);
+        log.info("sql脚本文件生成完成");
     }
 
     @Override

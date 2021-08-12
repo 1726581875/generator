@@ -18,6 +18,7 @@ public class JavaWriterTest {
 
     private static final ProjectConfig jpaConfig = ProjectConfig.buildJpa();
     private static final ProjectConfig myBatisConfig = ProjectConfig.buildMyBatis();
+    private static final ProjectConfig myBatisPlusConfig = ProjectConfig.buildMyBatisPlus();
 
     /**
      * 递归删除文件
@@ -45,6 +46,9 @@ public class JavaWriterTest {
         clean(baseTestPath);
         //mybatis版本
         writerBuilder.build(myBatisConfig).write(baseTestPath);
+        clean(baseTestPath);
+        //mybatis-plus版本
+        writerBuilder.build(myBatisPlusConfig).write(baseTestPath);
         clean(baseTestPath);
     }
 
