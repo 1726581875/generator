@@ -1,6 +1,7 @@
 package zhangyu.fool.generator;
 
 import org.junit.*;
+import zhangyu.fool.generator.util.FileUtil;
 import zhangyu.fool.generator.util.RunSqlScriptUtil;
 import zhangyu.fool.generator.util.XmlUtil;
 
@@ -10,9 +11,14 @@ import zhangyu.fool.generator.util.XmlUtil;
  */
 public class BaseTest {
 
-    public final static String TEST_PROFILE_PATH = "src\\main\\resources\\test\\profile.xml";
+    /** 测试配置文件位置 **/
+    public static final String TEST_PROFILE_PATH = "src\\main\\resources\\test\\profile.xml";
 
-    public final static String TEST_SQL_SCRIPT = "src\\main\\resources\\test\\sql\\fool.sql";
+    /** 初始化测试数据库脚本位置 **/
+    public static final String TEST_SQL_SCRIPT = "src\\main\\resources\\test\\sql\\fool.sql";
+
+    /** 代码生成位置 **/
+    public static final String BASE_TEST_PATH = "D:\\data\\test";
 
     @BeforeClass
     public static void init(){
@@ -26,6 +32,7 @@ public class BaseTest {
     @AfterClass
     public static void clean(){
         RunSqlScriptUtil.deleteTestDatabase(TEST_SQL_SCRIPT);
+        FileUtil.delete(BASE_TEST_PATH);
     }
 
 

@@ -11,16 +11,14 @@ import zhangyu.fool.generator.main.writer.doc.SqlScriptWriter;
  */
 public class DocWriterTest extends BaseTest {
 
-    private static final String baseTestPath = "D:\\data\\test";
-
     @Test
     public void runSqlScriptWriterTest(){
-        new SqlScriptWriter().write(baseTestPath);
+        new SqlScriptWriter().write(BASE_TEST_PATH);
     }
 
     @Test
     public void runSqlDocxtWriterTest(){
-        new SqlDocxWriter().write(baseTestPath);
+        new SqlDocxWriter().write(BASE_TEST_PATH);
     }
 
 

@@ -1,13 +1,12 @@
 package zhangyu.fool.generator.writer;
 
-import org.junit.Before;
 import org.junit.Test;
 import zhangyu.fool.generator.BaseTest;
 import zhangyu.fool.generator.main.builder.WriterBuilder;
 import zhangyu.fool.generator.main.builder.WriterBuilderFactory;
 import zhangyu.fool.generator.main.writer.java.*;
 import zhangyu.fool.generator.main.model.ProjectConfig;
-import zhangyu.fool.generator.util.XmlUtil;
+import zhangyu.fool.generator.util.FileUtil;
 
 import java.io.File;
 
@@ -17,42 +16,22 @@ import java.io.File;
  */
 public class JavaWriterTest extends BaseTest {
 
-    private static final String baseTestPath = "D:\\data\\test";
-
     private static final ProjectConfig jpaConfig = ProjectConfig.buildJpa();
     private static final ProjectConfig myBatisConfig = ProjectConfig.buildMyBatis();
     private static final ProjectConfig myBatisPlusConfig = ProjectConfig.buildMyBatisPlus();
 
-    /**
-     * 递归删除文件
-     *
-     * @param baseTestPath
-     */
-    private void clean(String baseTestPath) {
-        File file = new File(baseTestPath);
-        if (file.exists() && file.isDirectory()) {
-            File[] files = file.listFiles();
-            for (File sonFile : files) {
-                if (sonFile.isDirectory()) {
-                    clean(sonFile.getAbsolutePath());
-                }
-                sonFile.deleteOnExit();
-            }
-        }
-        file.deleteOnExit();
-    }
 
     private void writerFileTestByClass(Class<?> clazz) {
         WriterBuilder writerBuilder = WriterBuilderFactory.toGetBuilder(clazz);
         //jpa版本
-        writerBuilder.build(jpaConfig).write(baseTestPath);
-        clean(baseTestPath);
+        writerBuilder.build(jpaConfig).write(BASE_TEST_PATH);
+        FileUtil.delete(BASE_TEST_PATH);
         //mybatis版本
-        writerBuilder.build(myBatisConfig).write(baseTestPath);
-        clean(baseTestPath);
+        writerBuilder.build(myBatisConfig).write(BASE_TEST_PATH);
+        FileUtil.delete(BASE_TEST_PATH);
         //mybatis-plus版本
-        writerBuilder.build(myBatisPlusConfig).write(baseTestPath);
-        clean(baseTestPath);
+        writerBuilder.build(myBatisPlusConfig).write(BASE_TEST_PATH);
+        FileUtil.delete(BASE_TEST_PATH);
     }
 
     @Test

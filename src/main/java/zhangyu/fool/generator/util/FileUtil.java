@@ -44,5 +44,23 @@ public class FileUtil {
 			}
 		}
 	}
+
+	/**
+	 * 递归删除文件/文件夹
+	 * @param path
+	 */
+	public static void delete(String path) {
+		File file = new File(path);
+		if (file.exists() && file.isDirectory()) {
+			File[] files = file.listFiles();
+			for (File sonFile : files) {
+				if (sonFile.isDirectory()) {
+					delete(sonFile.getAbsolutePath());
+				}
+				sonFile.deleteOnExit();
+			}
+		}
+		file.deleteOnExit();
+	}
 	
 }
