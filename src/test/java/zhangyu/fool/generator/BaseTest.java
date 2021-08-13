@@ -31,7 +31,7 @@ public class BaseTest {
 
     @AfterClass
     public static void clean(){
-        RunSqlScriptUtil.deleteTestDatabase(TEST_SQL_SCRIPT);
+        //RunSqlScriptUtil.deleteTestDatabase(TEST_SQL_SCRIPT);
         FileUtil.delete(BASE_TEST_PATH);
     }
 

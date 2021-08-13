@@ -6,7 +6,7 @@ import zhangyu.fool.generator.main.annotation.Writer;
 import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.model.mysql.TableColumn;
 import zhangyu.fool.generator.model.mysql.TableInfo;
-import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.service.DatabaseServiceImpl;
 import zhangyu.fool.generator.util.FileUtil;
 import zhangyu.fool.generator.util.ObjectToMapUtil;
 
@@ -44,7 +44,7 @@ public class SqlDocxWriter extends AbstractDocWriter {
         //写，生成文件路径
         String destFullPath = destPath.contains(".docx") ? destPath : destPath + File.separator + "数据库说明文档.docx";
 
-        Map<String, String> tableNameMap = DatabaseService.getTableNameMap();
+        Map<String, String> tableNameMap = DatabaseServiceImpl.getTableNameMap();
         String databaseName = DatabaseDAO.getDatabaseName();
         String sql = TableInfo.getSQL(databaseName);
         List<TableInfo> tableInfList = DatabaseDAO.getList(sql,TableInfo.class);

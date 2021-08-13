@@ -2,7 +2,7 @@ package zhangyu.fool.generator.main.writer.java;
 
 import zhangyu.fool.generator.enums.ProjectEnum;
 import zhangyu.fool.generator.model.Author;
-import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.service.DatabaseServiceImpl;
 import zhangyu.fool.generator.util.FileUtil;
 import zhangyu.fool.generator.util.NameConvertUtil;
 import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
@@ -113,11 +113,11 @@ public class DaoWriter extends AbstractCodeWriter {
 		daoParam.setDaoPackageName(NameConvertUtil.getPackageName(ProjectEnum.DAO_PACKAGE_NAME.getName()));
 		daoParam.setEntityPackageName(NameConvertUtil.getPackageName(ProjectEnum.ENTITY_PACKAGE.getName()));
 		daoParam.setEntityName(entityName);
-		daoParam.setKeyType(DatabaseService.getPrimaryType(tableName));
+		daoParam.setKeyType(DatabaseServiceImpl.getPrimaryType(tableName));
 		if(projectConfig.isUseMyBatis() || projectConfig.isUseMyBatisPlus()){
 			daoParam.setTableName(tableName);
 			daoParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
-			daoParam.setFieldList(DatabaseService.getFieldList(tableName));
+			daoParam.setFieldList(DatabaseServiceImpl.getFieldList(tableName));
 			daoParam.setIsMyBatis(projectConfig.isUseMyBatis());
 			daoParam.setIsMyBatisPlus(projectConfig.isUseMyBatisPlus());
 		}

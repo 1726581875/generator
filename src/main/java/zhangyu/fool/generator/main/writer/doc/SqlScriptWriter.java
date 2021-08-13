@@ -5,7 +5,7 @@ import zhangyu.fool.generator.main.annotation.Writer;
 import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.main.model.param.CommonParam;
 import zhangyu.fool.generator.model.mysql.TableSql;
-import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.service.DatabaseServiceImpl;
 import zhangyu.fool.generator.util.FileUtil;
 
 import java.io.File;
@@ -30,7 +30,7 @@ public class SqlScriptWriter extends AbstractDocWriter {
     public void write(String destPath) {
         FileUtil.checkAndCreateDir(destPath);
         String destFullPath =  destPath + File.separator + File.separator + "db.sql";
-        Set<String> tableNameList = DatabaseService.getTableNameMap().keySet();
+        Set<String> tableNameList = DatabaseServiceImpl.getTableNameMap().keySet();
         List<TableSql> tableSqlList = tableNameList.stream().map(name -> DatabaseDAO.getOne(TableSql.getSQL(name),TableSql.class)).collect(Collectors.toList());
         Map<String, Object> paramMap = new HashMap<>(1);
         paramMap.put("tableSqlList", tableSqlList);

@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
  * @author xiaomingzhang
  * @date 2021/7/29
  */
-public class DatabaseService {
-    private static final Logger log = LoggerFactory.getLogger(DatabaseService.class);
+public class DatabaseServiceImpl {
+    private static final Logger log = LoggerFactory.getLogger(DatabaseServiceImpl.class);
     /**
      * 存储xml结构里配置的表名和实体类名映射 <表名,实体类名>
      */

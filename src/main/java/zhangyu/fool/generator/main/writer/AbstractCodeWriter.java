@@ -5,7 +5,7 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import lombok.Data;
 import zhangyu.fool.generator.model.Author;
-import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.service.DatabaseServiceImpl;
 import zhangyu.fool.generator.util.AssertUtil;
 import zhangyu.fool.generator.util.FileUtil;
 import zhangyu.fool.generator.util.ObjectToMapUtil;
@@ -94,7 +94,7 @@ public abstract class AbstractCodeWriter implements FoolWriter {
         FileUtil.checkAndCreateDir(writeConfig.getDestPath());
         TypeSuffixEnum typeSuffixEnum = writeConfig.getTypeSuffixEnum();
         log.info("======开始生成{}类   begin======",typeSuffixEnum.getType());
-        Map<String, String> tableMap = DatabaseService.getTableNameMap();
+        Map<String, String> tableMap = DatabaseServiceImpl.getTableNameMap();
         try {
             tableMap.forEach((tableName, entityName) -> {
                 String destFullPath = writeConfig.getDestPath() + File.separator + entityName +  typeSuffixEnum.getSuffix();

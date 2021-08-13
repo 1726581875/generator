@@ -1,6 +1,6 @@
 package zhangyu.fool.generator.main.writer.vue;
 
-import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.service.DatabaseServiceImpl;
 import zhangyu.fool.generator.util.NameConvertUtil;
 import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
 import zhangyu.fool.generator.main.enums.TypeSuffixEnum;
@@ -40,7 +40,7 @@ public class ViewWriter extends AbstractCodeWriter {
     @Override
     public CommonParam buildParam(String tableName, String entityName) {
         EntityParam entityParam = new EntityParam();
-        entityParam.setFieldList(DatabaseService.getFieldList(tableName));
+        entityParam.setFieldList(DatabaseServiceImpl.getFieldList(tableName));
         entityParam.setEntityName(entityName);
         entityParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
         return entityParam;

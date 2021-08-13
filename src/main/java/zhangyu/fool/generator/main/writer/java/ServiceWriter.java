@@ -1,7 +1,7 @@
 package zhangyu.fool.generator.main.writer.java;
 
 import zhangyu.fool.generator.model.Author;
-import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.service.DatabaseServiceImpl;
 import zhangyu.fool.generator.util.NameConvertUtil;
 import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
 import zhangyu.fool.generator.main.annotation.Writer;
@@ -47,10 +47,10 @@ public class ServiceWriter extends AbstractCodeWriter {
 		serviceParam.setVoPkName(voPkName);
 		serviceParam.setUtilPkName(utilPkName);
 		serviceParam.setAuthor(Author.build());
-		serviceParam.setEntityKey(DatabaseService.getPrimaryName(tableName));
+		serviceParam.setEntityKey(DatabaseServiceImpl.getPrimaryName(tableName));
 		serviceParam.setEntityName(entityName);
 		serviceParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
-		serviceParam.setKeyType(DatabaseService.getPrimaryType(tableName));
+		serviceParam.setKeyType(DatabaseServiceImpl.getPrimaryType(tableName));
 		serviceParam.setIsJpa(projectConfig.isUseJpa());
 		serviceParam.setIsMyBatis(projectConfig.isUseMyBatis());
 		serviceParam.setIsMyBatisPlus(projectConfig.isUseMyBatisPlus());

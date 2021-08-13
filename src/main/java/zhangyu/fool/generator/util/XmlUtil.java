@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhangyu.fool.generator.enums.ProjectEnum;
 import zhangyu.fool.generator.model.Table;
-import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.service.DatabaseServiceImpl;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class XmlUtil {
 	 */
 	public static List<Table> getTableList() {
 		List<Table> tableList = new ArrayList<>();
-		Map<String, String> tableNameMap = DatabaseService.getTableNameMap();
+		Map<String, String> tableNameMap = DatabaseServiceImpl.getTableNameMap();
 		tableNameMap.forEach((tableName,objectName) -> {
             Table table = new Table(tableName, NameConvertUtil.bigHumpToHump(objectName),objectName);
 			tableList.add(table);

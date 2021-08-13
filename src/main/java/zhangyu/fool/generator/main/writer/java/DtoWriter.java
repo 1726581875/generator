@@ -3,7 +3,7 @@ package zhangyu.fool.generator.main.writer.java;
 import zhangyu.fool.generator.enums.ProjectEnum;
 import zhangyu.fool.generator.model.Author;
 import zhangyu.fool.generator.model.TableField;
-import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.service.DatabaseServiceImpl;
 import zhangyu.fool.generator.util.NameConvertUtil;
 import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
 import zhangyu.fool.generator.main.annotation.Writer;
@@ -40,7 +40,7 @@ public class DtoWriter extends AbstractCodeWriter {
 	@Override
 	public CommonParam buildParam(String tableName, String entityName) {
 		EntityParam entityParam = new EntityParam();
-		List<TableField> fieldList = DatabaseService.getFieldList(tableName);
+		List<TableField> fieldList = DatabaseServiceImpl.getFieldList(tableName);
 		Set<String> javaTypeSet = fieldList.stream().map(TableField::getJavaType).collect(Collectors.toSet());
 		String packageName = NameConvertUtil.getPackageName(ProjectEnum.ENTITY_PACKAGE.getName());
 		entityParam.setFieldList(fieldList);
