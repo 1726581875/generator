@@ -165,7 +165,7 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	 */
 	private void createSqlFile() {
 		//脚本文件
-		new SqlScriptWriter().write(RESOURCES_PATH + File.separator + "sql");
+		new SqlScriptWriter().write(RESOURCES_PATH + File.separator + "test/sql");
 		//数据库说明文档
 		new SqlDocxWriter().write(RESOURCES_PATH + File.separator + "doc");
 	}
@@ -192,7 +192,7 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 		// 资源目录
 		log.info("创建项目资源目录[{}]", "src/main/resources");
 		FileUtil.mkdirs(RESOURCES_PATH);
-		FileUtil.mkdirs(RESOURCES_PATH + File.separator + "sql");
+		FileUtil.mkdirs(RESOURCES_PATH + File.separator + "test/sql");
 
 		// 生成pom.xml文件
 		createPomXML();

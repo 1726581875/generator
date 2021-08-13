@@ -26,7 +26,7 @@ public class XmlUtil {
 	/**
 	 * 配置文件所在位置
  	 */
-	public static final String PROFILE_PATH = "src\\main\\resources\\profile.xml";
+	private static String PROFILE_PATH = "src\\main\\resources\\profile.xml";
 
 	/**
 	 * 存储xml结构里的<节点名,节点元素对象>
@@ -34,6 +34,13 @@ public class XmlUtil {
 	private static Map<String, Element> elementMap = null;
 
 	private static Logger log = LoggerFactory.getLogger(XmlUtil.class);
+
+
+	public static void setProfilePath(String path){
+		PROFILE_PATH = path;
+		elementMap = null;
+	}
+
 
 	/**
 	 * 使用单例模式
@@ -83,11 +90,11 @@ public class XmlUtil {
 		List<Element> elementList = node.elements();
 		elementList.forEach(e ->{
 		    String text = e.getTextTrim();
-			// 如果节点里有内容(有值)
 			if (!text.equals("")) {			
 				map.put(e.getName(), e);
 			}
-			recursiveNode(e, map);// 递归
+			// 递归
+			recursiveNode(e, map);
 		});	
 
 	}
@@ -108,18 +115,14 @@ public class XmlUtil {
 	 * @return rootElement
 	 */
 	public static Element getRootElement() {
-		
-		// 只生成配置文件中的第一个table节点
 		File file = new File(PROFILE_PATH);
 		SAXReader reader = new SAXReader();
-		// 读取xml文件到Document中
 		Document doc = null;
 		try {
 			doc = reader.read(file);
 		} catch (DocumentException e) {
-			log.error("====读取profile.xml文件失败====", e);
+			log.error("读取profile.xml文件失败", e);
 		}
-		// 获取xml文件的根节点
 		return doc.getRootElement();
 	}
 

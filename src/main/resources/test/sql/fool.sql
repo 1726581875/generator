@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS `fool_code`;
+DROP DATABASE IF EXISTS `fool`;
 -- 创建数据库
-CREATE DATABASE `fool_code`;
+CREATE DATABASE `fool`;
 -- 进入数据库
-use `fool_code`;
+use `fool`;
 
 -- 创建数据源表
 DROP TABLE IF EXISTS `fool_data_source`;
@@ -44,6 +44,8 @@ CREATE TABLE `fool_database`
     PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT charset = utf8mb4 COMMENT ='数据库表';
+
+
 
 insert into `fool_database` (`name`,`source_id`)
 values

@@ -1,10 +1,13 @@
-package zhangyu.fool.generator;
+package zhangyu.fool.generator.writer;
 
+import org.junit.Before;
 import org.junit.Test;
+import zhangyu.fool.generator.BaseTest;
 import zhangyu.fool.generator.main.builder.WriterBuilder;
 import zhangyu.fool.generator.main.builder.WriterBuilderFactory;
 import zhangyu.fool.generator.main.writer.java.*;
 import zhangyu.fool.generator.main.model.ProjectConfig;
+import zhangyu.fool.generator.util.XmlUtil;
 
 import java.io.File;
 
@@ -12,7 +15,7 @@ import java.io.File;
  * @author xmz
  * @date: 2021/07/28
  */
-public class JavaWriterTest {
+public class JavaWriterTest extends BaseTest {
 
     private static final String baseTestPath = "D:\\data\\test";
 

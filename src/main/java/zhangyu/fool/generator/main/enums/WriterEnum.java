@@ -16,7 +16,7 @@ public enum WriterEnum {
     UTIL("util"),
     TEST("test"),
 
-    SQL_FILE("sql"),
+    SQL_FILE("test/sql"),
     SQL_DOCX("doc"),
 
     MAVEN_PROJECT("maven"),

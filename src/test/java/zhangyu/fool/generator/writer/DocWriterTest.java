@@ -1,6 +1,7 @@
-package zhangyu.fool.generator;
+package zhangyu.fool.generator.writer;
 
 import org.junit.Test;
+import zhangyu.fool.generator.BaseTest;
 import zhangyu.fool.generator.main.writer.doc.SqlDocxWriter;
 import zhangyu.fool.generator.main.writer.doc.SqlScriptWriter;
 
@@ -8,7 +9,7 @@ import zhangyu.fool.generator.main.writer.doc.SqlScriptWriter;
  * @author xiaomingzhang
  * @date 2021/8/9
  */
-public class DocWriterTest {
+public class DocWriterTest extends BaseTest {
 
     private static final String baseTestPath = "D:\\data\\test";
 
