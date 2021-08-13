@@ -16,9 +16,9 @@ import zhangyu.fool.generator.main.model.param.EntityParam;
  */
 public class ViewWriter extends AbstractCodeWriter {
 
-    protected final String WEB_TEMPLATE_PATH =  BuildPath.buildDir(TEMPLATE_BASE_PATH,"web");
+    protected final String WEB_TEMPLATE_PATH =  TEMPLATE_BASE_PATH + "/web";
 
-    protected final String VIEW_TEMPLATE_PATH = BuildPath.buildDir(WEB_TEMPLATE_PATH,"views");
+    protected final String VIEW_TEMPLATE_PATH = WEB_TEMPLATE_PATH + "/views";
     /**
      * 默认模板名称
      */

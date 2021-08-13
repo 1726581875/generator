@@ -24,7 +24,7 @@ public class DaoWriter extends AbstractCodeWriter {
 	/**
 	 * 模板位置
 	 */
-	public static final String DAO_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "dao");
+	public static final String DAO_TEMPLATE_PATH =TEMPLATE_BASE_PATH + "/dao";
 	/**
 	 * jpa模板名称
 	 */

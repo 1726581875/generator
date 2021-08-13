@@ -21,7 +21,7 @@ public class ControllerWriter extends AbstractCodeWriter {
 	/**
 	 * 模板路径
 	 */
-	public static final String CONTROLLER_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "controller");
+	public static final String CONTROLLER_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/controller";
 	/**
 	 * 默认模板名
 	 */

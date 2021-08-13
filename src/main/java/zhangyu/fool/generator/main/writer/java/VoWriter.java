@@ -18,7 +18,7 @@ import java.io.File;
 @Writer(type = WriterEnum.VO)
 public class VoWriter extends AbstractCodeWriter {
 
-	public static final String VO_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "vo");
+	public static final String VO_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/vo";
 
 	public static final String RESULT_TEMPLATE_NAME = "resp_result";
 	

@@ -22,7 +22,7 @@ import java.io.File;
 @Writer(type = WriterEnum.TEST)
 public class TestWriter extends AbstractCodeWriter {
 
-	private final String TEST_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "test");
+	private final String TEST_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/test";
 	/**
 	 * 测试包名，和项目源码包名一样 groupId + artifactId
 	 */

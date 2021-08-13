@@ -21,7 +21,7 @@ import java.io.File;
 @Writer(type = WriterEnum.SERVICE)
 public class ServiceWriter extends AbstractCodeWriter {
 
-	public static final String SERVICE_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "service");
+	public static final String SERVICE_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/service";
 
 	public static final String SERVICE = "Service";
 

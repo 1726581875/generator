@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Writer(type = WriterEnum.DTO)
 public class DtoWriter extends AbstractCodeWriter {
 
-	public static final String ENTITY_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "model\\";
+	public static final String ENTITY_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/model";
 
 	public static final String TEMPLATE_NAME = "dto";
 

@@ -19,7 +19,7 @@ import java.io.File;
 @Writer(type = WriterEnum.UTIL)
 public class UtilWriter extends AbstractCodeWriter {
 
-	public static final String UTIL_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "util");
+	public static final String UTIL_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/util";
 	
 	public static final String COPY_UTIL_TEMPLATE_NAME = "copy_util";
 

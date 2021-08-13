@@ -27,7 +27,7 @@ public class EntityWriter extends AbstractCodeWriter {
     /**
      * 模板路径
      */
-    public static final String ENTITY_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "model");
+    public static final String ENTITY_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/model";
     /**
      * 模板名
      */

@@ -19,7 +19,7 @@ import java.io.File;
 @Writer(type = WriterEnum.CONFIG)
 public class ConfigWriter extends AbstractCodeWriter {
 
-    public static final String CONFIG_TEMPLATE_PATH = BuildPath.buildDir(TEMPLATE_BASE_PATH, "config");
+    public static final String CONFIG_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/config";
 
     public static final String CORS_CONFIG_TEMPLATE_NAME = "CorsConfig";
 
