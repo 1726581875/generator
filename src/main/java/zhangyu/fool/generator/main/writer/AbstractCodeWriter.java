@@ -4,7 +4,6 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import lombok.Data;
-import zhangyu.fool.generator.constant.SuffixConstant;
 import zhangyu.fool.generator.model.Author;
 import zhangyu.fool.generator.service.DatabaseService;
 import zhangyu.fool.generator.util.AssertUtil;
@@ -18,13 +17,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author xmz
  * @date: 2021/07/25
  */
-public abstract class AbstractCodeWriter implements Writer {
+public abstract class AbstractCodeWriter implements FoolWriter {
     /**
      * 工程配置
      */
@@ -68,17 +66,13 @@ public abstract class AbstractCodeWriter implements Writer {
         if (!templateDir.exists()) {
             throw new IllegalArgumentException("模板路径[" + templateDir.getAbsolutePath() +"，必须提前创建");
         }
-        //设置作者注释
-        if(Objects.nonNull(paramMap)) {
-            paramMap.put("Author", Author.AUTHOR);
-        }
         try (FileWriter fileWriter = new FileWriter(destFullPath);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
             // 读模板
             Configuration config = new Configuration(Configuration.VERSION_2_3_29);
             config.setObjectWrapper(new DefaultObjectWrapper(Configuration.VERSION_2_3_29));
             config.setDirectoryForTemplateLoading(templateDir);
-            Template template = config.getTemplate(templateName + SuffixConstant.FTL_SUFFIX);
+            Template template = config.getTemplate(templateName + ".ftl");
             // 写
             template.process(paramMap, bufferedWriter);
             bufferedWriter.flush();

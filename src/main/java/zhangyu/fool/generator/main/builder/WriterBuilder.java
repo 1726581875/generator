@@ -2,7 +2,7 @@ package zhangyu.fool.generator.main.builder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import zhangyu.fool.generator.main.writer.Writer;
+import zhangyu.fool.generator.main.writer.FoolWriter;
 import zhangyu.fool.generator.main.model.ProjectConfig;
 
 import java.lang.reflect.Constructor;
@@ -21,13 +21,13 @@ public class WriterBuilder {
         this.clazz = clazz;
     }
 
-    public Writer build(ProjectConfig projectConfig){
+    public FoolWriter build(ProjectConfig projectConfig){
         if(clazz == null) {
             throw new RuntimeException("build writer fail. cause: class is null");
         }
         try {
             Constructor<?> constructor = clazz.getDeclaredConstructor(ProjectConfig.class);
-            Writer codeWriter = (Writer) constructor.newInstance(projectConfig);
+            FoolWriter codeWriter = (FoolWriter) constructor.newInstance(projectConfig);
             return codeWriter;
         } catch (Exception e) {
             log.error("",e);

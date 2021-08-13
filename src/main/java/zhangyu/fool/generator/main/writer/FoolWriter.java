@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
  * @author xmz
  * @date 2020/9/18
  */
-public interface Writer {
+public interface FoolWriter {
 	/**
 	 * 模板基础路径
  	 */
 	String TEMPLATE_BASE_PATH = "src/main/resources/fool/template/";
 	
-	Logger log = LoggerFactory.getLogger(Writer.class);
+	Logger log = LoggerFactory.getLogger(FoolWriter.class);
 
 	/**
 	 * 默认方法，使用默认模板

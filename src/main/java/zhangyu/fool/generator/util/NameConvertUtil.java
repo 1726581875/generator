@@ -40,23 +40,6 @@ public class NameConvertUtil {
     public static String bigHumpToHump(String str){
         return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
-
-
-	/**
-	 * 把包名转换成目录名
-	 * 比如 aa.bb.cc -> aa//bb//cc//
-	 * @param packageName
-	 * @return
-	 */
-    public static String getDirNameByPackageName(String packageName){
-       StringBuilder strBuilder = new StringBuilder(packageName);
-       int index = 0;
-       while((index = strBuilder.indexOf(".")) != -1){
-    	   strBuilder.replace(index, index+1, "\\");
-       } 
-       strBuilder.append("\\");
-       return strBuilder.toString();
-    }
 	
     /**
      * 从xml里读，获取全路径包名
@@ -75,9 +58,5 @@ public class NameConvertUtil {
         }
         return fullName.toString();
      }
-    
-    
-    public static void main(String[] args) {
-    	System.out.println(getPackageName("entityPackage"));
-	}
+
 }

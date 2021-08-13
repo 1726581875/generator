@@ -1,9 +1,10 @@
 package zhangyu.fool.generator.main.proxy;
 
-import zhangyu.fool.generator.main.writer.Writer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import zhangyu.fool.generator.main.writer.FoolWriter;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 
 /**
@@ -12,28 +13,46 @@ import java.lang.reflect.Proxy;
  */
 public class WriterProxyFactory {
 
-    public static Writer getWriterProxy(Writer codeWriter){
-        WriterProxyHandler handler = new WriterProxyHandler(codeWriter);
-        return (Writer) Proxy.newProxyInstance(codeWriter.getClass().getClassLoader(),
-                codeWriter.getClass().getSuperclass().getInterfaces(), handler);
+    private static final Logger log= LoggerFactory.getLogger(WriterProxyFactory.class);
+
+
+    public static FoolWriter getWriterProxy(FoolWriter writer) {
+
+        WriterProxyHandler handler = new WriterProxyHandler(writer);
+
+        Class<?>[] interfaces = getInterfaces(writer.getClass());
+
+        return (FoolWriter) Proxy.newProxyInstance(writer.getClass().getClassLoader(), interfaces, handler);
+    }
+
+    private static Class<?>[] getInterfaces(Class<?> clazz){
+        if(clazz == null){
+            return null;
+        }
+        Class<?>[] interfaces = clazz.getInterfaces();
+        if(interfaces.length == 0) {
+            return getInterfaces(clazz.getSuperclass());
+        }
+        return interfaces;
     }
 
     /**
      * 获取代理对象写法2
-     * @param codeWriter
+     * @param writer
      * @return
-     * @throws NoSuchMethodException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     * @throws InstantiationException
      */
-    public static Writer getWriterProxy2(Writer codeWriter) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        WriterProxyHandler handler = new WriterProxyHandler(codeWriter);
+    public static FoolWriter getWriterProxy2(FoolWriter writer) {
+        WriterProxyHandler handler = new WriterProxyHandler(writer);
         //生成代理类型
-        Class<?> proxyClass = Proxy.getProxyClass(codeWriter.getClass().getClassLoader(), new Class<?>[]{Writer.class});
+        Class<?> proxyClass = Proxy.getProxyClass(writer.getClass().getClassLoader(), new Class<?>[]{FoolWriter.class});
         //生成代理对象
-        Object object = proxyClass.getConstructor(new Class[]{InvocationHandler.class}).newInstance(new Object[]{handler});
-       return (Writer) object;
+        Object object = null;
+        try {
+            object = proxyClass.getConstructor(new Class[]{InvocationHandler.class}).newInstance(new Object[]{handler});
+        } catch (Exception e) {
+            log.error("获取代理对象发生异常",e);
+        }
+        return (FoolWriter) object;
     }
 
 }

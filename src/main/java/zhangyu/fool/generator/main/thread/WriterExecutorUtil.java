@@ -1,4 +1,4 @@
-package zhangyu.fool.generator.thread;
+package zhangyu.fool.generator.main.thread;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

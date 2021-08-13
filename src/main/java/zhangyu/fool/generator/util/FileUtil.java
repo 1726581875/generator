@@ -14,8 +14,7 @@ import java.io.File;
 public class FileUtil {
 
 	public static Logger log = LoggerFactory.getLogger(FileUtil.class);
-	
-	
+
 	/**
 	 * 
 	 * 如果目录不存在，创建目录

@@ -8,9 +8,9 @@ import zhangyu.fool.generator.main.annotation.Writer;
 import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.main.writer.java.ConfigWriter;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author xiaomingzhang
@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class WriterBuilderFactory {
 
-    private static final Map<WriterEnum, Class<?>> WRITER_CLASS_MAP = new ConcurrentHashMap<>();
+    private static final Map<WriterEnum, Class<?>> WRITER_CLASS_MAP = new HashMap<>(16);
 
     private static final Logger log = LoggerFactory.getLogger(WriterBuilderFactory.class);
 

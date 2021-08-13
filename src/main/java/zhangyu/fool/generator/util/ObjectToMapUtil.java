@@ -59,13 +59,5 @@ public class ObjectToMapUtil {
         return map;
     }
 
-    public static void main(String[] args) {
-        Map<String,Object> paramMap = new HashMap<>(3);
-        paramMap.put("zzz",12566L);
-        paramMap.put("xxx",new Date());
-        paramMap.put("mmm","MMM");
-        Map<String, Object> map = ObjectToMapUtil.toMap(paramMap);
-        map.forEach((k,v) -> System.out.println("k=" + k + " ,v=" + v));
-    }
 
 }

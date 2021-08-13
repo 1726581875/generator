@@ -2,7 +2,6 @@ package zhangyu.fool.generator.main.writer.java;
 
 import zhangyu.fool.generator.enums.ProjectEnum;
 import zhangyu.fool.generator.model.Author;
-import zhangyu.fool.generator.util.BuildPath;
 import zhangyu.fool.generator.util.FileUtil;
 import zhangyu.fool.generator.util.NameConvertUtil;
 import zhangyu.fool.generator.main.writer.AbstractCodeWriter;

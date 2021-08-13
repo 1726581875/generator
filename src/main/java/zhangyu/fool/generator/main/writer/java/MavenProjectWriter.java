@@ -2,17 +2,18 @@ package zhangyu.fool.generator.main.writer.java;
 
 import org.dom4j.Element;
 import zhangyu.fool.generator.enums.ProjectEnum;
+import zhangyu.fool.generator.main.proxy.WriterProxyFactory;
 import zhangyu.fool.generator.main.writer.doc.SqlDocxWriter;
 import zhangyu.fool.generator.main.writer.doc.SqlScriptWriter;
 import zhangyu.fool.generator.model.Author;
-import zhangyu.fool.generator.thread.WriterExecutorUtil;
-import zhangyu.fool.generator.thread.WriterTask;
+import zhangyu.fool.generator.main.thread.WriterExecutorUtil;
+import zhangyu.fool.generator.main.thread.WriterTask;
 import zhangyu.fool.generator.util.BuildPath;
 import zhangyu.fool.generator.util.FileUtil;
 import zhangyu.fool.generator.util.NameConvertUtil;
 import zhangyu.fool.generator.util.XmlUtil;
 import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
-import zhangyu.fool.generator.main.writer.Writer;
+import zhangyu.fool.generator.main.writer.FoolWriter;
 import zhangyu.fool.generator.main.builder.WriterBuilderFactory;
 import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.main.model.ProjectConfig;
@@ -51,14 +52,14 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	 * 基础包路径
 	 */
 	private String BASE_PACKAGE = BuildPath.buildDir(SOURCE_CODE_PATH,
-			BuildPath.converToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
-			BuildPath.converToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
+			BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
+			BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
 	/**
 	 * 测试包路径
 	 */
 	private String TEST_BASE_PACKAGE = BuildPath.buildDir(TEST_CODE_PATH,
-			BuildPath.converToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
-			BuildPath.converToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
+			BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
+			BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
 
 
 	public MavenProjectWriter(ProjectConfig projectConfig) {
@@ -103,11 +104,11 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 		this.TEST_CODE_PATH = BuildPath.buildDir(ROOT_PATH, "src", "test", "java");
 		this.RESOURCES_PATH = BuildPath.buildDir(ROOT_PATH, "src", "main", "resources");
 		this.BASE_PACKAGE = BuildPath.buildDir(SOURCE_CODE_PATH,
-				BuildPath.converToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
-				BuildPath.converToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
+				BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
+				BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
 		this.TEST_BASE_PACKAGE = BuildPath.buildDir(TEST_CODE_PATH,
-				BuildPath.converToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
-				BuildPath.converToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
+				BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
+				BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
 	}
 
 
@@ -141,7 +142,7 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 				daoWriter.setXmlPath(BuildPath.buildDir(RESOURCES_PATH, "mapper"));
 				WriterExecutorUtil.submit(new WriterTask(daoWriter, destPath));
 			}else {
-				Writer writer = WriterBuilderFactory.toGetBuilder(writerEnum).build(projectConfig);
+				FoolWriter writer = WriterBuilderFactory.toGetBuilder(writerEnum).build(projectConfig);
 				WriterExecutorUtil.submit(new WriterTask(writer, destPath));
 			}
 		}
@@ -165,9 +166,12 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	 */
 	private void createSqlFile() {
 		//脚本文件
-		new SqlScriptWriter().write(RESOURCES_PATH + File.separator + "test/sql");
+		SqlScriptWriter sqlScriptWriter = new SqlScriptWriter();
+		FoolWriter writerProxy = WriterProxyFactory.getWriterProxy(sqlScriptWriter);
+		writerProxy.write(RESOURCES_PATH + "/test/sql");
 		//数据库说明文档
-		new SqlDocxWriter().write(RESOURCES_PATH + File.separator + "doc");
+		SqlDocxWriter sqlDocxWriter = new SqlDocxWriter();
+		WriterProxyFactory.getWriterProxy2(sqlDocxWriter).write(RESOURCES_PATH + "/doc");
 	}
 
 	/**
@@ -268,9 +272,5 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 		log.info("生成启动类 {}Application.java", className);
 	}
 
-
-	public static void main(String[] args) {
-		new MavenProjectWriter(ProjectConfig.buildMyBatis()).write("C:\\Users\\admin\\Desktop\\查询语句\\");
-	}
 
 }

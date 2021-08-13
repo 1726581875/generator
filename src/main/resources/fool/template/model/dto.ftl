@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 </#list>
 
 /**
- * @author ${Author.author}
- * @date: ${Author.date}
+ * @author ${author.author}
+ * @date: ${author.date}
  */
 <#if isLombok ! false>
 @Data

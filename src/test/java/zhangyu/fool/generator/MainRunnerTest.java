@@ -3,7 +3,6 @@ package zhangyu.fool.generator;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import zhangyu.fool.generator.dao.DatabaseDAOTest;
-import zhangyu.fool.generator.service.DatabaseService;
 import zhangyu.fool.generator.service.DatabaseServiceTest;
 import zhangyu.fool.generator.writer.DocWriterTest;
 import zhangyu.fool.generator.writer.JavaWriterTest;

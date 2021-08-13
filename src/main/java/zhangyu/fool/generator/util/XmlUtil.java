@@ -162,11 +162,6 @@ public class XmlUtil {
 		getElementMap();
 		return elementMap.get(nodeName);
 	}
-	
-	
-	public static void main(String[] args) throws DocumentException {
-		String url = XmlUtil.getText(ProjectEnum.URL);
-		System.out.println(url);
-	}
+
 
 }

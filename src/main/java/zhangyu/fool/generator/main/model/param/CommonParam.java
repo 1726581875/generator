@@ -2,7 +2,6 @@ package zhangyu.fool.generator.main.model.param;
 
 import lombok.Data;
 import zhangyu.fool.generator.model.Author;
-import zhangyu.fool.generator.util.NameConvertUtil;
 
 /**
  * @author xiaomingzhang

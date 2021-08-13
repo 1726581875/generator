@@ -3,10 +3,9 @@ package zhangyu.fool.generator.main.writer.java;
 import zhangyu.fool.generator.enums.ProjectEnum;
 import zhangyu.fool.generator.model.TableField;
 import zhangyu.fool.generator.service.DatabaseService;
-import zhangyu.fool.generator.util.BuildPath;
 import zhangyu.fool.generator.util.NameConvertUtil;
 import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
-import zhangyu.fool.generator.main.writer.Writer;
+import zhangyu.fool.generator.main.writer.FoolWriter;
 import zhangyu.fool.generator.main.enums.TypeSuffixEnum;
 import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.main.model.ProjectConfig;
@@ -70,7 +69,7 @@ public class EntityWriter extends AbstractCodeWriter {
     }
 
     public static void main(String[] args) {
-        Writer factory = new EntityWriter(ProjectConfig.buildJpa());
+        FoolWriter factory = new EntityWriter(ProjectConfig.buildJpa());
         factory.write("C:\\Users\\admin\\Desktop\\查询语句\\");
     }
 
