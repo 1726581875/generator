@@ -2,10 +2,13 @@ package zhangyu.fool.generator.dao;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhangyu.fool.generator.model.mysql.MySqlMetadata;
 import zhangyu.fool.generator.module.MainModule;
+import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.service.DatabaseServiceImpl;
 import zhangyu.fool.generator.util.DatabaseUtil;
 
 import java.sql.Connection;
@@ -14,11 +17,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xiaomingzhang
  * @date 2021/8/13
  */
+@Singleton
 public class DataAccesser {
 
     private static Logger log = LoggerFactory.getLogger(DataAccesser.class);
@@ -61,9 +66,9 @@ public class DataAccesser {
 
     public static void main(String[] args) {
         Injector injector = Guice.createInjector(new MainModule());
-        DataAccesser dataAccesser = injector.getInstance(DataAccesser.class);
-        String databaseName = dataAccesser.getDatabaseName();
-        System.out.println(databaseName);
+        DatabaseService databaseService = injector.getInstance(DatabaseService.class);
+        Map<String, String> tableNameMap = databaseService.getTableNameMap();
+        System.out.println(tableNameMap);
     }
 
 }

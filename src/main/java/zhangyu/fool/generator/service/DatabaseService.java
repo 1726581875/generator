@@ -22,10 +22,11 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /**
- * @author xiaomingzhang
- * @date 2021/7/29
+ * @author xmz
+ * @date: 2021/08/14
  */
-public class DatabaseServiceImpl {
+public class DatabaseService {
+
     private static final Logger log = LoggerFactory.getLogger(DatabaseServiceImpl.class);
     /**
      * 存储xml结构里配置的表名和实体类名映射 <表名,实体类名>
@@ -39,7 +40,7 @@ public class DatabaseServiceImpl {
     private final DataAccesser accesser;
 
     @Inject
-    public DatabaseServiceImpl(DataAccesser accesser){
+    public DatabaseService(DataAccesser accesser){
         this.accesser = accesser;
     }
 
@@ -48,7 +49,7 @@ public class DatabaseServiceImpl {
      *
      * @return map<表名, 对象名>
      */
-    public static Map<String, String> getTableNameMap() {
+    public Map<String, String> getTableNameMap() {
         Element rootElement = XmlUtil.getRootElement();
         Element tablesElement = rootElement.element(ProjectEnum.TABLES.getName());
         if (TABLE_NAME_MAP == null) {
@@ -82,7 +83,7 @@ public class DatabaseServiceImpl {
      * @param tableName
      * @return
      */
-    public static List<TableField> getFieldList(String tableName) {
+    public List<TableField> getFieldList(String tableName) {
         if (TABLE_FIELD_CACHE.get(tableName) == null) {
             /**
              * todo synchronized是一个比较重的锁，ReentrantLock可重入锁底层是CAS,属于比较轻量基本的锁，但是貌似不支持根据tableName加锁。
@@ -100,7 +101,7 @@ public class DatabaseServiceImpl {
         return TABLE_FIELD_CACHE.get(tableName);
     }
 
-    public static TableField getPrimaryField(String tableName) {
+    public TableField getPrimaryField(String tableName) {
         List<TableField> fieldList = getFieldList(tableName);
         for (TableField field : fieldList) {
             if(TableColumn.PRI.equals(field.getKeyType())){
@@ -116,7 +117,7 @@ public class DatabaseServiceImpl {
      * @param tableName
      * @return 例如 Integer、String、Long..
      */
-    public static String getPrimaryType(String tableName) {
+    public String getPrimaryType(String tableName) {
         return getPrimaryField(tableName).getJavaType();
     }
 
@@ -126,10 +127,9 @@ public class DatabaseServiceImpl {
      * @param tableName
      * @return 例如 ： ArticleId、UserId
      */
-    public static String getPrimaryName(String tableName) {
+    public  String getPrimaryName(String tableName) {
         String tableColumnName = getPrimaryField(tableName).getName();
         return NameConvertUtil.lineToBigHump(tableColumnName);
     }
-
 
 }

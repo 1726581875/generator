@@ -11,6 +11,6 @@ public class FactoryModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(DataAccesser.class).to(DataAccesser.class);
+        //bind(DataAccesser.class).to(DataAccesser.class);
     }
 }
