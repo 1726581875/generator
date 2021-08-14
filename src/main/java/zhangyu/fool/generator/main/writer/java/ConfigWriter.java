@@ -54,8 +54,7 @@ public class ConfigWriter extends AbstractCodeWriter {
     @Override
     public CommonParam buildParam(String tableName, String entityName) {
         CommonParam commonParam = new CommonParam();
-        commonParam.setBasePackageName(NameConvertUtil.getPackageName(null));
-        commonParam.setAuthor(Author.build());
+        this.buildBaseParam(commonParam);
         return commonParam;
     }
 

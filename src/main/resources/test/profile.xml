@@ -7,10 +7,7 @@
     <username>root</username>
     <password>root</password>
   </dataSource>
-  
   <!-- 配置数据库表名和实体名映射 -->
-
-  
 
 <project>
      <!-- 生成的项目所在目录 -->
@@ -19,16 +16,6 @@
         <groupId>aaa.bbb.cccc</groupId> <!-- maven工程的groupId -->
         <artifactId>fool</artifactId> <!-- artifactId -->
      </maven>
-     <!-- 配置要创建的包名 -->
-     <package>
-       <entityPackage>entity</entityPackage>
-       <daoPackage>dao</daoPackage>
-       <servicePackage>service</servicePackage>
-       <controllerPackage>controller</controllerPackage>
-       <utilPackage>util</utilPackage>
-       <dtoPackage>dto</dtoPackage>
-       <voPackage>vo</voPackage>
-     </package>
      
 </project>
   

@@ -1,6 +1,6 @@
-package ${daoPackageName};
+package ${basePackagePath}.dao;
 
-import ${entityPackageName}.${entityName};
+import ${basePackagePath}.model.entity.${entityName};
 <#if isMyBatisPlus ! false>
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 </#if>

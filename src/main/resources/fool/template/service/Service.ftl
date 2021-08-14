@@ -1,13 +1,13 @@
-package ${servicePkName};
+package ${basePackagePath}.service;
 
-import ${entityPkName}.${entityName};
-import ${voPkName}.PageVO;
+import ${basePackagePath}.model.entity.${entityName};
+import ${basePackagePath}.model.PageVO;
 
 import java.util.List;
 
 /**
- * @author xiaomingzhang
- * @date 2021/7/29
+ * @author ${author.author}
+ * @date ${author.date}
  */
 public interface ${entityName}Service {
 

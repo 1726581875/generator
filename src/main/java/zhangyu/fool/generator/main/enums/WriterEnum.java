@@ -6,16 +6,20 @@ package zhangyu.fool.generator.main.enums;
  */
 public enum WriterEnum {
 
-    ENTITY("entity"),
+    /**
+     * 值为生成代码相对路径
+     */
+    ENTITY("model/entity"),
     DAO("dao"),
-    DTO("dto"),
+    DTO("model/dto"),
     SERVICE("service"),
     CONTROLLER("controller"),
-    VO("vo"),
+    VO("model"),
     CONFIG("config"),
     UTIL("util"),
-    TEST("test"),
 
+    /** 以下则无含义 **/
+    TEST("test"),
     SQL_FILE("test/sql"),
     SQL_DOCX("doc"),
 

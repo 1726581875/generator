@@ -39,8 +39,7 @@ public class UtilWriter extends AbstractCodeWriter {
 	@Override
 	public CommonParam buildParam(String tableName, String entityName) {
 		CommonParam commonParam = new CommonParam();
-		commonParam.setBasePackageName(NameConvertUtil.getPackageName("utilPackage"));
-		commonParam.setAuthor(Author.build());
+		this.buildBaseParam(commonParam);
 		return commonParam;
 	}
 

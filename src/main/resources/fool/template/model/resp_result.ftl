@@ -1,4 +1,4 @@
-package ${basePackageName};
+package ${basePackagePath}.model;
 import java.io.Serializable;
 /**
  * @author ${author.author}

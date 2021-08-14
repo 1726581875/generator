@@ -1,21 +1,21 @@
-package ${servicePkName}.impl;
+package ${basePackagePath}.service.impl;
 
-import ${servicePkName}.${entityName}Service;
-import ${entityPkName}.${entityName};
+import ${basePackagePath}.service.${entityName}Service;
+import ${basePackagePath}.model.entity.${entityName};
 <#if isJpa ! false>
-import ${daoPkName}.${entityName}Repository;
+import ${basePackagePath}.dao.${entityName}Repository;
 import org.springframework.data.domain.*;
 <#elseif isMyBatisPlus ! false>
-import ${daoPkName}.${entityName}Mapper;
+import ${basePackagePath}.dao.${entityName}Mapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 <#elseif isMyBatis ! false>
-import ${daoPkName}.${entityName}Mapper;
+import ${basePackagePath}.dao.${entityName}Mapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 </#if>
-import ${utilPkName}.CopyUtil;
-import ${voPkName}.PageVO;
+import ${basePackagePath}.util.CopyUtil;
+import ${basePackagePath}.model.PageVO;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

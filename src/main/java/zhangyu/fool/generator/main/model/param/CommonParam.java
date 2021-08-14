@@ -33,7 +33,7 @@ public class CommonParam {
     /**
      * 基础包名
      */
-    private String basePackageName;
+    private String basePackagePath;
     /**
      * 实体类名，如CourseRecord
      */

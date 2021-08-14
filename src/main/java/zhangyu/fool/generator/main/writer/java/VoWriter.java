@@ -17,7 +17,7 @@ import java.io.File;
 @Writer(type = WriterEnum.VO)
 public class VoWriter extends AbstractCodeWriter {
 
-	public static final String VO_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/vo";
+	public static final String VO_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/model";
 
 	public static final String RESULT_TEMPLATE_NAME = "resp_result";
 	
@@ -40,12 +40,7 @@ public class VoWriter extends AbstractCodeWriter {
 	@Override
 	public CommonParam buildParam(String tableName, String entityName) {
 		CommonParam commonParam = new CommonParam();
-		commonParam.setIsMyBatis(projectConfig.isUseMyBatis());
-		commonParam.setIsLombok(projectConfig.isUseLombok());
-		commonParam.setIsJpa(projectConfig.isUseJpa());
-		commonParam.setIsMyBatisPlus(projectConfig.isUseMyBatisPlus());
-		commonParam.setBasePackageName(NameConvertUtil.getPackageName("voPackage"));
-		commonParam.setAuthor(Author.build());
+		this.buildBaseParam(commonParam);
 		return commonParam;
 	}
 

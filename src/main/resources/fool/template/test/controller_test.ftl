@@ -1,6 +1,6 @@
-package ${basePackageName};
+package ${basePackagePath}.controller;
 
-import ${testPkName}.BaseMvcTest;
+import ${basePackagePath}.BaseMvcTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;

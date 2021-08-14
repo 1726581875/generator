@@ -17,7 +17,6 @@
         <tableName>fool_database</tableName>
         <entityName>FoolDatabase</entityName>
     </table>
-
     <table>
         <tableName>fool_table</tableName>
         <entityName>FoolTable</entityName>
@@ -32,19 +31,11 @@
      <!-- 生成的项目所在目录 -->
      <projectPath>D:\data\test</projectPath>
      <maven>
-        <groupId>aaa.bbb.cccc</groupId> <!-- maven工程的groupId -->
-        <artifactId>fool</artifactId> <!-- artifactId -->
+         <!-- maven工程的groupId -->
+        <groupId>com.xxx.xxx</groupId>
+         <!-- artifactId 将作为工程名-->
+        <artifactId>fool</artifactId>
      </maven>
-     <!-- 配置要创建的包名 -->
-     <package>
-       <entityPackage>entity</entityPackage>
-       <daoPackage>dao</daoPackage>
-       <servicePackage>service</servicePackage>
-       <controllerPackage>controller</controllerPackage>
-       <utilPackage>util</utilPackage>
-       <dtoPackage>dto</dtoPackage>
-       <voPackage>vo</voPackage>
-     </package>
      
 </project>
   

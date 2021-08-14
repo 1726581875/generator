@@ -4,11 +4,10 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import lombok.Data;
+import zhangyu.fool.generator.enums.ProjectEnum;
 import zhangyu.fool.generator.model.Author;
 import zhangyu.fool.generator.service.DatabaseService;
-import zhangyu.fool.generator.util.AssertUtil;
-import zhangyu.fool.generator.util.FileUtil;
-import zhangyu.fool.generator.util.ObjectToMapUtil;
+import zhangyu.fool.generator.util.*;
 import zhangyu.fool.generator.main.enums.TypeSuffixEnum;
 import zhangyu.fool.generator.main.model.ProjectConfig;
 import zhangyu.fool.generator.main.model.param.CommonParam;
@@ -46,7 +45,10 @@ public abstract class AbstractCodeWriter implements FoolWriter {
     abstract public CommonParam buildParam(String tableName, String entityName);
 
 
-    public void buildBaseParam(CommonParam commonParam, ProjectConfig projectConfig) {
+    public void buildBaseParam(CommonParam commonParam) {
+        String groupId = XmlUtil.getText(ProjectEnum.GROUP_ID);
+        String artifactId = XmlUtil.getText(ProjectEnum.ARTIFACT_ID);
+        commonParam.setBasePackagePath(groupId + "." + artifactId);
         commonParam.setAuthor(Author.build());
         commonParam.setIsJpa(projectConfig.isUseJpa());
         commonParam.setIsLombok(projectConfig.isUseLombok());

@@ -1,7 +1,7 @@
-package ${daoPackageName};
+package ${basePackagePath}.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import ${entityPackageName}.${entityName};
+import ${basePackagePath}.model.entity.${entityName};
 
 /**
  * @author ${author.author}

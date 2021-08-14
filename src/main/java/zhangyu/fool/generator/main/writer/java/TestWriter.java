@@ -22,10 +22,6 @@ import java.io.File;
 public class TestWriter extends AbstractCodeWriter {
 
 	private final String TEST_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/test";
-	/**
-	 * 测试包名，和项目源码包名一样 groupId + artifactId
-	 */
-	private final String TEST_PACKAGE_NAME = NameConvertUtil.getPackageName(null);
 
 	public TestWriter() {
 		super(new ProjectConfig());
@@ -45,11 +41,11 @@ public class TestWriter extends AbstractCodeWriter {
 	@Override
 	public CommonParam buildParam(String tableName, String entityName) {
 		TestParam testParam = new TestParam();
-		testParam.setAuthor(Author.build());
+		this.buildBaseParam(testParam);
 		testParam.setEntityName(entityName);
-		testParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
-		testParam.setBasePackageName(NameConvertUtil.getPackageName(ProjectEnum.CONTROLLER_PACKAGE_NAME.getName()));
-		testParam.setTestPkName(TEST_PACKAGE_NAME);
+		if(entityName != null) {
+			testParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
+		}
 		return testParam;
 	}
 
@@ -58,7 +54,7 @@ public class TestWriter extends AbstractCodeWriter {
 
 		createBaseMvcTest(destPath, "base_mvc_test");
 
-		createControllerTest(destPath + File.separator + "controller", "controller_test");
+		createControllerTest(destPath + "/controller", "controller_test");
 	}
 
 	/**
@@ -69,10 +65,8 @@ public class TestWriter extends AbstractCodeWriter {
 	private void createBaseMvcTest(String destPath, String templateName) {
 		FileUtil.checkAndCreateDir(destPath);
 		// 目标文件全路径
-		String fullPath = destPath + File.separator + "BaseMvcTest.java";
-		CommonParam commonParam = new CommonParam();
-		commonParam.setAuthor(Author.build());
-		commonParam.setBasePackageName(TEST_PACKAGE_NAME);
+		String fullPath = destPath + "/BaseMvcTest.java";
+		CommonParam commonParam = this.buildParam(null, null);
 		this.writeByParam(TEST_TEMPLATE_PATH, templateName, fullPath, commonParam);
 		log.info("已创建 [BaseMvcTest.java]");
 
@@ -84,7 +78,6 @@ public class TestWriter extends AbstractCodeWriter {
 	 * @param templateName
 	 */
 	private void createControllerTest(String destPath, String templateName) {
-
 		WriteConfig writeConfig = new WriteConfig();
 		writeConfig.setDestPath(destPath);
 		writeConfig.setTemplateName(templateName);

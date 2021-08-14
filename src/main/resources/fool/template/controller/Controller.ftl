@@ -1,8 +1,8 @@
-package ${controllerPkName};
+package ${basePackagePath}.controller;
 
-import ${servicePkName}.${entityName}Service;
-import ${entityPkName}.${entityName};
-import ${voPkName}.RespResult;
+import ${basePackagePath}.service.${entityName}Service;
+import ${basePackagePath}.model.entity.${entityName};
+import ${basePackagePath}.model.RespResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

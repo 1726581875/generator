@@ -1,4 +1,4 @@
-package ${basePackageName};
+package ${basePackagePath}.model;
 import java.util.List;
 import java.io.Serializable;
 <#if isMyBatisPlus ! false>
@@ -46,6 +46,10 @@ public class PageVO<T>  implements Serializable{
 	 */
 	private List<T> content;
 
+<#if !isLombok ! false>
+	public PageVO() {}
+</#if>
+
 <#if isJpa ! false>
 	public PageVO(Page<T> page) {
 		this.pageIndex = page.getNumber();
@@ -57,7 +61,6 @@ public class PageVO<T>  implements Serializable{
 </#if>
 
 <#if isMyBatisPlus ! false>
-	public PageVO() {}
 	public PageVO(Page<T> page){
 		this.pageIndex = Math.toIntExact(page.getCurrent());
 		this.pageSize = Math.toIntExact(page.getSize());
@@ -65,9 +68,8 @@ public class PageVO<T>  implements Serializable{
 		this.totalRow = page.getMaxLimit();
 		this.content = page.getRecords();
 	}
-<#elseif isMyBatis ! false>
-	public PageVO() {}
 
+<#elseif isMyBatis ! false>
 	public PageVO(PageInfo<T> pageInfo) {
 		this.setPageIndex(pageInfo.getPages());
 		this.setPageSize(pageInfo.getPageSize());

@@ -61,8 +61,11 @@ public class DaoWriter extends AbstractCodeWriter {
 		if(projectConfig.isUseJpa()){
 			this.writeTemplate(destPath,OrmTypeEnum.JPA.getType());
 		}
-		if(projectConfig.isUseMyBatis() || projectConfig.isUseMyBatisPlus()) {
+		if(projectConfig.isUseMyBatis()) {
 			this.writeTemplate(destPath,OrmTypeEnum.MYBATIS.getType());
+		}
+		if(projectConfig.isUseMyBatisPlus()){
+			this.writeTemplate(destPath,OrmTypeEnum.MYBATIS_PLUS.getType());
 		}
 	}
 
@@ -109,17 +112,13 @@ public class DaoWriter extends AbstractCodeWriter {
 	@Override
 	public CommonParam buildParam(String tableName, String entityName) {
 		DaoParam daoParam = new DaoParam();
-		daoParam.setAuthor(Author.build());
-		daoParam.setDaoPackageName(NameConvertUtil.getPackageName(ProjectEnum.DAO_PACKAGE_NAME.getName()));
-		daoParam.setEntityPackageName(NameConvertUtil.getPackageName(ProjectEnum.ENTITY_PACKAGE.getName()));
+		this.buildBaseParam(daoParam);
 		daoParam.setEntityName(entityName);
 		daoParam.setKeyType(DatabaseService.getPrimaryType(tableName));
 		if(projectConfig.isUseMyBatis() || projectConfig.isUseMyBatisPlus()){
 			daoParam.setTableName(tableName);
 			daoParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
 			daoParam.setFieldList(DatabaseService.getFieldList(tableName));
-			daoParam.setIsMyBatis(projectConfig.isUseMyBatis());
-			daoParam.setIsMyBatisPlus(projectConfig.isUseMyBatisPlus());
 		}
 		return daoParam;
 	}

@@ -1,4 +1,4 @@
-package ${packageName};
+package ${basePackagePath};
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date ${author.date}
  */
 @SpringBootApplication
-public class ${className}Application {
+public class ${entityName}Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(${className}Application.class, args);
+        SpringApplication.run(${entityName}Application.class, args);
     }
 
 }

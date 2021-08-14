@@ -1,4 +1,4 @@
-package ${basePackageName};
+package ${basePackagePath};
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;

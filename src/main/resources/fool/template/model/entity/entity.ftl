@@ -1,4 +1,4 @@
-package ${packageName};
+package ${basePackagePath}.model.entity;
 
 <#if isJpa ! false>
 import javax.persistence.Entity;

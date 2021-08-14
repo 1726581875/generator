@@ -30,30 +30,14 @@ public class ServiceWriter extends AbstractCodeWriter {
 		super(projectConfig);
 	}
 
-	String servicePkName = NameConvertUtil.getPackageName("servicePackage");
-	String entityPkName = NameConvertUtil.getPackageName("entityPackage");
-	String daoPkName = NameConvertUtil.getPackageName("daoPackage");
-	String dtoPkName = NameConvertUtil.getPackageName("dtoPackage");
-	String voPkName = NameConvertUtil.getPackageName("voPackage");
-	String utilPkName = NameConvertUtil.getPackageName("utilPackage");
-
 	@Override
 	public CommonParam buildParam(String tableName, String entityName) {
 		ServiceParam serviceParam = new ServiceParam();
-		serviceParam.setServicePkName(servicePkName);
-		serviceParam.setEntityPkName(entityPkName);
-		serviceParam.setDaoPkName(daoPkName);
-		serviceParam.setDtoPkName(dtoPkName);
-		serviceParam.setVoPkName(voPkName);
-		serviceParam.setUtilPkName(utilPkName);
-		serviceParam.setAuthor(Author.build());
+		this.buildBaseParam(serviceParam);
 		serviceParam.setEntityKey(DatabaseService.getPrimaryName(tableName));
 		serviceParam.setEntityName(entityName);
 		serviceParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
 		serviceParam.setKeyType(DatabaseService.getPrimaryType(tableName));
-		serviceParam.setIsJpa(projectConfig.isUseJpa());
-		serviceParam.setIsMyBatis(projectConfig.isUseMyBatis());
-		serviceParam.setIsMyBatisPlus(projectConfig.isUseMyBatisPlus());
 		return serviceParam;
 	}
 

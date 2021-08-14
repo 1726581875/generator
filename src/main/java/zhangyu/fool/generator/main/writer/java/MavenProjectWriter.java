@@ -116,7 +116,7 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	public CommonParam buildParam(String tableName, String entityName) {
 		MavenProjectParam projectParam = new MavenProjectParam();
 		//pom.xml
-		buildBaseParam(projectParam,projectConfig);
+		this.buildBaseParam(projectParam);
 		projectParam.setIsLombok(projectParam.getIsLombok());
 		projectParam.setGroupId(XmlUtil.getText(ProjectEnum.GROUP_ID.getName()));
 		projectParam.setArtifactId(XmlUtil.getText(ProjectEnum.ARTIFACT_ID.getName()));
@@ -125,7 +125,8 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 		projectParam.setUrl(XmlUtil.getText(ProjectEnum.URL));
 		projectParam.setUsername(XmlUtil.getText(ProjectEnum.USERNAME));
 		projectParam.setPassword(XmlUtil.getText(ProjectEnum.PASSWORD));
-
+		//启动类参数
+		projectParam.setEntityName(entityName);
 		return projectParam;
 	}
 
@@ -179,72 +180,33 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	 * 4、创建src/main/resource资源目录 5、创建pom.xml配置文件
 	 */
 	private void initMavenDir() {
-		log.info("===开始初始化maven目录  begin===");
-
-		// 创建根目录
 		log.info("创建项目根目录[{}]", ROOT_PATH);
 		FileUtil.mkdirs(ROOT_PATH);
 
-		// 源代码目录
 		log.info("创建项目源码目录[{}]", "src/main/java");
 		FileUtil.mkdirs(SOURCE_CODE_PATH);
 
-		// 测试代码目录
 		log.info("创建项目测试代码目录[{}]", "src/test/java");
 		FileUtil.mkdirs(TEST_CODE_PATH);
 
-		// 资源目录
 		log.info("创建项目资源目录[{}]", "src/main/resources");
 		FileUtil.mkdirs(RESOURCES_PATH);
-		FileUtil.mkdirs(RESOURCES_PATH + File.separator + "test/sql");
+		FileUtil.mkdirs(RESOURCES_PATH + "/test/sql");
 
 		// 生成pom.xml文件
 		createPomXML();
-
-		log.info("===maven基础目录创建完成  end===");
 	}
 
 	/**
 	 * 初始化工程基本package
 	 * 1、创建基础包，如smallchili.com.blog (src/main/java下)
 	 * 2、创建测试基础包，如smallchili.com.blog (src/test/java下)
-	 * 3、创建xml配置文件里配置的包名，如dao、service、controller等包
 	 */
 	private void initPackage() {
-		log.debug("===开始初始化目录结构   begin===");
 		log.debug("创建基础目录");
-		// 1、创建基础包
 		FileUtil.mkdirs(BASE_PACKAGE);
-
-		// 2、创建测试包
 		log.info("创建测试基础包");
 		FileUtil.mkdirs(TEST_BASE_PACKAGE);
-
-		// 3、创建xml里配置的包
-		Element packageNode = XmlUtil.getNode("package");
-		if (packageNode == null) {
-			log.warn("xml里没有配置<package><package/>标签");
-			return;
-		}
-		List<Element> packageNodeList = packageNode.elements();
-		if (null == packageNodeList || packageNodeList.isEmpty()) {
-			log.warn("xml配置里没有配置包名");
-			return;
-		}
-
-		// package标签节点下的子节点
-		packageNodeList.forEach(node -> {
-			String nodeName = node.getTextTrim();
-			if (!nodeName.equals("")) {
-				// src/main/java下生成包目录(dao、service、controller等)
-				FileUtil.mkdirs(BASE_PACKAGE + nodeName);
-				// src/test/java测试目录下生成对应包
-				FileUtil.mkdirs(TEST_BASE_PACKAGE + nodeName);
-				log.info("创建{}包", nodeName);
-			}
-		});
-
-		log.info("===初始化包结构结束！ end===");
 	}
 
 	private void createPomXML() {
@@ -261,14 +223,10 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	private void createApplication() {
 		String appTemplatePath = TEMPLATE_BASE_PATH;
 		String appTemplateName = "application";
-		Map<String, Object> appParamMap = new HashMap<>(3);
-		String packageName = NameConvertUtil.getPackageName(null);
 		String className = NameConvertUtil.lineToBigHump(XmlUtil.getText(ProjectEnum.ARTIFACT_ID));
 		String destFullPath = BASE_PACKAGE + File.separator + className + "Application.java";
-		appParamMap.put("packageName", packageName);
-		appParamMap.put("className", className);
-		appParamMap.put("author", Author.build());
-		writeByTemplate(appTemplatePath, appTemplateName, destFullPath, appParamMap);
+		CommonParam commonParam = this.buildParam(null, className);
+		this.writeByParam(appTemplatePath, appTemplateName, destFullPath, commonParam);
 		log.info("生成启动类 {}Application.java", className);
 	}
 

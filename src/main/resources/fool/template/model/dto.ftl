@@ -1,4 +1,4 @@
-package ${packageName};
+package ${basePackagePath}.model.dto;
 
 <#if isLombok ! false>
 import lombok.Data;

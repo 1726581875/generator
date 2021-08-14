@@ -1,6 +1,5 @@
 package zhangyu.fool.generator.main.writer.java;
 
-import zhangyu.fool.generator.enums.ProjectEnum;
 import zhangyu.fool.generator.model.Author;
 import zhangyu.fool.generator.model.TableField;
 import zhangyu.fool.generator.service.DatabaseService;
@@ -42,13 +41,10 @@ public class DtoWriter extends AbstractCodeWriter {
 		EntityParam entityParam = new EntityParam();
 		List<TableField> fieldList = DatabaseService.getFieldList(tableName);
 		Set<String> javaTypeSet = fieldList.stream().map(TableField::getJavaType).collect(Collectors.toSet());
-		String packageName = NameConvertUtil.getPackageName(ProjectEnum.ENTITY_PACKAGE.getName());
 		entityParam.setFieldList(fieldList);
 		entityParam.setJavaTypeSet(javaTypeSet);
 		entityParam.setEntityName(entityName);
-		entityParam.setAuthor(Author.build());
-		entityParam.setPackageName(packageName);
-		entityParam.setIsLombok(projectConfig.isUseLombok());
+		this.buildBaseParam(entityParam);
 		return entityParam;
 	}
 

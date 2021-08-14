@@ -24,7 +24,7 @@ public class ControllerWriter extends AbstractCodeWriter {
 	/**
 	 * 默认模板名
 	 */
-	public static final String DEFAULT_TEMPLATE_NAME = "NewController";
+	public static final String DEFAULT_TEMPLATE_NAME = "Controller";
 
 	public ControllerWriter() {
 		super(new ProjectConfig());
@@ -34,23 +34,13 @@ public class ControllerWriter extends AbstractCodeWriter {
 		super(projectConfig);
 	}
 
-	private String controllerPkName = NameConvertUtil.getPackageName("controllerPackage");
-	private String servicePkName = NameConvertUtil.getPackageName("servicePackage");
-	private String entityPkName = NameConvertUtil.getPackageName("entityPackage");
-	private String voPkName = NameConvertUtil.getPackageName("voPackage");
-
-
 	@Override
 	public CommonParam buildParam(String tableName, String entityName) {
 		ControllerParam controllerParam = new ControllerParam();
-		controllerParam.setAuthor(Author.build());
-		controllerParam.setControllerPkName(controllerPkName);
-		controllerParam.setServicePkName(servicePkName);
-		controllerParam.setEntityPkName(entityPkName);
-		controllerParam.setVoPkName(voPkName);
 		controllerParam.setEntityName(entityName);
 		controllerParam.setEntityNameLow(NameConvertUtil.bigHumpToHump(entityName));
 		controllerParam.setKeyType(DatabaseService.getPrimaryType(tableName));
+		this.buildBaseParam(controllerParam);
 		return controllerParam;
 	}
 

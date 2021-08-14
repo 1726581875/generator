@@ -26,7 +26,7 @@ public class EntityWriter extends AbstractCodeWriter {
     /**
      * 模板路径
      */
-    public static final String ENTITY_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/model";
+    public static final String ENTITY_TEMPLATE_PATH = TEMPLATE_BASE_PATH + "/model/entity";
     /**
      * 模板名
      */
@@ -57,20 +57,13 @@ public class EntityWriter extends AbstractCodeWriter {
         EntityParam entityParam = new EntityParam();
         List<TableField> fieldList = DatabaseService.getFieldList(tableName);
         Set<String> javaTypeSet = fieldList.stream().map(TableField::getJavaType).collect(Collectors.toSet());
-        String packageName = NameConvertUtil.getPackageName(ProjectEnum.ENTITY_PACKAGE.getName());
         entityParam.setFieldList(fieldList);
         entityParam.setJavaTypeSet(javaTypeSet);
         entityParam.setEntityName(entityName);
         entityParam.setTableName(tableName);
-        entityParam.setPackageName(packageName);
         //设置工程基本配置
-        this.buildBaseParam(entityParam, projectConfig);
+        this.buildBaseParam(entityParam);
         return entityParam;
-    }
-
-    public static void main(String[] args) {
-        FoolWriter factory = new EntityWriter(ProjectConfig.buildJpa());
-        factory.write("C:\\Users\\admin\\Desktop\\查询语句\\");
     }
 
 }

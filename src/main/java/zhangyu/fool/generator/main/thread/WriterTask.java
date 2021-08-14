@@ -27,6 +27,7 @@ public class WriterTask implements Runnable {
             writer.write(destPath);
         }catch (Exception e){
             log.error("task run error ",e);
+            throw e;
         }
     }
 }

@@ -19,15 +19,6 @@ public enum ProjectEnum {
 	TABLES("tables"),
 	TABLE_NAME("tableName"),
 	ENTITY_NAME("entityName"),
-
-	/* 各类包名的标签节点名 */
-	ENTITY_PACKAGE("entityPackage"),
-	DAO_PACKAGE_NAME("daoPackage"),
-	SERVICE_PACKAGE_NAME("servicePackage"),
-	CONTROLLER_PACKAGE_NAME("controllerPackage"),
-	UTIL_PACKAGE_NAME("utilPackage"),
-	DTO_PACKAGE_NAME("dtoPackage"),
-	VO_PACKAGE_NAME("voPackage"),
 	;
 
 	private String name;

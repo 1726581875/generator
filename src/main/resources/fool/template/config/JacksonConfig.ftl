@@ -1,4 +1,4 @@
-package ${basePackageName}.config;
+package ${basePackagePath}.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;

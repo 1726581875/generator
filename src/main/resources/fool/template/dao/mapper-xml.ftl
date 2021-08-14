@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${daoPackageName}.${entityName}Mapper">
+<mapper namespace="${basePackagePath}.dao.${entityName}Mapper">
 
 <#if isMyBatis ! false>
-    <select id="findById" resultType="${entityPackageName}.${entityName}">
+    <select id="findById" resultType="${basePackagePath}.model.entity.${entityName}">
         select * from `${tableName}` where `id` = <#noparse>#</#noparse>{id}
     </select>
 
@@ -35,7 +35,7 @@
     </delete>
 
 
-    <select id="findByCondition" resultType="${entityPackageName}.${entityName}">
+    <select id="findByCondition" resultType="${basePackagePath}.model.entity.${entityName}">
         select * from `${tableName}`
         <where>
             1 = 1

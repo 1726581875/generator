@@ -1,4 +1,4 @@
-package ${basePackageName}.config;
+package ${basePackagePath}.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class CorsConfig {
      * 配置允许的域多个则以逗号分隔,如果不配置默认为*
      * 例如：http://localhost:8080,http://localhost:8081
      */
-    @Value("<#noparse>$</#noparse>{${basePackageName}.allowOrigins:*}")
+    @Value("<#noparse>$</#noparse>{${basePackagePath}.allowOrigins:*}")
     private String allowOrigins;
 
     /**
