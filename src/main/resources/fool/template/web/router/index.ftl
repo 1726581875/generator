@@ -6,7 +6,7 @@ import ${table.tableNameBigHump} from '../views/${table.tableNameBigHump}'
 Vue.use(VueRouter)
 
 const routes = [
-<#list tableList as table >
+<#list tableList as table>
   {
   path: '/${table.tableNameHump}',
   name: '${table.tableNameBigHump}',

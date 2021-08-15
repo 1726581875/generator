@@ -61,7 +61,6 @@ public class ServiceWriter extends AbstractCodeWriter {
 		writeConfig.setDestPath(destPath + File.separator + "impl");
 		writeConfig.setTemplateName(SERVICE_IMPL);
 		this.forEachWrite(writeConfig);
-
 	}
 
 }
