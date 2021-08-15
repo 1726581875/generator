@@ -48,8 +48,6 @@ git@github.com:1726581875/xmz.git
 
   2、配好groupId和artifactId, （*一般来说groupId是组织域名反写+项目名，artifactId一般都是项目名-模块名*），这里我只有一个模块,为了简单groupId约定为组织域名反写，groupId为项目名。例如我的配置groupId为com.small.chili      artifactId为blog。
 
-  3、可选配置，可采取默认配置，配置对应包的名称。默认实体类包名是entity,假如你想换个名字可以把<entityPackage>标签里的名称换成其他的名字。
-
 ```xml
 <project>
     <!-- 1、项目路径 -->
@@ -59,16 +57,6 @@ git@github.com:1726581875/xmz.git
         <groupId>com.small.chili</groupId> <!-- maven工程的groupId -->
         <artifactId>blog</artifactId> <!-- artifactId -->
      </maven>
-     <!-- 3、可选，配置要创建的对应包名(前缀都是groupId + artifactId) -->
-     <package>
-       <entityPackage>entity</entityPackage>
-       <daoPackage>dao</daoPackage>
-       <servicePackage>service</servicePackage>
-       <controllerPackage>controller</controllerPackage>
-       <utilPackage>util</utilPackage>
-       <dtoPackage>dto</dtoPackage>
-       <voPackage>vo</voPackage>
-     </package>
      
 </project>
 ```
