@@ -64,11 +64,4 @@ public class ServiceWriter extends AbstractCodeWriter {
 
 	}
 
-	public static void main(String[] args) {
-		ProjectConfig projectConfig = ProjectConfig.buildMyBatis();
-		ServiceWriter serviceWriter = new ServiceWriter(projectConfig);
-		serviceWriter.write("C:\\Users\\admin\\Desktop\\查询语句\\");
-	}
-	
-
 }

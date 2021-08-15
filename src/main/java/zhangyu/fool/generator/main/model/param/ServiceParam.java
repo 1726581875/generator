@@ -8,18 +8,6 @@ import lombok.Data;
  */
 @Data
 public class ServiceParam extends CommonParam {
-
-    private String servicePkName;
-
-    private String entityPkName;
-
-    private String daoPkName;
-
-    private String dtoPkName;
-
-    private String voPkName;
-
-    private String utilPkName;
     /**
      * 实体类主键名首字母大写 如ArticleId
      */

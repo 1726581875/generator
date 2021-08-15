@@ -6,7 +6,7 @@ package zhangyu.fool.generator.main.enums;
  * 不同文件名后缀
  */
 public enum TypeSuffixEnum {
-
+    /** 文件末尾名 + 后缀 **/
     ENTITY("Entity",".java"),
     MAPPER("Mapper","Mapper.java"),
     REPOSITORY("Repository","Repository.java"),

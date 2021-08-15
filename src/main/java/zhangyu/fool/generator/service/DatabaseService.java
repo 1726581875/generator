@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class DatabaseService {
     private static final Logger log = LoggerFactory.getLogger(DatabaseService.class);
     /**
-     * 存储xml结构里配置的表名和实体类名映射 <表名,实体类名>
+     * 配置的表名和实体类名映射 <表名,实体类名>
      */
     private static Map<String, String> TABLE_NAME_MAP = null;
 

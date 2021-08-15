@@ -11,10 +11,6 @@ import java.util.List;
  */
 @Data
 public class DaoParam extends CommonParam {
-
-    private String daoPackageName;
-
-    private String entityPackageName;
     /**
      * 对应表主键的java类型，如Integer/String/Long等
      */

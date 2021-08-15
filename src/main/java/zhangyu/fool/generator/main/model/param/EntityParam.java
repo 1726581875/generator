@@ -17,8 +17,6 @@ public class EntityParam extends CommonParam {
 
     private Set<String> javaTypeSet;
 
-    private String packageName;
-
     private String tableName;
 
 }

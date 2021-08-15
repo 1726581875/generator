@@ -1,11 +1,9 @@
 package zhangyu.fool.generator.main.writer.java;
 
-import org.dom4j.Element;
 import zhangyu.fool.generator.enums.ProjectEnum;
 import zhangyu.fool.generator.main.proxy.WriterProxyFactory;
 import zhangyu.fool.generator.main.writer.doc.SqlDocxWriter;
 import zhangyu.fool.generator.main.writer.doc.SqlScriptWriter;
-import zhangyu.fool.generator.model.Author;
 import zhangyu.fool.generator.main.thread.WriterExecutorUtil;
 import zhangyu.fool.generator.main.thread.WriterTask;
 import zhangyu.fool.generator.util.BuildPath;
@@ -21,9 +19,6 @@ import zhangyu.fool.generator.main.model.param.CommonParam;
 import zhangyu.fool.generator.main.model.param.MavenProjectParam;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author xiaomingzhang
@@ -31,36 +26,8 @@ import java.util.Map;
  */
 public class MavenProjectWriter extends AbstractCodeWriter {
 
-	/**
-	 * 工程根目录
-	 */
-	private String ROOT_PATH = BuildPath.buildDir(XmlUtil.getText(ProjectEnum.PROJECT_PATH),
-			XmlUtil.getText(ProjectEnum.ARTIFACT_ID));
-	/**
-	 * 源码目录
-	 */
-	private String SOURCE_CODE_PATH = BuildPath.buildDir(ROOT_PATH, "src", "main", "java");
-	/**
-	 * 测试代码目录
-	 */
-	private String TEST_CODE_PATH = BuildPath.buildDir(ROOT_PATH, "src", "test", "java");
-	/**
-	 * 资源目录
-	 */
-	private String RESOURCES_PATH = BuildPath.buildDir(ROOT_PATH, "src", "main", "resources");
-	/**
-	 * 基础包路径
-	 */
-	private String BASE_PACKAGE = BuildPath.buildDir(SOURCE_CODE_PATH,
-			BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
-			BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
-	/**
-	 * 测试包路径
-	 */
-	private String TEST_BASE_PACKAGE = BuildPath.buildDir(TEST_CODE_PATH,
-			BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
-			BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
 
+	private ProjectPath projectPath = new ProjectPath();
 
 	public MavenProjectWriter(ProjectConfig projectConfig) {
 		super(projectConfig);
@@ -69,24 +36,23 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	public void write() {
 
 		// 初始化maven目录
-		initMavenDir();
+		initMavenProject();
 		// 初始化工程基本包结构
 		initPackage();
 		// 创建启动类
-		createApplication();
+		generateApplication();
 		// 创建application.yml文件
-		createYmlFile();
+		generateYmlFile();
 		//生成sql脚本文件、数据库说明文档
-		createSqlFile();
+		generateSqlFile();
         // 生成代码
-		generatorCode();
+		generateCode();
         // 生成测试代码
-		generatorTestCode();
-
+		generateTestCode();
 	}
 
-	private void generatorTestCode() {
-		String testDirPath = BuildPath.buildDir(TEST_BASE_PACKAGE);
+	private void generateTestCode() {
+		String testDirPath = BuildPath.buildDir(projectPath.getBaseTestPackagePath());
 		WriterBuilderFactory.toGetBuilder(TestWriter.class).build(projectConfig).write(testDirPath);
 	}
 
@@ -99,16 +65,7 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	}
 
 	private void buildBasePath(String destPath){
-		this.ROOT_PATH = BuildPath.buildDir(destPath, XmlUtil.getText(ProjectEnum.ARTIFACT_ID));
-		this.SOURCE_CODE_PATH = BuildPath.buildDir(ROOT_PATH, "src", "main", "java");
-		this.TEST_CODE_PATH = BuildPath.buildDir(ROOT_PATH, "src", "test", "java");
-		this.RESOURCES_PATH = BuildPath.buildDir(ROOT_PATH, "src", "main", "resources");
-		this.BASE_PACKAGE = BuildPath.buildDir(SOURCE_CODE_PATH,
-				BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
-				BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
-		this.TEST_BASE_PACKAGE = BuildPath.buildDir(TEST_CODE_PATH,
-				BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.GROUP_ID)),
-				BuildPath.convertToDir(XmlUtil.getText(ProjectEnum.ARTIFACT_ID)));
+		this.projectPath = new ProjectPath(destPath);
 	}
 
 
@@ -130,17 +87,17 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 		return projectParam;
 	}
 
-	private void generatorCode() {
+	private void generateCode() {
 		// 初始化需要生成的模块数组
 		WriterEnum[] writerEnums = {WriterEnum.ENTITY,WriterEnum.DTO, WriterEnum.DAO, WriterEnum.UTIL,
 				WriterEnum.VO,WriterEnum.SERVICE,WriterEnum.CONTROLLER,WriterEnum.CONFIG};
 
 		for (WriterEnum writerEnum : writerEnums) {
-			String destPath = BuildPath.buildDir(BASE_PACKAGE, writerEnum.getValue());
+			String destPath = BuildPath.buildDir(projectPath.getBasePackagePath(), writerEnum.getValue());
 			// 生成dao需要特殊处理，设置mapper文件路径
 			if(WriterEnum.DAO.equals(writerEnum) && !projectConfig.isUseJpa()){
 				DaoWriter daoWriter = new DaoWriter(projectConfig);
-				daoWriter.setXmlPath(BuildPath.buildDir(RESOURCES_PATH, "mapper"));
+				daoWriter.setXmlPath(BuildPath.buildDir(projectPath.getResourcePath() , "mapper"));
 				WriterExecutorUtil.submit(new WriterTask(daoWriter, destPath));
 			}else {
 				FoolWriter writer = WriterBuilderFactory.toGetBuilder(writerEnum).build(projectConfig);
@@ -152,46 +109,44 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	/**
 	 * 创建application.yml文件
 	 */
-	private void createYmlFile() {
+	private void generateYmlFile() {
 		String ymlTemplatePath = BuildPath.buildDir(TEMPLATE_BASE_PATH , "config");
 		String ymlTemplateName = "application";
 
-		String destFullPath =  RESOURCES_PATH + File.separator + "application.yml";
+		String destFullPath =  projectPath.getResourcePath() + File.separator + "application.yml";
 		this.writeByParam(ymlTemplatePath, ymlTemplateName, destFullPath, this.buildParam(null,null));
 		log.info("生成application.yml配置文件");
-
 	}
 
 	/**
 	 * 生成数据库sql脚本文件
 	 */
-	private void createSqlFile() {
+	private void generateSqlFile() {
 		//脚本文件
 		SqlScriptWriter sqlScriptWriter = new SqlScriptWriter();
 		FoolWriter writerProxy = WriterProxyFactory.getWriterProxy(sqlScriptWriter);
-		writerProxy.write(RESOURCES_PATH + "/test/sql");
+		writerProxy.write(projectPath.getResourcePath() + "/test/sql");
 		//数据库说明文档
 		SqlDocxWriter sqlDocxWriter = new SqlDocxWriter();
-		WriterProxyFactory.getWriterProxy2(sqlDocxWriter).write(RESOURCES_PATH + "/doc");
+		WriterProxyFactory.getWriterProxy2(sqlDocxWriter).write(projectPath.getResourcePath() + "/doc");
 	}
 
 	/**
 	 * 初始化maven目录 1、创建工程根目录 2、创建src/main/java源码目录 3、创建src/text/java测试目录
 	 * 4、创建src/main/resource资源目录 5、创建pom.xml配置文件
 	 */
-	private void initMavenDir() {
-		log.info("创建项目根目录[{}]", ROOT_PATH);
-		FileUtil.mkdirs(ROOT_PATH);
+	private void initMavenProject() {
+		log.info("创建项目根目录[{}]", projectPath.getRootPath());
+		FileUtil.mkdirs(projectPath.getRootPath());
 
 		log.info("创建项目源码目录[{}]", "src/main/java");
-		FileUtil.mkdirs(SOURCE_CODE_PATH);
+		FileUtil.mkdirs(projectPath.getSourceCodePath());
 
 		log.info("创建项目测试代码目录[{}]", "src/test/java");
-		FileUtil.mkdirs(TEST_CODE_PATH);
+		FileUtil.mkdirs(projectPath.getTestCodePath());
 
 		log.info("创建项目资源目录[{}]", "src/main/resources");
-		FileUtil.mkdirs(RESOURCES_PATH);
-		FileUtil.mkdirs(RESOURCES_PATH + "/test/sql");
+		FileUtil.mkdirs(projectPath.getResourcePath());
 
 		// 生成pom.xml文件
 		createPomXML();
@@ -204,15 +159,15 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	 */
 	private void initPackage() {
 		log.debug("创建基础目录");
-		FileUtil.mkdirs(BASE_PACKAGE);
+		FileUtil.mkdirs(projectPath.getBasePackagePath());
 		log.info("创建测试基础包");
-		FileUtil.mkdirs(TEST_BASE_PACKAGE);
+		FileUtil.mkdirs(projectPath.getTestCodePath());
 	}
 
 	private void createPomXML() {
 		String pomTemplatePath = BuildPath.buildDir(TEMPLATE_BASE_PATH, "config");
 		String pomTemplateName = "pom";
-		String destFullPath = ROOT_PATH + File.separator + "pom.xml";
+		String destFullPath = projectPath.getRootPath() + File.separator + "pom.xml";
 		this.writeByParam(pomTemplatePath, pomTemplateName, destFullPath, this.buildParam(null,null));
 		log.info("pom.xml文件生成成功");
 	}
@@ -220,14 +175,74 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 	/**
 	 * 创建启动类
 	 */
-	private void createApplication() {
+	private void generateApplication() {
 		String appTemplatePath = TEMPLATE_BASE_PATH;
 		String appTemplateName = "application";
 		String className = NameConvertUtil.lineToBigHump(XmlUtil.getText(ProjectEnum.ARTIFACT_ID));
-		String destFullPath = BASE_PACKAGE + File.separator + className + "Application.java";
+		String destFullPath = projectPath.getBasePackagePath() + File.separator + className + "Application.java";
 		CommonParam commonParam = this.buildParam(null, className);
 		this.writeByParam(appTemplatePath, appTemplateName, destFullPath, commonParam);
 		log.info("生成启动类 {}Application.java", className);
+	}
+
+
+	public static class ProjectPath {
+		/**
+		 * 工程根目录
+		 */
+		private String rootPath = XmlUtil.getText(ProjectEnum.PROJECT_PATH) + XmlUtil.getText(ProjectEnum.ARTIFACT_ID);
+
+		public ProjectPath(){}
+
+		public ProjectPath(String basePath){
+			String artifactId = XmlUtil.getText(ProjectEnum.ARTIFACT_ID);
+			rootPath = BuildPath.buildDir(basePath ,artifactId);
+		}
+
+
+		public String getRootPath(){
+			return rootPath;
+		}
+
+		public String getSourceCodePath(){
+			return this.rootPath + "/src/main/java";
+		}
+
+		public String getResourcePath(){
+			return this.rootPath + "/src/main/resources";
+		}
+
+		public String getTestCodePath(){
+			return this.rootPath + "/src/test/java";
+		}
+
+		/**
+		 * maven源码目录 + 包路径
+		 * /src/main/java/ + groupId + artifactId
+		 * @return
+		 */
+		public String getBasePackagePath(){
+			String path = BuildPath.convertToDir(getBasePackageName());
+			return getSourceCodePath() + path;
+		}
+
+		/**
+		 * maven测试目录 + 包路径
+		 * /src/test/java + groupId + artifactId
+		 * @return
+		 */
+		public String getBaseTestPackagePath(){
+			String path = BuildPath.convertToDir(getBasePackageName());
+			return getTestCodePath() + path;
+		}
+
+		public static String getBasePackageName(){
+			String groupId = XmlUtil.getText(ProjectEnum.GROUP_ID);
+			String artifactId = XmlUtil.getText(ProjectEnum.ARTIFACT_ID);
+			return groupId + "." + artifactId;
+		}
+
+
 	}
 
 

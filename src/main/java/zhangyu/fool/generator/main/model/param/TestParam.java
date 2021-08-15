@@ -9,5 +9,4 @@ import lombok.Data;
 @Data
 public class TestParam extends CommonParam {
 
-    private String testPkName;
 }
