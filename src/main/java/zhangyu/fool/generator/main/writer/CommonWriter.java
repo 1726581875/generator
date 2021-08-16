@@ -31,8 +31,10 @@ public class CommonWriter extends AbstractCodeWriter {
     }
 
     /**
+     *
      * @param destPath
      * @param templatePath
+     * @param paramMap
      */
     public void write(String destPath, String templatePath, Map<String, Object> paramMap) {
         Map<String, Object> contentMap = new HashMap<>(1);
@@ -47,31 +49,33 @@ public class CommonWriter extends AbstractCodeWriter {
              BufferedReader br = new BufferedReader(isr)) {
             String rowText = "";
             while ((rowText = br.readLine()) != null) {
-                if (rowText.contains("$")) {
-                    StringBuilder str = new StringBuilder();
+                if (rowText.contains("$") && paramMap != null && paramMap.size() > 0) {
+                    StringBuilder newRowText = new StringBuilder();
                     char[] chars = rowText.toCharArray();
                     int index = 0;
                     boolean needReplace = false;
                     for (int i = 0; i < chars.length; i++) {
                         if (chars[i] == '$') {
                             needReplace = true;
-                            str.append(Arrays.copyOfRange(chars, index, i));
+                            newRowText.append(Arrays.copyOfRange(chars, index, i));
                             index = i;
                         }
                         if (chars[i] == '}' && needReplace) {
                             needReplace = false;
-                            String key = Arrays.copyOfRange(chars, index + 1, i).toString();
+                            String key = String.valueOf(Arrays.copyOfRange(chars, index + 2, i));
                             String value = paramMap.getOrDefault(key, "null").toString();
-                            str.append(value);
-                            index = i;
+                            newRowText.append(value);
+                            index = i + 1;
                         }
                         if (i == chars.length - 1) {
-                            str.append(Arrays.copyOfRange(chars, index, i));
-                            str.append("\n");
+                            newRowText.append(Arrays.copyOfRange(chars, index, i));
                         }
-
                     }
+                    content.append(newRowText);
+                }else {
+                    content.append(rowText);
                 }
+                content.append("\n");
             }
 
         } catch (Exception e) {
