@@ -40,31 +40,42 @@ public class DatabaseService {
      * @return map<表名, 对象名>
      */
     public static Map<String, String> getTableNameMap() {
-        Element rootElement = XmlUtil.getRootElement();
-        Element tablesElement = rootElement.element(ProjectEnum.TABLES.getName());
+        checkAndInit();
+        return TABLE_NAME_MAP;
+    }
+
+    private static void checkAndInit() {
         if (TABLE_NAME_MAP == null) {
             lock.lock();
             try {
                 if (TABLE_NAME_MAP == null) {
-                    TABLE_NAME_MAP = new HashMap<>(16);
-                    if (tablesElement == null || tablesElement.elements() == null || tablesElement.elements().size() == 0) {
-                        String sql = TableInfo.getSQL(DatabaseDAO.getDatabaseName());
-                        List<String> tableNameList = DatabaseDAO.getList(sql, TableInfo.class).stream().map(TableInfo::getTableName).collect(Collectors.toList());
-                        tableNameList.forEach(name -> TABLE_NAME_MAP.put(name, NameConvertUtil.lineToBigHump(name)));
-                    } else {
-                        List<Element> tableElements = tablesElement.elements();
-                        tableElements.forEach(e -> TABLE_NAME_MAP.put(e.element(ProjectEnum.TABLE_NAME.getName()).getTextTrim()
-                                , e.element(ProjectEnum.ENTITY_NAME.getName()).getTextTrim()));
-                    }
+                    Element rootElement = XmlUtil.getRootElement();
+                    Element tablesElement = rootElement.element(ProjectEnum.TABLES.getName());
+                    initTableNameMap(tablesElement);
                 }
             } catch (Exception e) {
                 log.error("获取表名发生异常", e);
             } finally {
                 lock.unlock();
             }
-
         }
-        return TABLE_NAME_MAP;
+    }
+
+    private static void initTableNameMap(Element tablesElement) {
+        TABLE_NAME_MAP = new HashMap<>(16);
+        if (notExistTablesElement(tablesElement)) {
+            String sql = TableInfo.getSQL(DatabaseDAO.getDatabaseName());
+            List<String> tableNameList = DatabaseDAO.getList(sql, TableInfo.class).stream().map(TableInfo::getTableName).collect(Collectors.toList());
+            tableNameList.forEach(name -> TABLE_NAME_MAP.put(name, NameConvertUtil.lineToBigHump(name)));
+        } else {
+            List<Element> tableElements = tablesElement.elements();
+            tableElements.forEach(e -> TABLE_NAME_MAP.put(e.element(ProjectEnum.TABLE_NAME.getName()).getTextTrim()
+                    , e.element(ProjectEnum.ENTITY_NAME.getName()).getTextTrim()));
+        }
+    }
+
+    private static boolean notExistTablesElement(Element tablesElement) {
+        return tablesElement == null || tablesElement.elements() == null || tablesElement.elements().size() == 0;
     }
 
     /**
@@ -82,7 +93,7 @@ public class DatabaseService {
             synchronized (tableName) {
                 if (TABLE_FIELD_CACHE.get(tableName) == null) {
                     String sql = TableColumn.getSQL(tableName);
-                    List<TableColumn> columnList = DatabaseDAO.getList(sql,TableColumn.class);
+                    List<TableColumn> columnList = DatabaseDAO.getList(sql, TableColumn.class);
                     List<TableField> tableFields = columnList.stream().map(TableField::getField).collect(Collectors.toList());
                     TABLE_FIELD_CACHE.put(tableName, tableFields);
                 }
@@ -94,7 +105,7 @@ public class DatabaseService {
     public static TableField getPrimaryField(String tableName) {
         List<TableField> fieldList = getFieldList(tableName);
         for (TableField field : fieldList) {
-            if(TableColumn.PRI.equals(field.getKeyType())){
+            if (TableColumn.PRI.equals(field.getKeyType())) {
                 return field;
             }
         }

@@ -36,6 +36,10 @@ public abstract class AbstractCodeWriter implements FoolWriter {
         this.write(destPath,null);
     }
 
+    protected WriteConfig buildWriteConfig(String destPath, String templateName){
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * 构造参数
      * @param tableName
@@ -123,6 +127,5 @@ public abstract class AbstractCodeWriter implements FoolWriter {
         String templateName;
         TypeSuffixEnum typeSuffixEnum;
     }
-
 
 }

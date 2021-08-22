@@ -49,18 +49,21 @@ public class ServiceWriter extends AbstractCodeWriter {
 
 	@Override
 	public void write(String destPath, String templateName) {
+		//service interface
+		WriteConfig service = this.buildWriteConfig(destPath,SERVICE, TypeSuffixEnum.SERVICE);
+		this.forEachWrite(service);
+		//service impl
+		String serviceImplPath = destPath + File.separator + "impl";
+		WriteConfig serviceImpl = this.buildWriteConfig(serviceImplPath ,SERVICE_IMPL, TypeSuffixEnum.SERVICE_IMPL);
+		this.forEachWrite(serviceImpl);
+	}
+
+	protected WriteConfig buildWriteConfig(String destPath, String templateName, TypeSuffixEnum typeSuffixEnum) {
 		WriteConfig writeConfig = new WriteConfig();
 		writeConfig.setDestPath(destPath);
 		writeConfig.setTemplatePath(SERVICE_TEMPLATE_PATH);
-		//生成service接口类
-		writeConfig.setTemplateName(SERVICE);
-		writeConfig.setTypeSuffixEnum(TypeSuffixEnum.SERVICE);
-		this.forEachWrite(writeConfig);
-		//生成service实现类
-		writeConfig.setTypeSuffixEnum(TypeSuffixEnum.SERVICE_IMPL);
-		writeConfig.setDestPath(destPath + File.separator + "impl");
-		writeConfig.setTemplateName(SERVICE_IMPL);
-		this.forEachWrite(writeConfig);
+		writeConfig.setTemplateName(templateName);
+		writeConfig.setTypeSuffixEnum(typeSuffixEnum);
+		return writeConfig;
 	}
-
 }

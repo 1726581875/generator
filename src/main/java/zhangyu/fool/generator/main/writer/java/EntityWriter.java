@@ -44,13 +44,19 @@ public class EntityWriter extends AbstractCodeWriter {
 
     @Override
     public void write(String destPath, String templateName) {
+        WriteConfig writeConfig = buildWriteConfig(destPath, templateName);
+        this.forEachWrite(writeConfig);
+    }
+     @Override
+    protected WriteConfig buildWriteConfig(String destPath, String templateName){
         WriteConfig writeConfig = new WriteConfig();
         writeConfig.setDestPath(destPath);
         writeConfig.setTemplatePath(ENTITY_TEMPLATE_PATH);
         writeConfig.setTemplateName(templateName);
         writeConfig.setTypeSuffixEnum(TypeSuffixEnum.ENTITY);
-        this.forEachWrite(writeConfig);
+        return writeConfig;
     }
+
 
     @Override
     public CommonParam buildParam(String tableName, String entityName) {

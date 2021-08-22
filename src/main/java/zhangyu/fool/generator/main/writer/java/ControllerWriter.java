@@ -44,7 +44,6 @@ public class ControllerWriter extends AbstractCodeWriter {
 		return controllerParam;
 	}
 
-
 	@Override
 	public void write(String destPath) {
 		write(destPath,DEFAULT_TEMPLATE_NAME);
@@ -52,25 +51,17 @@ public class ControllerWriter extends AbstractCodeWriter {
 
 	@Override
 	public void write(String destPath, String templateName) {
+		WriteConfig writeConfig = buildWriteConfig(destPath, templateName);
+		this.forEachWrite(writeConfig);
+	}
+
+	@Override
+	protected WriteConfig buildWriteConfig(String destPath, String templateName) {
 		WriteConfig writeConfig = new WriteConfig();
 		writeConfig.setDestPath(destPath);
 		writeConfig.setTemplateName(templateName);
 		writeConfig.setTemplatePath(CONTROLLER_TEMPLATE_PATH);
 		writeConfig.setTypeSuffixEnum(TypeSuffixEnum.CONTROLLER);
-		this.forEachWrite(writeConfig);
+		return writeConfig;
 	}
-
-
-	public static void main(String[] args) {
-		ProjectConfig projectConfig = new ProjectConfig();
-		projectConfig.setUseMyBatis(false);
-		projectConfig.setUseLombok(true);
-		projectConfig.setUseJpa(true);
-		ControllerWriter controllerWriter = new ControllerWriter(projectConfig);
-		controllerWriter.write("C:\\Users\\admin\\Desktop\\查询语句\\");
-	}
-
-
-
-
 }

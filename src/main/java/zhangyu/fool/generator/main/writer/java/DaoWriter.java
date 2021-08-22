@@ -77,27 +77,40 @@ public class DaoWriter extends AbstractCodeWriter {
 	}
 
 	public void writeTemplate(String destPath, String type) {
-		//构造参数
+
+		WriteConfig writeConfig = this.buildWriteDaoConfig(destPath, type);
+		this.forEachWrite(writeConfig);
+
+		if(isUseMybatis()) {
+			WriteConfig xmlWriteConfig = buildWriteXmlConfig(destPath, type);
+			this.forEachWrite(xmlWriteConfig);
+		}
+	}
+
+	private boolean isUseMybatis(){
+		return (projectConfig.isUseMyBatis() || projectConfig.isUseMyBatisPlus());
+	}
+
+	private WriteConfig buildWriteDaoConfig(String destPath, String type){
 		WriteConfig writeConfig = new WriteConfig();
 		writeConfig.setDestPath(destPath);
 		writeConfig.setTemplateName(this.getUseTemplateName(type));
 		writeConfig.setTemplatePath(DAO_TEMPLATE_PATH);
 		TypeSuffixEnum typeSuffixEnum = OrmTypeEnum.JPA.getType().equals(type) ? TypeSuffixEnum.REPOSITORY : TypeSuffixEnum.MAPPER;
 		writeConfig.setTypeSuffixEnum(typeSuffixEnum);
-		//调用生成方法
-		this.forEachWrite(writeConfig);
-
-		//如果使用mybatis需要生成xml文件
-		if(projectConfig.isUseMyBatis() || projectConfig.isUseMyBatisPlus()) {
-			String realXmlPath = xmlPath == null ? defaultXmlPath : xmlPath;
-			WriteConfig xmlWriteConfig = new WriteConfig();
-			xmlWriteConfig.setTypeSuffixEnum(TypeSuffixEnum.MAPPER_XML);
-			xmlWriteConfig.setTemplatePath(DAO_TEMPLATE_PATH);
-			xmlWriteConfig.setTemplateName(MYBATIS_XML_TEMPLATE_NAME);
-			xmlWriteConfig.setDestPath(realXmlPath);
-			this.forEachWrite(xmlWriteConfig);
-		}
+		return writeConfig;
 	}
+
+	private WriteConfig buildWriteXmlConfig(String destPath, String type){
+		String realXmlPath = xmlPath == null ? defaultXmlPath : xmlPath;
+		WriteConfig xmlWriteConfig = new WriteConfig();
+		xmlWriteConfig.setTypeSuffixEnum(TypeSuffixEnum.MAPPER_XML);
+		xmlWriteConfig.setTemplatePath(DAO_TEMPLATE_PATH);
+		xmlWriteConfig.setTemplateName(MYBATIS_XML_TEMPLATE_NAME);
+		xmlWriteConfig.setDestPath(realXmlPath);
+		return xmlWriteConfig;
+	}
+
 
 	private String getUseTemplateName(String type){
 		String template = null;
