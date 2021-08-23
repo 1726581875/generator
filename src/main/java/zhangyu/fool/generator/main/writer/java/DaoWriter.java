@@ -1,11 +1,5 @@
 package zhangyu.fool.generator.main.writer.java;
 
-import zhangyu.fool.generator.enums.ProjectEnum;
-import zhangyu.fool.generator.model.Author;
-import zhangyu.fool.generator.service.DatabaseService;
-import zhangyu.fool.generator.util.FileUtil;
-import zhangyu.fool.generator.util.NameConvertUtil;
-import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
 import zhangyu.fool.generator.main.annotation.Writer;
 import zhangyu.fool.generator.main.enums.OrmTypeEnum;
 import zhangyu.fool.generator.main.enums.TypeSuffixEnum;
@@ -13,6 +7,10 @@ import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.main.model.ProjectConfig;
 import zhangyu.fool.generator.main.model.param.CommonParam;
 import zhangyu.fool.generator.main.model.param.DaoParam;
+import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
+import zhangyu.fool.generator.service.DatabaseService;
+import zhangyu.fool.generator.util.FileUtil;
+import zhangyu.fool.generator.util.NameConvertUtil;
 
 /**
  * @author xiaomingzhang
@@ -82,7 +80,7 @@ public class DaoWriter extends AbstractCodeWriter {
 		this.forEachWrite(writeConfig);
 
 		if(isUseMybatis()) {
-			WriteConfig xmlWriteConfig = buildWriteXmlConfig(destPath, type);
+			WriteConfig xmlWriteConfig = buildWriteXmlConfig();
 			this.forEachWrite(xmlWriteConfig);
 		}
 	}
@@ -101,7 +99,7 @@ public class DaoWriter extends AbstractCodeWriter {
 		return writeConfig;
 	}
 
-	private WriteConfig buildWriteXmlConfig(String destPath, String type){
+	private WriteConfig buildWriteXmlConfig(){
 		String realXmlPath = xmlPath == null ? defaultXmlPath : xmlPath;
 		WriteConfig xmlWriteConfig = new WriteConfig();
 		xmlWriteConfig.setTypeSuffixEnum(TypeSuffixEnum.MAPPER_XML);
