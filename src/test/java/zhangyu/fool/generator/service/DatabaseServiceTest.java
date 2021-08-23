@@ -3,6 +3,7 @@ package zhangyu.fool.generator.service;
 import org.junit.Assert;
 import org.junit.Test;
 import zhangyu.fool.generator.BaseTest;
+import zhangyu.fool.generator.annotation.BindTest;
 import zhangyu.fool.generator.model.TableField;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.function.Consumer;
  * @author xiaomingzhang
  * @date 2021/8/13
  */
+@BindTest(DatabaseService.class)
 public class DatabaseServiceTest extends BaseTest {
 
 

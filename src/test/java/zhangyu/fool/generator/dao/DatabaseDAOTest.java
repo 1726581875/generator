@@ -4,6 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import zhangyu.fool.generator.BaseTest;
+import zhangyu.fool.generator.annotation.BindTest;
 import zhangyu.fool.generator.model.mysql.TableColumn;
 import zhangyu.fool.generator.model.mysql.TableInfo;
 import zhangyu.fool.generator.model.mysql.TableSql;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author xiaomingzhang
  * @date 2021/8/13
  */
+@BindTest(DatabaseDAO.class)
 public class DatabaseDAOTest extends BaseTest {
 
     /**

@@ -3,10 +3,12 @@ package zhangyu.fool.generator.dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhangyu.fool.generator.model.mysql.MySqlMetadata;
-import zhangyu.fool.generator.model.mysql.TableInfo;
 import zhangyu.fool.generator.util.DatabaseUtil;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 

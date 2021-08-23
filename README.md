@@ -1,4 +1,4 @@
-这是一个简单的代码生成器，一键生成springboot工程，减少程序员繁琐的工作。springboot版本是2.3.4，orm层框架使用的是spring-data-jpa。生成的都是简单的代码，目前尚有很多未完善。生成的代码都是简单易懂的，可在这基础上进行二次开发。
+这是一个简单的代码生成器，一键生成springboot工程，减少程序员繁琐的工作。springboot版本是2.3.4，orm层框架支持spring-data-jpa、mybatis、mybatis-plus。生成的代码都是简单易懂的，可在这基础上进行二次开发。
 
 快速开始
 
@@ -6,13 +6,13 @@
 
 ## 1.通过git拉取代码
 ```
-git@github.com:1726581875/xmz.git
+git@github.com:1726581875/generator.git
 ```
 
 ## 2.profile.xml对配置进行修改
 找到src/main/java下的profile.xml文件
 
-- 配置项一，修改连接数据库的参数，**url、username、password**改成你自己对应的。
+- 配置项一，修改连接数据库的参数，**url、username、password**改成你自己数据库对应的配置。
 
 ```xml
  <!--配置数据源 -->
@@ -97,4 +97,4 @@ git@github.com:1726581875/xmz.git
 
 ```
 
-工程的factory包是负责加载各个模板类的生成，所有的factory类都继承TemplateFactory接口。最核心的类是MavenProjectFactory,负责生成maven工程，和调度各个工厂类生成对应代码。util包负责为factory类提供辅助性支持。
+工程的writer包是负责加载各个模板类的生成，所有的writer类都继承AbstractCodeWriter类。AbstractCodeWriter封装了他们的公共行为，MavenProjectWriter,负责生成maven工程，和调度各个writer类生成对应代码。util包负责为writer类提供辅助性支持。
