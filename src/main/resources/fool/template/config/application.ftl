@@ -1,6 +1,6 @@
 #使用端口
 server:
-  port: 9002
+  port: ${port ! "9002"}
 
 #配置数据库连接参数
 spring:

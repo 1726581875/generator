@@ -1,11 +1,8 @@
 package zhangyu.fool.generator.main.proxy;
 
 import zhangyu.fool.generator.main.annotation.Writer;
-import zhangyu.fool.generator.util.FileUtil;
 import zhangyu.fool.generator.main.writer.FoolWriter;
-import zhangyu.fool.generator.main.builder.WriterBuilderFactory;
-import zhangyu.fool.generator.main.writer.java.EntityWriter;
-import zhangyu.fool.generator.main.model.ProjectConfig;
+import zhangyu.fool.generator.util.FileUtil;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -43,13 +40,4 @@ public class WriterProxyHandler implements InvocationHandler {
 
         return result;
     }
-
-
-    public static void main(String[] args) {
-        FoolWriter codeWriter = WriterBuilderFactory.toGetBuilder(EntityWriter.class)
-                .build(ProjectConfig.buildJpa());
-        FoolWriter codeWriterProxy = WriterProxyFactory.getWriterProxy(codeWriter);
-        codeWriterProxy.write("D:\\data\\test");
-    }
-
 }

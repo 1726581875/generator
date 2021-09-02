@@ -21,4 +21,6 @@ public class MavenProjectParam extends CommonParam {
 
     private String password;
 
+    private Integer port;
+
 }
