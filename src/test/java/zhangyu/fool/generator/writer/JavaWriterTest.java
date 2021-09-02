@@ -8,8 +8,6 @@ import zhangyu.fool.generator.main.writer.java.*;
 import zhangyu.fool.generator.main.model.ProjectConfig;
 import zhangyu.fool.generator.util.FileUtil;
 
-import java.io.File;
-
 /**
  * @author xmz
  * @date: 2021/07/28

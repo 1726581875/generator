@@ -1,13 +1,11 @@
 package zhangyu.fool.generator.main.writer.java;
 
-import zhangyu.fool.generator.model.Author;
-import zhangyu.fool.generator.util.FileUtil;
-import zhangyu.fool.generator.util.NameConvertUtil;
-import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
 import zhangyu.fool.generator.main.annotation.Writer;
 import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.main.model.ProjectConfig;
 import zhangyu.fool.generator.main.model.param.CommonParam;
+import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
+import zhangyu.fool.generator.util.FileUtil;
 
 import java.io.File;
 

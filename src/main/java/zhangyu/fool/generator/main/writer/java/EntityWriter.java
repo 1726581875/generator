@@ -1,16 +1,14 @@
 package zhangyu.fool.generator.main.writer.java;
 
-import zhangyu.fool.generator.enums.ProjectEnum;
-import zhangyu.fool.generator.model.TableField;
-import zhangyu.fool.generator.service.DatabaseService;
-import zhangyu.fool.generator.util.NameConvertUtil;
-import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
-import zhangyu.fool.generator.main.writer.FoolWriter;
+import zhangyu.fool.generator.main.annotation.Writer;
 import zhangyu.fool.generator.main.enums.TypeSuffixEnum;
 import zhangyu.fool.generator.main.enums.WriterEnum;
 import zhangyu.fool.generator.main.model.ProjectConfig;
 import zhangyu.fool.generator.main.model.param.CommonParam;
 import zhangyu.fool.generator.main.model.param.EntityParam;
+import zhangyu.fool.generator.main.writer.AbstractCodeWriter;
+import zhangyu.fool.generator.model.TableField;
+import zhangyu.fool.generator.service.DatabaseService;
 
 import java.util.List;
 import java.util.Set;
@@ -21,7 +19,7 @@ import java.util.stream.Collectors;
  * @author xmz
  * 2020/9/18
  */
-@zhangyu.fool.generator.main.annotation.Writer(type = WriterEnum.ENTITY)
+@Writer(type = WriterEnum.ENTITY)
 public class EntityWriter extends AbstractCodeWriter {
     /**
      * 模板路径
