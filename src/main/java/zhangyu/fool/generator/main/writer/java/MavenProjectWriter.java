@@ -94,15 +94,13 @@ public class MavenProjectWriter extends AbstractCodeWriter {
 
 		for (WriterEnum writerEnum : writerEnums) {
 			String destPath = BuildPath.buildDir(projectPath.getBasePackagePath(), writerEnum.getValue());
+			FoolWriter writer = WriterBuilderFactory.toGetBuilder(writerEnum).build(projectConfig);
 			// 生成dao需要特殊处理，设置mapper文件路径
 			if(WriterEnum.DAO.equals(writerEnum) && !projectConfig.isUseJpa()){
-				DaoWriter daoWriter = new DaoWriter(projectConfig);
+				DaoWriter daoWriter = (DaoWriter) writer;
 				daoWriter.setXmlPath(BuildPath.buildDir(projectPath.getResourcePath() , "mapper"));
-				WriterExecutorUtil.submit(new WriterTask(daoWriter, destPath));
-			}else {
-				FoolWriter writer = WriterBuilderFactory.toGetBuilder(writerEnum).build(projectConfig);
-				WriterExecutorUtil.submit(new WriterTask(writer, destPath));
 			}
+			WriterExecutorUtil.submit(new WriterTask(writer, destPath));
 		}
 	}
 

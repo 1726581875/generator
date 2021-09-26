@@ -31,7 +31,6 @@ public class CommonWriter extends AbstractCodeWriter {
     }
 
     /**
-     *
      * @param destPath
      * @param templatePath
      * @param paramMap
@@ -72,7 +71,7 @@ public class CommonWriter extends AbstractCodeWriter {
                         }
                     }
                     content.append(newRowText);
-                }else {
+                } else {
                     content.append(rowText);
                 }
                 content.append("\n");

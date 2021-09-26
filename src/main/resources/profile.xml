@@ -3,28 +3,10 @@
   <!-- 配置数据源 -->
   <dataSource>
     <driver>com.mysql.cj.jdbc.Driver</driver>
-    <url>jdbc:mysql://localhost:3306/fool_code?characterEncoding=UTF-8&amp;serverTimezone=GMT%2B8</url>
+    <url>jdbc:mysql://localhost:3306/mooc?characterEncoding=UTF-8&amp;serverTimezone=GMT%2B8</url>
     <username>root</username>
     <password>root</password>
   </dataSource>
-  
-  <!-- 配置数据库表名和实体名映射 -->
-    <table>
-        <tableName>fool_data_source</tableName>
-        <entityName>FoolDataSource</entityName>
-    </table>
-    <table>
-        <tableName>fool_database</tableName>
-        <entityName>FoolDatabase</entityName>
-    </table>
-    <table>
-        <tableName>fool_table</tableName>
-        <entityName>FoolTable</entityName>
-    </table>
-    <table>
-        <tableName>fool_field</tableName>
-        <entityName>FoolField</entityName>
-    </table>
 
 
 <project>
@@ -34,7 +16,7 @@
          <!-- maven工程的groupId -->
         <groupId>com.xxx.xxx</groupId>
          <!-- artifactId 将作为工程名-->
-        <artifactId>fool</artifactId>
+        <artifactId>mooc</artifactId>
      </maven>
      
 </project>

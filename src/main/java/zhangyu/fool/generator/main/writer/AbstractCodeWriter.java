@@ -103,15 +103,20 @@ public abstract class AbstractCodeWriter implements FoolWriter {
         Map<String, String> tableMap = DatabaseService.getTableNameMap();
         try {
             tableMap.forEach((tableName, entityName) -> {
-                String destFullPath = writeConfig.getDestPath() + File.separator + entityName +  typeSuffixEnum.getSuffix();
+                String destFullPath = this.buildFullPath(writeConfig.getDestPath(), entityName + typeSuffixEnum.getSuffix());
                 CommonParam param = this.buildParam(tableName,entityName);
                 this.writeByParam(writeConfig.getTemplatePath(), writeConfig.getTemplateName(), destFullPath, param);
-                log.info("已生成[{}{}}]", entityName, typeSuffixEnum.getSuffix());
+                log.debug("已生成[{}{}}]", entityName, typeSuffixEnum.getSuffix());
             });
         } catch (Exception e) {
             log.error("======{}{}生成发生异常，异常信息:======", typeSuffixEnum.getType() ,typeSuffixEnum.getSuffix(), e);
         }
         log.info("======{}类生成完成  end======",typeSuffixEnum.getType());
+    }
+
+
+    private String buildFullPath(String basePath, String fullName){
+        return basePath + File.separator + fullName;
     }
 
     protected void checkWriteConfig(WriteConfig writeConfig){
