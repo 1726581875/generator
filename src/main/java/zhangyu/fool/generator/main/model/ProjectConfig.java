@@ -46,7 +46,7 @@ public class ProjectConfig {
     public static ProjectConfig buildMyBatisPlus(){
         ProjectConfig projectConfig = new ProjectConfig();
         projectConfig.setUseMyBatis(false);
-        projectConfig.setUseLombok(false);
+        projectConfig.setUseLombok(true);
         projectConfig.setUseJpa(false);
         projectConfig.setUseMyBatisPlus(true);
         return projectConfig;

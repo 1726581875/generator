@@ -40,7 +40,6 @@ public class SqlScriptWriter extends AbstractDocWriter {
 
     @Override
     public CommonParam buildParam(String tableName, String entityName) {
-
         return null;
     }
 

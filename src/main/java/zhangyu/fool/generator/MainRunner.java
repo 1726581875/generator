@@ -13,11 +13,11 @@ public class MainRunner {
 
     public static void main(String[] args) {
         //文件生成路径
-        String path = "D:\\data\\test";
+        String path = "D:\\studyproject";
 
         //生成springboot工程代码,可以通过配置ProjectConfig选择使用Jpa/MyBatis/MyBatis-plus
         WriterBuilderFactory.toGetBuilder(MavenProjectWriter.class)
-                .build(ProjectConfig.buildJpa())
+                .build(ProjectConfig.buildMyBatisPlus())
                 .write(path);
 
         //生成vue工程代码
