@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 /**
  * @author xmz
  * @date: 2021/08/08
+ * JDK动态代理处理类，实现InvocationHandler接口
  */
 public class WriterProxyHandler implements InvocationHandler {
 
@@ -24,7 +25,7 @@ public class WriterProxyHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Writer annotation = codeWriter.getClass().getDeclaredAnnotation(Writer.class);
-        //调用目标方法前，检查目录是否存在
+        //执行目标方法前，检查目录是否存在
         if (PROXY_METHOD.equals(method.getName())) {
             FileUtil.mkdirs(String.valueOf(args[0]));
             if (annotation != null) {
@@ -33,7 +34,8 @@ public class WriterProxyHandler implements InvocationHandler {
         }
         //执行代理对象目标方法
         Object result = method.invoke(codeWriter, args);
-        //执行目标方法后输出日志
+
+        //执行目标方法后，输出日志
         if (PROXY_METHOD.equals(method.getName()) && annotation != null) {
             FoolWriter.log.debug("生成>>{} 结束", annotation.type().getValue());
         }

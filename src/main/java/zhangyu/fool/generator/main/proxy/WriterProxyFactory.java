@@ -10,6 +10,7 @@ import java.lang.reflect.Proxy;
 /**
  * @author xmz
  * @date: 2021/08/08
+ * 代理工厂，生成代理对象
  */
 public class WriterProxyFactory {
 

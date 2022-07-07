@@ -28,7 +28,7 @@ public class EntityWriter extends AbstractCodeWriter {
     /**
      * 模板名
      */
-    public static final String TEMPLATE_NAME = "entity";
+    public static final String TEMPLATE_NAME = "entity2";
 
     public EntityWriter(ProjectConfig projectConfig){
         super(projectConfig);
@@ -68,6 +68,18 @@ public class EntityWriter extends AbstractCodeWriter {
         //设置工程基本配置
         this.buildBaseParam(entityParam);
         return entityParam;
+    }
+
+
+    public static void main(String[] args) {
+        ProjectConfig projectConfig = new ProjectConfig();
+        projectConfig.setUseJpa(false);
+        projectConfig.setUseLombok(true);
+        projectConfig.setUseMyBatis(false);
+        projectConfig.setUseMyBatisPlus(true);
+        EntityWriter entityWriter = new EntityWriter(projectConfig);
+
+        entityWriter.write("D:\\data\\test\\");
     }
 
 }
